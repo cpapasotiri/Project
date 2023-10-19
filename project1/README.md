@@ -23,14 +23,20 @@
 </table>
 
 ## Compile & Run
-
+C++
 
 ## Οργάνωση κώδικα
 
 
 ## Υλοποίηση
+gui:
 
+NN-descent algorithm
+
+unit tests: catch2 
+Run Tests in Github Actions 
     
+
 ## Σχόλια
 
 
