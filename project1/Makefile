@@ -12,11 +12,11 @@ EXEC := project
 ARGS :=
 
 
-.PHONY: all project1 leaks debug clean
+.PHONY: all project1 leaks debug tests clean
 all: project1
 
-project1: clean main.o hello.o
-	$(CC) -o $(EXEC) main.o hello.o $(LIBS)
+project1: clean main.o hello.o add.o
+	$(CC) -o $(EXEC) main.o hello.o add.o $(LIBS)
 	./$(EXEC) $(ARGS)
 
 
@@ -26,15 +26,26 @@ main.o: $(SOURCE)main.cpp
 hello.o: $(SOURCE)hello.cpp
 	$(CC) $(CFLAGS) $(SOURCE)hello.cpp $(LIBS)
 
+add.o: $(SOURCE)add.cpp
+	$(CC) $(CFLAGS) $(SOURCE)add.cpp $(LIBS)
 
-leaks: clean main.o hello.o 
-	$(CC) -o $(EXEC) main.o hello.o  $(LIBS)
+add_test.o: $(TESTS)add_test.cpp
+	$(CC) $(CFLAGS) $(TESTS)add_test.cpp $(LIBS)
+
+
+leaks: clean main.o hello.o add.o
+	$(CC) -o $(EXEC) main.o hello.o add.o $(LIBS)
 	valgrind ./$(EXEC) $(ARGS)
 
 
-debug: clean main.o hello.o 
-	$(CC) -o $(EXEC) main.o hello.o  $(LIBS)
+debug: clean main.o hello.o add.o
+	$(CC) -o $(EXEC) main.o hello.o add.o $(LIBS)
 	gdb ./$(EXEC) $(ARGS)
+
+
+tests: clean add.o add_test.o
+	$(CC) -o $(EXEC) add.o add_test.o $(LIBS)
+	./$(EXEC) $(ARGS)
 
 
 clean:
