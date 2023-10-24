@@ -4,49 +4,57 @@ TESTS := tests/
 INPUT := input/
 LOGS := logs/
 
-CC := g++
-CFLAGS := -Wall -Wextra -c -I $(INCLUDE)
+CXX := g++
+CFLAGS := -Wall -Wextra -c -g -I $(INCLUDE)
 LIBS := -lm 
 
 EXEC := project
+OBJS := main.o hello.o add.o input.o 
 ARGS :=
 
+EXEC_TESTS := project_tests
+OBJS_TESTS := add_tests.o input_tests.o
+ARGS_TESTS :=
 
-.PHONY: all project1 leaks debug tests clean
-all: project1
+.PHONY: run leaks debug tests clean
 
-project1: clean main.o hello.o add.o
-	$(CC) -o $(EXEC) main.o hello.o add.o $(LIBS)
+run: $(OBJS)
+	$(CXX) -o $(EXEC) $(OBJS) $(LIBS)
 	./$(EXEC) $(ARGS)
 
-
 main.o: $(SOURCE)main.cpp
-	$(CC) $(CFLAGS) $(SOURCE)main.cpp $(LIBS)
+	$(CXX) $(CFLAGS) $(SOURCE)main.cpp $(LIBS)
 
 hello.o: $(SOURCE)hello.cpp
-	$(CC) $(CFLAGS) $(SOURCE)hello.cpp $(LIBS)
+	$(CXX) $(CFLAGS) $(SOURCE)hello.cpp $(LIBS)
 
 add.o: $(SOURCE)add.cpp
-	$(CC) $(CFLAGS) $(SOURCE)add.cpp $(LIBS)
+	$(CXX) $(CFLAGS) $(SOURCE)add.cpp $(LIBS)
+
+input.o: $(SOURCE)input.cpp
+	$(CXX) $(CFLAGS) $(SOURCE)input.cpp $(LIBS)
+
+
+tests: clean $(OBJS_TESTS)
+	$(CXX) -o $(EXEC_TESTS) $(OBJS_TESTS) $(LIBS)
+	./$(EXEC_TESTS) $(ARGS_TESTS)
 
 add_test.o: $(TESTS)add_test.cpp
-	$(CC) $(CFLAGS) $(TESTS)add_test.cpp $(LIBS)
+	$(CXX) $(CFLAGS) $(TESTS)add_test.cpp $(LIBS)
+
+input_test.o: $(TESTS)input_test.cpp
+	$(CXX) $(CFLAGS) $(TESTS)input_test.cpp $(LIBS)
 
 
-leaks: clean main.o hello.o add.o
-	$(CC) -o $(EXEC) main.o hello.o add.o $(LIBS)
+leaks: clean $(OBJS)
+	$(CXX) -o $(EXEC) $(OBJS) $(LIBS)
 	valgrind ./$(EXEC) $(ARGS)
 
 
-debug: clean main.o hello.o add.o
-	$(CC) -o $(EXEC) main.o hello.o add.o $(LIBS)
+debug: clean $(OBJS)
+	$(CXX) -o $(EXEC) $(OBJS) $(LIBS)
 	gdb ./$(EXEC) $(ARGS)
 
 
-tests: clean add.o add_test.o
-	$(CC) -o $(EXEC) add.o add_test.o $(LIBS)
-	./$(EXEC) $(ARGS)
-
-
 clean:
-	-rm -f $(EXEC) *.o
+	-rm -f $(EXEC) $(EXEC_TESTS) *.o
