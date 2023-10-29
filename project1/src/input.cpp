@@ -1,18 +1,17 @@
 #include "input.hpp"     
 
-int import_sigmod2023_file(const char *filename) {
-    if(stat(filename, &results) == 0){
-        //  results.st_size is the size of the file in bytes
-    } 
+struct stat results;
+
+int read_binary_file(const char *filename) {
+    cout << "Reading binary file: " << filename << endl;
+    if (stat(filename, &results) == 0) {
+        cout << "File exists" << endl;
+        cout << "The size of file in bytes is " << results.st_size << endl << endl;
+    }
     else {
-        // error
-        }
-
-    string x;
-    ifstream infile;
-    infile.open(filename, ios::binary | ios::in);
-    infile.read(x, sizeof(uint32_t) * 100 * sizeof(float));//?
-    
-
+        // error occurred
+        cout << "File does not exist" << endl << endl;
+        return stat(filename, &results);
+    }
         return 0;
 }

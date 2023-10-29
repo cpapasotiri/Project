@@ -1,17 +1,14 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
+#include "input.hpp"
 
-#include "hello.hpp"
-#include "add.hpp"
+using namespace std;
 
 int main(int argc, char *argv[]){
     
-    Hello hello;
-    hello.sayHello("Christina");
-    int a = add(1, 2);
-    cout << "1 + 2 = " << a << endl;
-
+    read_binary_file("../project1/datasets/00000020.bin");
+    
+    
     return 0;
 }

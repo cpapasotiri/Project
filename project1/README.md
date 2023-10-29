@@ -38,6 +38,7 @@
 ## Υλοποίηση
 gui:
 
+K-NN Graph
 NN-descent algorithm
 
 unit tests: catch2 
