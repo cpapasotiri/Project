@@ -17,5 +17,7 @@
 !*.pdf
 !*.txt
 !*.png
+!*.bin
+!*.csv
 !.vscode/
 !*.tar.gz

@@ -12,3 +12,4 @@ using namespace std;
 // little endian format
 int read_binary_file(const char *filename);
 
+int read_csv_file(const char *filename);

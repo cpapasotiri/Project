@@ -9,11 +9,12 @@ CFLAGS := -Wall -Wextra -c -g -I $(INCLUDE)
 LIBS := -lm 
 
 EXEC := project
-OBJS := main.o input.o
+OBJS := main.o input.o graph.o
 ARGS :=
 
 EXEC_TESTS := project_tests
-OBJS_TESTS := input_test.o input.o
+INPUT_TESTS := input_test.o input.o
+GRAPH_TESTS := graph_test.o graph.o
 ARGS_TESTS := -#
 
 .PHONY: run leaks debug tests clean
@@ -22,19 +23,29 @@ run: $(OBJS)
 	$(CXX) -o $(EXEC) $(OBJS) $(LIBS)
 	./$(EXEC) $(ARGS)
 
+
 main.o: $(SOURCE)main.cpp
 	$(CXX) $(CFLAGS) $(SOURCE)main.cpp $(LIBS)
 
 input.o: $(SOURCE)input.cpp
 	$(CXX) $(CFLAGS) $(SOURCE)input.cpp $(LIBS)
 
-
-tests: $(OBJS_TESTS)
-	$(CXX) -o $(EXEC_TESTS) $(OBJS_TESTS) $(LIBS)
-	./$(EXEC_TESTS) 
+graph.o: $(SOURCE)graph.cpp
+	$(CXX) $(CFLAGS) $(SOURCE)graph.cpp $(LIBS)
 
 input_test.o: $(TESTS)input_test.cpp
 	$(CXX) $(CFLAGS) $(TESTS)input_test.cpp $(LIBS)
+
+graph_test.o: $(TESTS)graph_test.cpp
+	$(CXX) $(CFLAGS) $(TESTS)graph_test.cpp $(LIBS)
+
+
+tests: $(INPUT_TESTS) $(GRAPH_TESTS)
+	$(CXX) -o $(EXEC_TESTS) $(INPUT_TESTS) $(LIBS)
+	./$(EXEC_TESTS) 
+
+	$(CXX) -o $(EXEC_TESTS) $(GRAPH_TESTS) $(LIBS)
+	./$(EXEC_TESTS) 
 
 
 leaks: $(OBJS)
