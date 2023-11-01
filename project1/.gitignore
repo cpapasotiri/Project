@@ -19,5 +19,4 @@
 !*.png
 !*.bin
 !*.csv
-!.vscode/
 !*.tar.gz
