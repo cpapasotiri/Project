@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include "graph.hpp"
-#include "vector.tpp"
+
 
 using namespace std;
 
@@ -44,7 +44,8 @@ void Graph::display_graph()
     }
 }
 
-double Graph::euclideanDistance(const Vector<T> &point1, const Vector<T> &point2)
+template <typename T>
+double euclideanDistance(const Vector<T> &point1, const Vector<T> &point2)
 {
     if (point1.get_size() != point2.get_size())
     {
@@ -59,7 +60,8 @@ double Graph::euclideanDistance(const Vector<T> &point1, const Vector<T> &point2
     return sqrt(distance);
 }
 
-double Graph::manhattanDistance(const Vector<T> &point1, const Vector<T> &point2)
+template <typename T>
+double manhattanDistance(const Vector<T> &point1, const Vector<T> &point2)
 { 
     if (point1.get_size()!= point2.get_size())
     {
