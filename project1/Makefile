@@ -29,6 +29,9 @@ run: $(OBJS)
 main.o: $(SOURCE)main.cpp
 	$(CXX) $(CFLAGS) $(SOURCE)main.cpp $(LIBS)
 
+distances.o: $(SOURCE)distances.cpp
+	$(CXX) $(CFLAGS) $(SOURCE)distances.cpp $(LIBS)
+
 input.o: $(SOURCE)input.cpp
 	$(CXX) $(CFLAGS) $(SOURCE)input.cpp $(LIBS)
 
