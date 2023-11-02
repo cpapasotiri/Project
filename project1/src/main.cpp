@@ -5,7 +5,7 @@
 #include "graph.hpp"
 #include "vector.hpp"
 #include "point.hpp"
-//#include "distances.hpp"
+#include "DLL.hpp"
 
 using namespace std;
 
@@ -28,9 +28,9 @@ int main(int argc, char *argv[])
     
 
     Vector<int> v;
+    v.push_back(0);
     v.push_back(1);
-    v.push_back(2);
-    v.push_back(3);
+    v.push_back(5);
     v.display_vector();
 
     Vector<int> point1;
@@ -42,6 +42,10 @@ int main(int argc, char *argv[])
     point2.push_back(4);
     point2.push_back(6);
     point2.push_back(8);
+
+    DLL<int> dll;
+
+    dll.addFirst(point1);
 
     cout << point1.euclideanDistance(point2) << endl;
 
