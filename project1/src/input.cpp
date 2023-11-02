@@ -40,7 +40,7 @@ int read_csv_file(const char *filename){
         return 1;
     }
     
-    vector<pair<double, double>> points;
+    Vector<pair<double, double>> points;
     string line;
     while (getline(file, line)) {
         istringstream lineStream(line);
