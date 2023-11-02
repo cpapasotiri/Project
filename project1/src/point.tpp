@@ -1,7 +1,7 @@
-#include "dimensions.hpp"
+#include "point.hpp"
 
 template <typename T>
-Dimensions<T>::Dimensions(int rows, int colms) {
+Point<T>::Point(int rows, int colms) {
     this->rows = rows;
     this->cols = colms;
     data = new Vector<T>[rows];
@@ -11,7 +11,7 @@ Dimensions<T>::Dimensions(int rows, int colms) {
 }
 
 template <typename T>
-Dimensions<T>::~Dimensions(){
+Point<T>::~Point(){
     for (int i = 0; i < rows; ++i){
         delete[] data[i];
     }
@@ -19,7 +19,7 @@ Dimensions<T>::~Dimensions(){
 }
 
 template <typename T>
-void Dimensions<T>::set_data(T value, int row, int col){
+void Point<T>::set_data(T value, int row, int col){
     if (row >= 0 && row < rows && col >= 0 && col < cols){
         data[row][col] = value;
     } else{
@@ -28,7 +28,7 @@ void Dimensions<T>::set_data(T value, int row, int col){
 }
 
 template <typename T>
-int Dimensions<T>::get_data(int row, int col) const{
+int Point<T>::get_data(int row, int col) const{
     if (row >= 0 && row < rows && col >= 0 && col < cols){
         return data[row][col];
     } else{
@@ -38,7 +38,7 @@ int Dimensions<T>::get_data(int row, int col) const{
 }
 
 template <typename T>
-void Dimensions<T>::display_dimensions() const{
+void Point<T>::display_point() const{
     for (int i = 0; i < rows; ++i){
         for (int j = 0; j < cols; ++j){
             cout << data[i][j] << " ";

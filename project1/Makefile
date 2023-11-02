@@ -9,14 +9,14 @@ CFLAGS := -Wall -Wextra -c -g -I $(INCLUDE)
 LIBS := -lm 
 
 EXEC := project
-OBJS := main.o input.o graph.o 
+OBJS := main.o graph.o 
 ARGS :=
 
 EXEC_TESTS := project_tests
 INPUT_TESTS := input_test.o input.o
 GRAPH_TESTS := graph_test.o graph.o
 VECTOR_TESTS := vector_test.o 
-DIMENSIONS_TESTS := dimensions_test.o 
+POINT_TESTS := point_test.o 
 ARGS_TESTS := -#
 
 .PHONY: run leaks debug tests clean
@@ -44,8 +44,8 @@ graph_test.o: $(TESTS)graph_test.cpp
 vector_test.o: $(TESTS)vector_test.cpp
 	$(CXX) $(CFLAGS) $(TESTS)vector_test.cpp $(LIBS)
 
-dimensions_test.o: $(TESTS)dimensions_test.cpp
-	$(CXX) $(CFLAGS) $(TESTS)dimensions_test.cpp $(LIBS)
+point_test.o: $(TESTS)point_test.cpp
+	$(CXX) $(CFLAGS) $(TESTS)point_test.cpp $(LIBS)
 
 
 tests: $(INPUT_TESTS) $(GRAPH_TESTS)
@@ -58,7 +58,7 @@ tests: $(INPUT_TESTS) $(GRAPH_TESTS)
 	$(CXX) -o $(EXEC_TESTS) $(VECTOR_TESTS) $(LIBS)
 	./$(EXEC_TESTS) 
 
-	$(CXX) -o $(EXEC_TESTS) $(DIMENSIONS_TESTS) $(LIBS)
+	$(CXX) -o $(EXEC_TESTS) $(POINT_TESTS) $(LIBS)
 	./$(EXEC_TESTS) 
 
 

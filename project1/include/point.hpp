@@ -8,17 +8,17 @@
 using namespace std;
 
 template <typename T>
-class Dimensions {
+class Point {
     private:
         Vector<T> data;
         int rows, cols;
     public:
-        Dimensions(int rows, int colms);
-        ~Dimensions();
+        Point(int rows, int colms);
+        ~Point();
         void set_data(T value, int row, int col);
         int get_data(int row, int col) const;
-        void display_dimensions() const;
+        void display_point() const;
 };
 
 
-#include "../src/dimensions.tpp"
+#include "../src/point.tpp"

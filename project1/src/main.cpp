@@ -4,7 +4,7 @@
 // #include "input.hpp"
 #include "graph.hpp"
 #include "vector.hpp"
-#include "dimensions.hpp"
+#include "point.hpp"
 
 using namespace std;
 
