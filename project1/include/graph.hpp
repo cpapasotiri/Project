@@ -4,6 +4,7 @@
 #include <string>
 #include <list>     // CHANGE THIS to DLL.hpp
 #include <iterator>
+#include "vector.hpp"
 
 using namespace std;
 
@@ -19,4 +20,6 @@ class Graph {
         void add_edge(int v, int w);
         void add_vertex();
         void display_graph();
+        double euclideanDistance(const Vector<T> &point1, const Vector<T> &point2);
+        double manhattanDistance(const Vector<T> &point1, const Vector<T> &point2);
 };
