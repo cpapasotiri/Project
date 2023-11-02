@@ -5,7 +5,7 @@
 #include "graph.hpp"
 #include "vector.hpp"
 #include "point.hpp"
-#include "distances.hpp"
+//#include "distances.hpp"
 
 using namespace std;
 
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     point2.push_back(6);
     point2.push_back(8);
 
-    cout << euclideanDistance(point1,point2) << endl;
+    cout << point1.euclideanDistance(point2) << endl;
 
     return 0;
 }
