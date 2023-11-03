@@ -9,7 +9,7 @@ CFLAGS := -Wall -Wextra -c -g -I $(INCLUDE)
 LIBS := -lm 
 
 EXEC := project
-OBJS := main.o graph.o 
+OBJS := main.o 
 ARGS := -f ../project1/datasets/00000020.bin -d 100 -k 2
 # ARGS := -f ../project1/datasets/points.csv -d 2 -k 2
 

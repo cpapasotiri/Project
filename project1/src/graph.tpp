@@ -5,24 +5,28 @@
 
 using namespace std;
 
-Graph::Graph(int vertices)
+template <typename T>
+Graph<T>::Graph(int vertices)
 {
     this->number_of_vertices = vertices;
     adjacency_list = new list<int>[vertices];
 }
 
-Graph::~Graph()
+template <typename T>
+Graph<T>::~Graph()
 {
     delete[] adjacency_list;
 }
 
-void Graph::add_edge(int v, int w)
+template <typename T>
+void Graph<T>::add_edge(int v, int w)
 {
     adjacency_list[v].push_back(w);
     adjacency_list[w].push_back(v);
 }
 
-void Graph::add_vertex()
+template <typename T>
+void Graph<T>::add_vertex(const Vector<T>& point)
 {
     number_of_vertices++;
     list<int> *new_adjacency_list = new list<int>[number_of_vertices];
@@ -34,12 +38,12 @@ void Graph::add_vertex()
     adjacency_list = new_adjacency_list;
 }
 
-void Graph::display_graph()
+template <typename T>
+void Graph<T>::display_graph()
 {
     for (int i = 0; i < number_of_vertices; i++)
     {
         cout << "Adjacency list of vertex: " << i << ": ";
-        copy(adjacency_list[i].begin(), adjacency_list[i].end(), ostream_iterator<int>(cout, " "));
         cout << endl;
     }
 }

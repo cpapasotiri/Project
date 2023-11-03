@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     int K = atoi(argv[6]);
 
     Vector<float> vector;
-    Graph graph(K);
+    Graph<int> graph(K);
     float fnum;
     int count = 0;
     while (fscanf(file, "%f", &fnum) == 1){
