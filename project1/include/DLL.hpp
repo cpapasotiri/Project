@@ -24,8 +24,6 @@ public:
     typename DLL<T>::Node *getLast();
     typename DLL<T>::Node *getPrevious(int nodeIndex);
     typename DLL<T>::Node*getNext(int nodeIndex);
-    void addBefore(Node *nextNode, const Vector<T> &data);
-    void addAfter(Node *prevNode, const Vector<T> &data);
     void addFirst(const Vector<T> &data);
     void addLast(const Vector<T> &data);
     void remove(Node *nodeToRm);

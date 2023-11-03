@@ -9,7 +9,6 @@
 
 using namespace std;
 
-
 int main(int argc, char *argv[])
 {
 
@@ -24,8 +23,6 @@ int main(int argc, char *argv[])
     // graph.add_edge(2, 3);
     // graph.add_edge(4, 3);
     // graph.display_graph();
-
-    
 
     Vector<int> v;
     v.push_back(0);
@@ -45,9 +42,10 @@ int main(int argc, char *argv[])
 
     DLL<int> dll;
 
-    dll.addFirst(point1);
+    dll.addFirst(v);
     dll.addFirst(point2);
-   // dll.addLast(point2);
+    dll.addLast(point2);
+    dll.addLast(point1);
 
     dll.print();
 

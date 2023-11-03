@@ -84,58 +84,12 @@ typename DLL<T>::Node *DLL<T>::getNext(int nodeIndex) // Asking the number of th
         return current->Next; // Return the next node of the given
     }
 }
-template <typename T>
-void DLL<T>::addBefore(Node *nextNode, const Vector<T> &data) // Asking for the node before of which the new node will be added
-{                                                             // and the Data of new node
-    if (isEmpty())
-        cout << endl;
-    if (nextNode == nullptr)
-    {
-        cout << "The given next node cannot be empty!" << endl; // If the node given is empty return
-        return;
-    }
 
-    Node *newNode = new Node(data);
-    newNode->Prev = nextNode->Prev;
-    nextNode->Prev = newNode; // Inserting the new node in the exact place
-    newNode->Next = nextNode;
-    if (newNode->Next == Start)
-    {
-        Start = newNode; // If the new node is added in the first place, connect Start node
-    }
-    else
-    {
-        newNode->Prev->Next = newNode; // Otherwise, connect it with the previous node
-    }
-    Count++; // Increase DLL<T>'s size by one
-}
-template <typename T>
-void DLL<T>::addAfter(Node *prevNode, const Vector<T> &data) // Asking for the node after of which the new node will be added
-{                                                            // and the Data of new node
-    if (prevNode == nullptr)
-    {
-        cout << "The given previous node cannot be empty!" << endl; // If the node given is empty return
-        return;
-    }
-    Node *newNode = new Node(data);
-    newNode->Next = prevNode->Next;
-    prevNode->Next = newNode; // inserting the new node in the exact place
-    newNode->Prev = prevNode;
-    if (newNode->Next == nullptr)
-    {
-        End = newNode; // If the new node is added in the last place, connect Start node
-    }
-    else
-    {
-        newNode->Next->Prev = newNode; // Otherwise connect it with the Next node
-    }
-    Count++; // Increase DLL<T>'s size by one
-}
 template <typename T>
 void DLL<T>::addFirst(const Vector<T> &data)
 {
     Node *newNode = new Node(data);
-    newNode->Next = Start;                  // Inserting the new node in first place
+    newNode->Next = Start; // Inserting the new node in first place
     newNode->Prev = nullptr;
     if (!isEmpty())
     {
@@ -162,14 +116,12 @@ void DLL<T>::addLast(const Vector<T> &data)
         delete newNode;
         return;
     }
-    for (int i = 0; i < (size() - 1); i++)
-    {
-        current = current->Next; // Otherwise, move till the previous of the last node
-    }
-    current->Next = newNode;
-    newNode->Prev = current; // Add it in the last place
-    Start = newNode;         // Connect with the Start node
-    Count++;                 // Increase DLL's size by one
+
+    newNode->Next = nullptr;
+    newNode->Prev = End; // Newnode's previous node is the current last node
+    End->Next = newNode; // Update the next node of the current last node to point to the new node
+    End = newNode;       // Connect the new node with the End node
+    Count++;             // Increase DLL's size by one
     return;
 }
 template <typename T>
