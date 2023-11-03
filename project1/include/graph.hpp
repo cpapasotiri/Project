@@ -3,11 +3,11 @@
 #include <iostream>
 #include <string>
 #include <list> // CHANGE THIS to DLL.hpp
-#include <iterator>
 #include "vector.hpp"
 
 using namespace std;
 
+template <typename T>
 class Graph
 {
 private:
@@ -18,7 +18,8 @@ public:
     Graph(int vertices);
     ~Graph();
     void add_edge(int v, int w);
-    void add_vertex();
-    void display_graph();
+    void add_vertex(const Vector<T>& point);
+    void display_graph();   // CHANGE IMPLEMENTATION
 };
 
+#include "../src/graph.tpp"
