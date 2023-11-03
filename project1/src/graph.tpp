@@ -6,10 +6,18 @@
 using namespace std;
 
 template <typename T>
-Graph<T>::Graph(int vertices)
+Vertex<T>::Vertex(int id, const Vector<T>& point){
+    this->id = id;
+    this->point = point;
+} 
+
+
+template <typename T>
+Graph<T>::Graph()
 {
-    this->number_of_vertices = vertices;
-    adjacency_list = new DLL<int>[vertices];
+    number_of_vertices = 0;
+    vertex = nullptr;
+    adjacency_list = Vector<DLL<T>>();
 }
 
 template <typename T>
@@ -22,21 +30,17 @@ template <typename T>
 void Graph<T>::add_edge(Vertex<T>& vertex_a, Vertex<T>& vertex_b)
 
 {
-    adjacency_list[vertex_a->id].addFirst(vertex_b);
-    adjacency_list[vertex_b->id].addFirst(vertex_a);
+    adjacency_list[vertex_a.id].addFirst(vertex_b);
+    adjacency_list[vertex_b.id].addFirst(vertex_a);
 }
 
 template <typename T>
-void Graph<T>::add_vertex(const Vector<T>& point)
+Vertex<T> * Graph<T>::add_vertex(const Vector<T>& point)
 {
+    Vertex<T> *vertex = new Vertex<T>(number_of_vertices, point);
+
     number_of_vertices++;
-    DLL<int> *new_adjacency_list = new DLL<int>[number_of_vertices];
-    for (int i = 0; i < number_of_vertices; i++)
-    {
-        new_adjacency_list[i] = adjacency_list[i];
-    }
-    delete[] adjacency_list;
-    adjacency_list = new_adjacency_list;
+    return vertex;
 }
 
 template <typename T>

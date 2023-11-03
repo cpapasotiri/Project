@@ -28,11 +28,11 @@ int main(int argc, char *argv[])
         return 1;   
     }
 
-    int dim = atoi(argv[4]);
-    int K = atoi(argv[6]);
+    int dim = atoi(argv[4]);    // dimensions of point
+    int K = atoi(argv[6]);      // K nearest neighbors
 
     Vector<float> vector;
-    Graph<int> graph(K);
+    // Graph<int> graph(K);
     float fnum;
     int count = 0;
     while (fscanf(file, "%f", &fnum) == 1){
@@ -49,20 +49,12 @@ int main(int argc, char *argv[])
     // read_binary_file("../project1/datasets/00000020.bin");
     // read_csv_file("../project1/datasets/points.csv");
 
-    // Graph graph(5);
-    // graph.add_edge(0, 1);
-    // graph.add_edge(0, 2);
-    // graph.add_edge(1, 2);
-    // graph.add_edge(1, 3);
-    // graph.add_edge(2, 3);
-    // graph.add_edge(4, 3);
-    // graph.display_graph();
 
     Vector<int> v;
     v.push_back(0);
     v.push_back(1);
     v.push_back(5);
-    // v.display_vector();
+    v.display_vector();
 
     Vector<int> point1;
     point1.push_back(1);
@@ -74,17 +66,23 @@ int main(int argc, char *argv[])
     point2.push_back(6);
     point2.push_back(8);
 
-    DLL<int> dll;
+    Graph<int> *graph = new Graph<int>();
+    graph->add_vertex(point1);
+    graph->add_vertex(point2);
+    graph->add_vertex(v);
 
-    dll.addFirst(v);
-    dll.addFirst(point2);
-    dll.addLast(point2);
-    dll.addLast(point1);
+    DLL<int>* dll = new DLL<int>();
 
-    dll.print();
+    dll->addFirst(v);
+    // dll.addFirst(point2);
+    // dll.addLast(point2);
+    // dll.addLast(point1);
 
-    cout << point1.euclideanDistance(point2) << endl;
+    // dll.print();
+// 
+    // cout << point1.euclideanDistance(point2) << endl;
 
-
+    delete dll;
+    
     return 0;
 }

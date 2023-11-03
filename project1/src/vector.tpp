@@ -53,8 +53,8 @@ void Vector<T>::push_back(const T &element)
         {
             newArray[i] = array[i];
         }
-        delete[] array;
         array = newArray;
+        delete[] newArray;
     }
     array[size++] = element;
 }

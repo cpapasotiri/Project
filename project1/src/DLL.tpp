@@ -10,7 +10,15 @@ template <typename T>
 DLL<T>::DLL() : Count(0), Start(nullptr), End(nullptr) {}
 
 template <typename T>
-DLL<T>::~DLL<T>() {}
+DLL<T>::~DLL<T>() {
+    for (int i = 0; i < Count; i++) {
+        typename DLL<T>::Node *current = Start;
+        typename DLL<T>::Node *to_delete = current;
+        current = Start->Next;
+        delete to_delete->Data;
+        // delete to_delete;
+    }
+}
 
 template <typename T>
 int DLL<T>::size() { return Count; }
@@ -102,6 +110,7 @@ void DLL<T>::addFirst(const Vector<T> &data)
     {
         End = newNode; // If it's the only node, connect it also with the Start node
     }
+    delete newNode; // Delete the new node
     return;
 }
 template <typename T>
@@ -121,6 +130,7 @@ void DLL<T>::addLast(const Vector<T> &data)
     End->Next = newNode; // Update the next node of the current last node to point to the new node
     End = newNode;       // Connect the new node with the End node
     Count++;             // Increase DLL's size by one
+    delete newNode;      // Delete the new node
     return;
 }
 template <typename T>

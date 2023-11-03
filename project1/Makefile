@@ -67,7 +67,7 @@ tests: $(INPUT_TESTS) $(GRAPH_TESTS)
 
 leaks: $(OBJS)
 	$(CXX) -o $(EXEC) $(OBJS) $(LIBS)
-	valgrind ./$(EXEC) $(ARGS)
+	valgrind --leak-check=full ./$(EXEC) $(ARGS) 
 
 
 debug: $(OBJS)

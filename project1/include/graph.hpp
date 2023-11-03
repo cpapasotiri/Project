@@ -11,6 +11,8 @@ template <typename T>
 struct Vertex {
     int id;
     const Vector<T>& point;
+
+    Vertex(int id, const Vector<T>& point); 
 };
 
 template <typename T>
@@ -18,13 +20,14 @@ class Graph
 {
 private:
     int number_of_vertices;
-    DLL<int> *adjacency_list;
+    Vertex<T>* vertex;
+    Vector<T>* adjacency_list;
 
 public:
-    Graph(int vertices);
+    Graph();
     ~Graph();
     void add_edge(Vertex<T>& vertex_a, Vertex<T>& vertex_b);
-    void add_vertex(const Vector<T>& point);
+    Vertex<T> *add_vertex(const Vector<T>& point);
     void display_graph();   // CHANGE IMPLEMENTATION
 };
 
