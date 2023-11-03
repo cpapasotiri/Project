@@ -10,7 +10,7 @@ LIBS := -lm
 
 EXEC := project
 OBJS := main.o 
-ARGS := -f ../project1/datasets/00000020.bin -d 100 -k 2
+#ARGS := -f ../project1/datasets/00000020.bin -d 100 -K 2
 # ARGS := -f ../project1/datasets/points.csv -d 2 -k 2
 
 EXEC_TESTS := project_tests

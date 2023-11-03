@@ -10,8 +10,10 @@ template <typename T>
 DLL<T>::DLL() : Count(0), Start(nullptr), End(nullptr) {}
 
 template <typename T>
-DLL<T>::~DLL<T>() {
-    for (int i = 0; i < Count; i++) {
+DLL<T>::~DLL<T>()
+{
+    for (int i = 0; i < Count; i++)
+    {
         typename DLL<T>::Node *current = Start;
         typename DLL<T>::Node *to_delete = current;
         current = Start->Next;
@@ -117,7 +119,7 @@ template <typename T>
 void DLL<T>::addLast(const Vector<T> &data)
 {
     Node *newNode = new Node(data);
-    newNode->Next = nullptr;                // Inserting the new node in first place
+    newNode->Next = nullptr; // Inserting the new node in first place
     if (isEmpty())
     {
         addFirst(data); // If the list is empty, add node in firts place
@@ -159,13 +161,25 @@ void DLL<T>::remove(Node *nodeToRm) // Asking for the node to be removed
 }
 template <typename T>
 void DLL<T>::print() /*This function is from the first chapter: Linked Data Representations
-                            changed to be used for integers*/
+                            changed to be used for vectors*/
 {
-    typename DLL<T>::Node *N;
+    Node *N;
     N = Start;
-    while (N != nullptr)
+
+    if (isEmpty())
     {
+        return;
+    }
+
+    for (int i = 0; i < Count; i++)
+    {
+
         N->Data->display_vector();
-        N = N->Next;
+        if (N->Next != nullptr)
+        {
+            cout << "print to N-Next" << endl;
+            N = N->Next;
+            cout << "EDW META TO N->NEXT" << endl;
+        }
     }
 }

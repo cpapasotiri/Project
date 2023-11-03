@@ -33,7 +33,7 @@ void Vector<T>::resize(size_t new_size)
     {
         capacity = new_size;
         T *newArray = new T[capacity];
-        for (size_t i = 0; i < size; ++i)
+        for (size_t i = 0; i < size; i++)
         {
             newArray[i] = array[i];
         }
@@ -49,7 +49,7 @@ void Vector<T>::push_back(const T &element)
     {
         capacity *= 2;
         T *newArray = new T[capacity];
-        for (size_t i = 0; i < size; ++i)
+        for (size_t i = 0; i < size; i++)
         {
             newArray[i] = array[i];
         }
@@ -74,7 +74,7 @@ size_t Vector<T>::get_size() const
 template <typename T>
 void Vector<T>::display_vector() const
 {
-    for (size_t i = 0; i < size; ++i)
+    for (size_t i = 0; i < size; i++)
     {
         cout << array[i] << " ";
     }

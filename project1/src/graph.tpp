@@ -2,15 +2,12 @@
 #include <cmath>
 #include "graph.hpp"
 
-
 using namespace std;
 
 template <typename T>
-Vertex<T>::Vertex(int id, const Vector<T>& point){
-    this->id = id;
-    this->point = point;
-} 
-
+Vertex<T>::Vertex(int id, const Vector<T> &point) : id(id), point(point)
+{
+}
 
 template <typename T>
 Graph<T>::Graph()
@@ -27,19 +24,28 @@ Graph<T>::~Graph()
 }
 
 template <typename T>
-void Graph<T>::add_edge(Vertex<T>& vertex_a, Vertex<T>& vertex_b)
+void Graph<T>::add_edge(const Vertex<T> &vertex_a, const Vertex<T> &vertex_b)
 
 {
-    adjacency_list[vertex_a.id].addFirst(vertex_b);
-    adjacency_list[vertex_b.id].addFirst(vertex_a);
+    cout << vertex_a.id << " " << vertex_b.id << endl;
+    adjacency_list[vertex_a.id].addFirst(vertex_b.point);
+    cout << adjacency_list[vertex_a.id].size() << endl;
+    cout << "Megethos tou adjacency meta to size tis listas " << adjacency_list.get_size() << endl;
+
+    cout << adjacency_list[vertex_b.id].size() << endl;
+    adjacency_list[vertex_b.id].addFirst(vertex_a.point);
+    cout << adjacency_list[vertex_b.id].size() << endl;
 }
 
 template <typename T>
-Vertex<T> * Graph<T>::add_vertex(const Vector<T>& point)
+Vertex<T> *Graph<T>::add_vertex(const Vector<T> &point)
 {
     Vertex<T> *vertex = new Vertex<T>(number_of_vertices, point);
-
+    cout << "Vertex wth id: " << number_of_vertices << " added" << endl;
+    adjacency_list.push_back(DLL<T>());
     number_of_vertices++;
+    cout << "new number of vertices: " << number_of_vertices << endl;
+
     return vertex;
 }
 
@@ -52,4 +58,3 @@ void Graph<T>::display_graph()
         cout << endl;
     }
 }
-
