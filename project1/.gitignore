@@ -10,6 +10,7 @@
 # Εκτός από τα παρακάτω
 !*.cpp
 !*.hpp
+!*.tpp
 !*.mk
 !Makefile
 !.gitignore
@@ -17,5 +18,7 @@
 !*.pdf
 !*.txt
 !*.png
-!.vscode/
+!*.bin
+!*.csv
 !*.tar.gz
+!!.vscode/
