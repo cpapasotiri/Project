@@ -108,7 +108,6 @@ template <typename T>
 void DLL<T>::addLast(const Vector<T> &data)
 {
     Node *newNode = new Node(data);
-    typename DLL<T>::Node *current = Start; // Pointer to node named current, to be showing on DLL<T>'s Start
     newNode->Next = nullptr;                // Inserting the new node in first place
     if (isEmpty())
     {
