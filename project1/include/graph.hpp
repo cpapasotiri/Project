@@ -18,7 +18,7 @@ public:
     Graph(int vertices);
     ~Graph();
     void add_edge(int v, int w);
-    void add_vertex();
+    void add_vertex(const Vector<T>& point);
     void display_graph();
 };
 
