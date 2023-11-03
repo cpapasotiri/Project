@@ -9,7 +9,7 @@ template <typename T>
 Graph<T>::Graph(int vertices)
 {
     this->number_of_vertices = vertices;
-    adjacency_list = new list<int>[vertices];
+    adjacency_list = new DLL<int>[vertices];
 }
 
 template <typename T>
@@ -19,17 +19,18 @@ Graph<T>::~Graph()
 }
 
 template <typename T>
-void Graph<T>::add_edge(int v, int w)
+void Graph<T>::add_edge(Vertex<T>& vertex_a, Vertex<T>& vertex_b)
+
 {
-    adjacency_list[v].push_back(w);
-    adjacency_list[w].push_back(v);
+    adjacency_list[vertex_a->id].addFirst(vertex_b);
+    adjacency_list[vertex_b->id].addFirst(vertex_a);
 }
 
 template <typename T>
 void Graph<T>::add_vertex(const Vector<T>& point)
 {
     number_of_vertices++;
-    list<int> *new_adjacency_list = new list<int>[number_of_vertices];
+    DLL<int> *new_adjacency_list = new DLL<int>[number_of_vertices];
     for (int i = 0; i < number_of_vertices; i++)
     {
         new_adjacency_list[i] = adjacency_list[i];
