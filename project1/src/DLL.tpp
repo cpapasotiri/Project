@@ -7,7 +7,7 @@ template <typename T>
 DLL<T>::Node::Node(const Vector<T> &data) : Data(new Vector<T>(data)), Next(nullptr), Prev(nullptr) {}
 
 template <typename T>
-DLL<T>::DLL() : Start(nullptr), End(nullptr), Count(0) {}
+DLL<T>::DLL() : Count(0), Start(nullptr), End(nullptr) {}
 
 template <typename T>
 DLL<T>::~DLL<T>() {}
@@ -19,7 +19,7 @@ template <typename T>
 bool DLL<T>::isEmpty() { return Count == 0; }
 
 template <typename T>
-Node *DLL<T>::getFirst()
+typename DLL<T>::Node *DLL<T>::getFirst()
 {
     if (isEmpty())
     { // If DLL<T> is empty, print a warning message
@@ -27,7 +27,8 @@ Node *DLL<T>::getFirst()
     }
     return Start;
 }
-Node *DLL<T>::getLast()
+template <typename T>
+typename DLL<T>::Node *DLL<T>::getLast()
 {
     if (isEmpty())
     { // If DLL<T> is empty, print a warning message
@@ -35,8 +36,8 @@ Node *DLL<T>::getLast()
     }
     return End;
 }
-
-Node *DLL<T>::getPrevious(int nodeIndex)
+template <typename T>
+typename DLL<T>::Node *DLL<T>::getPrevious(int nodeIndex)
 {
     if (isEmpty())
     { // If DLL<T> is empty, print a warning message
@@ -54,8 +55,8 @@ Node *DLL<T>::getPrevious(int nodeIndex)
 
     return current->Prev;
 }
-
-Node *DLL<T>::getNext(int nodeIndex) // Asking the number of the node, of which the next node should be given
+template <typename T>
+typename DLL<T>::Node *DLL<T>::getNext(int nodeIndex) // Asking the number of the node, of which the next node should be given
 {
     Node *current = Start;
     if (isEmpty())
@@ -64,7 +65,7 @@ Node *DLL<T>::getNext(int nodeIndex) // Asking the number of the node, of which 
     }
     if (nodeIndex == 0)
     {
-        GetFirst(); // If the node's number given is 0, get the first node
+        DLL<T>::GetFirst(); // If the node's number given is 0, get the first node
     }
     else
     {
@@ -83,9 +84,9 @@ Node *DLL<T>::getNext(int nodeIndex) // Asking the number of the node, of which 
         return current->Next; // Return the next node of the given
     }
 }
-
+template <typename T>
 void DLL<T>::addBefore(Node *nextNode, const Vector<T> &data) // Asking for the node before of which the new node will be added
-{                                                          // and the Data of new node
+{                                                             // and the Data of new node
     if (isEmpty())
         cout << endl;
     if (nextNode == nullptr)
@@ -108,9 +109,9 @@ void DLL<T>::addBefore(Node *nextNode, const Vector<T> &data) // Asking for the 
     }
     Count++; // Increase DLL<T>'s size by one
 }
-
+template <typename T>
 void DLL<T>::addAfter(Node *prevNode, const Vector<T> &data) // Asking for the node after of which the new node will be added
-{                                                         // and the Data of new node
+{                                                            // and the Data of new node
     if (prevNode == nullptr)
     {
         cout << "The given previous node cannot be empty!" << endl; // If the node given is empty return
@@ -130,12 +131,11 @@ void DLL<T>::addAfter(Node *prevNode, const Vector<T> &data) // Asking for the n
     }
     Count++; // Increase DLL<T>'s size by one
 }
-
+template <typename T>
 void DLL<T>::addFirst(const Vector<T> &data)
 {
     Node *newNode = new Node(data);
-    Node *current = Start; // Pointer to node named current, to be showing on DLL<T>'s Start
-    newNode->Next = Start; // Inserting the new node in first place
+    newNode->Next = Start;                  // Inserting the new node in first place
     newNode->Prev = nullptr;
     if (!isEmpty())
     {
@@ -150,13 +150,12 @@ void DLL<T>::addFirst(const Vector<T> &data)
     }
     return;
 }
-
+template <typename T>
 void DLL<T>::addLast(const Vector<T> &data)
 {
-    cout << "Number " << data << " to be added in last node!" << endl;
     Node *newNode = new Node(data);
-    Node *current = Start;   // Pointer to node named current, to be showing on DLL<T>'s Start
-    newNode->Next = nullptr; // Inserting the new node in first place
+    typename DLL<T>::Node *current = Start; // Pointer to node named current, to be showing on DLL<T>'s Start
+    newNode->Next = nullptr;                // Inserting the new node in first place
     if (isEmpty())
     {
         addFirst(data); // If the list is empty, add node in firts place
@@ -173,8 +172,8 @@ void DLL<T>::addLast(const Vector<T> &data)
     Count++;                 // Increase DLL's size by one
     return;
 }
-
-void DLL<T> : remove(Node *nodeToRm) // Asking for the node to be removed
+template <typename T>
+void DLL<T>::remove(Node *nodeToRm) // Asking for the node to be removed
 {
     if (isEmpty())
     {
@@ -197,19 +196,15 @@ void DLL<T> : remove(Node *nodeToRm) // Asking for the node to be removed
     Count--;         // Decrease DLL<T>'s size by one
     return;
 }
-
-void print() /*This function is from the first chapter: Linked Data Representations
+template <typename T>
+void DLL<T>::print() /*This function is from the first chapter: Linked Data Representations
                             changed to be used for integers*/
 {
-    Node *N;
-    cout << "(";
+    typename DLL<T>::Node *N;
     N = Start;
     while (N != nullptr)
     {
         N->Data->display_vector();
         N = N->Next;
-        if (N != nullptr)
-            cout << ",";
     }
-    cout << ")" << endl;
 }

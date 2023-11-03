@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     v.push_back(0);
     v.push_back(1);
     v.push_back(5);
-    v.display_vector();
+    // v.display_vector();
 
     Vector<int> point1;
     point1.push_back(1);
@@ -46,6 +46,10 @@ int main(int argc, char *argv[])
     DLL<int> dll;
 
     dll.addFirst(point1);
+    dll.addFirst(point2);
+   // dll.addLast(point2);
+
+    dll.print();
 
     cout << point1.euclideanDistance(point2) << endl;
 

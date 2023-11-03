@@ -3,6 +3,7 @@
         "*.embeddedhtml": "html",
         "array": "cpp",
         "string": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "*.tpp": "cpp"
     }
 }
