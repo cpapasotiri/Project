@@ -1,5 +1,8 @@
 #include <iostream>
 #include <cstring>
+#include <cstdint>
+#include <unistd.h>
+#include <fcntl.h>
 
 // #include "input.hpp"
 #include "graph.hpp"
@@ -22,8 +25,9 @@ int main(int argc, char *argv[])
         cerr << "Invalid dimensions or K" << endl;
     }
     
-    FILE* file = fopen(filename, "rb");
-    if (file == nullptr){
+    // TODO use input.tpp & hpp files to read & use inputFile
+    int file = open(filename, O_RDONLY);
+    if (file == -1){
         cerr << "Unable to open file" << endl;
         return 1;
     }
@@ -31,23 +35,35 @@ int main(int argc, char *argv[])
     // store file data to graph as vertices 
     Graph<float> *graph = new Graph<float>();
     Vector<float> data;
-    int count = 0;
-    float fnum;
-    while (fscanf(file, "%f", &fnum) == 1){
-        data.push_back(fnum);
-        count++;
-        if (count == dim){      // found point (vector creation complited), push to graph
-            graph->add_vertex(data);
-            data.resize(0);
-            count = 0;
-        }
-    }
-    fclose(file);
 
+    uint32_t N;
+    if (read(file, &N, sizeof(uint32_t)) != sizeof(uint32_t)){
+        cerr << "Error reading file" << endl;
+        return 1;
+    }
+    // cout << "Reading " << N << " points" << endl;
+    for (uint32_t i = 0; i < N; i++){
+        
+        for (int j = 0; j < dim; j++){
+            float fnum;
+            if (read(file, &fnum, sizeof(float)) != sizeof(float)){
+                cerr << "Error reading data" << endl;
+                close(file);
+                return 1;
+            }
+            data.push_back(fnum);
+        }
+        graph->add_vertex(data);
+        // cout << "Vertex " << i << ": ";
+        // data.display_vector();
+        // cout << endl;
+        data.resize(0);
+    }
+
+   
     cout << "IN MAIN" << endl;
     
-    // create K nearest neighbors graph
-    // select random neighbors for each vertex
+    // select K random neighbors for each vertex
     // Vertex<float> *v1 = graph->add_vertex(data);
     
 

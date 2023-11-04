@@ -26,12 +26,23 @@
     C++
     Use the following commands to compile
         cmake .
-        cmake --build .
+        cmake --build . 
         ./project1 <filepath> <dimensions> <K>
     
 
 ## Οργάνωση κώδικα
-
+project1/
+    ├── datasets/
+    │   ├── *.bin
+    ├── include/
+    │   ├── *.hpp
+    ├── src/
+    │   ├── *.cpp
+    ├── templates/
+    │   ├── *.tpp
+    ├── tests/
+    │   └── *_tests.cpp
+    └── CMakeLists.txt
 
 ## Υλοποίηση
 gui:
