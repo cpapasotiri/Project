@@ -34,21 +34,28 @@ Graph<T>::Graph()
 template <typename T>
 Graph<T>::~Graph()
 {
-    for (int i = 0; i < number_of_vertices; i++)
-    {
-        delete vertices[i];
-    }
-    delete[] adjacency_list;
+    // for (int i = 0; i < number_of_vertices; i++)
+    // {
+    //     delete vertices[i];
+    // }
+    // delete[] adjacency_list;
 }
 
 // save vertex to vector and create a adjacency list for its neighbors
 template <typename T>
 void Graph<T>::add_vertex(const Vector<T> point) // CHECK if vertex pushed in the vectors & return boolean
-{
-    Vertex<T> *vertex = new Vertex<T>(number_of_vertices, point);
-    vertices.push_back(*vertex);
+{   
+    cout << "bika mesa" << endl;
+    Vertex<T> vertex;
+    vertex.id = number_of_vertices;
+    vertex.point = point;
+    cout << "Vertex " << number_of_vertices << " added" << endl;
+    vertices.push_back(vertex);
+    cout << "pushback done" << endl;
     adjacency_list.push_back(DLL<T>());
+    cout << "pushback adjacecny done" << endl;
     number_of_vertices++;
+    cout << "number of vertices: " << number_of_vertices << endl;
 }
 
 // create K random unique edges for each vertex

@@ -37,8 +37,8 @@ void Vector<T>::resize(size_t new_size)
         {
             newArray[i] = array[i];
         }
-        delete[] array;
         array = newArray;
+        delete[] newArray;
     }
 }
 
