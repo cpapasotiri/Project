@@ -31,4 +31,4 @@ public:
     void display_graph();   // CHANGE IMPLEMENTATION
 };
 
-#include "../src/graph.tpp"
+#include "../templates/graph.tpp"

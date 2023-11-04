@@ -27,4 +27,4 @@ public:
     double manhattanDistance(const Vector<T> &point2);
 };
 
-#include "../src/vector.tpp"
+#include "../templates/vector.tpp"

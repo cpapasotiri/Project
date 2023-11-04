@@ -44,6 +44,8 @@ int main(int argc, char *argv[])
     }
     fclose(file);
 
+    cout << "IN MAIN" << endl;
+    
     // create K nearest neighbors graph
     // select random neighbors for each vertex
     // Vertex<float> *v1 = graph->add_vertex(data);

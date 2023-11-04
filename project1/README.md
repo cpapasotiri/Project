@@ -25,11 +25,9 @@
 ## Compile & Run
     C++
     Use the following commands to compile
-        make or make run    // run project
-        make tests          // run tests
-        make clean          // clean project executables
-        make leaks          // run valgrind to check for memory leaks
-        make gdb            // run gdb to debug the project
+        cmake .
+        cmake --build .
+        ./project1 <filepath> <dimensions> <K>
     
 
 ## Οργάνωση κώδικα

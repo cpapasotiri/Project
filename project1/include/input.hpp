@@ -17,4 +17,4 @@ class InputReader {
         // Vector<T> readData();
 };
 
-#include "../src/input.tpp"
+#include "../templates/input.tpp"
