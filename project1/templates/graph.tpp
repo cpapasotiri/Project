@@ -5,8 +5,22 @@
 using namespace std;
 
 template <typename T>
-Vertex<T>::Vertex(int id, const Vector<T> &point) : id(id), point(point)
+Vertex<T>::Vertex(int id, Vector<T> point) : id(id), point(point)
 {
+}
+
+template <typename T>
+Vertex<T>::Vertex() : id(0), point(Vector<T>()) {}
+
+template <typename T>
+Vertex<T> &Vertex<T>::operator=(const Vertex<T> &other)
+{
+    if (this != &other)
+    {
+        this->id = other.id;
+        this->point = other.point; 
+    }
+    return *this;
 }
 
 template <typename T>
@@ -19,8 +33,9 @@ Graph<T>::Graph()
 
 template <typename T>
 Graph<T>::~Graph()
-{   
-    for (int i = 0; i < number_of_vertices; i++){
+{
+    for (int i = 0; i < number_of_vertices; i++)
+    {
         delete vertices[i];
     }
     delete[] adjacency_list;
@@ -28,26 +43,26 @@ Graph<T>::~Graph()
 
 // save vertex to vector and create a adjacency list for its neighbors
 template <typename T>
-void Graph<T>::add_vertex(const Vector<T> &point)   // CHECK if vertex pushed in the vectors & return boolean
+void Graph<T>::add_vertex(const Vector<T> point) // CHECK if vertex pushed in the vectors & return boolean
 {
     Vertex<T> *vertex = new Vertex<T>(number_of_vertices, point);
     vertices.push_back(*vertex);
     adjacency_list.push_back(DLL<T>());
     number_of_vertices++;
-}  
+}
 
-// create K random unique edges for each vertex 
+// create K random unique edges for each vertex
 template <typename T>
-void Graph<T>::add_edges(int K) {     // create K edges in adjList for each vertex in vertices vector
+void Graph<T>::add_edges(int K)
+{ // create K edges in adjList for each vertex in vertices vector
     // random select of vertex edges
 
-    for(int i = 0; i < number_of_vertices; i++) {  // for each vertex
-        for (int j = 0; j < K; j++) {           // select K random numbers 
-
+    for (int i = 0; i < number_of_vertices; i++)
+    { // for each vertex
+        for (int j = 0; j < K; j++)
+        { // select K random numbers
         }
     }
-
-    
 }
 
 template <typename T>
@@ -58,13 +73,16 @@ void Graph<T>::add_edge(const Vertex<T> &vertex_a, const Vertex<T> &vertex_b)
 }
 
 template <typename T>
-int Graph<T>::get_number_of_vertices() const{
+int Graph<T>::get_number_of_vertices() const
+{
     return number_of_vertices;
 }
 
-template <typename T> 
-Vertex<T>* Graph<T>::get_vertex(int id) const {
-    if (id > number_of_vertices || id < 0){
+template <typename T>
+Vertex<T> *Graph<T>::get_vertex(int id) const
+{
+    if (id > number_of_vertices || id < 0)
+    {
         cerr << "Invalid vertex id" << endl;
         return nullptr;
     }
@@ -72,8 +90,10 @@ Vertex<T>* Graph<T>::get_vertex(int id) const {
 }
 
 template <typename T>
-DLL<T>* Graph<T>::get_adjacent_list(int id) const {
-    if (id > number_of_vertices || id < 0){
+DLL<T> *Graph<T>::get_adjacent_list(int id) const
+{
+    if (id > number_of_vertices || id < 0)
+    {
         cerr << "Invalid adjacency list id" << endl;
         return nullptr;
     }
@@ -82,10 +102,10 @@ DLL<T>* Graph<T>::get_adjacent_list(int id) const {
 
 template <typename T>
 void Graph<T>::display_graph()
-{   // for each vertex print adjacency graph 
+{ // for each vertex print adjacency graph
     for (int i = 0; i < number_of_vertices; i++)
-    { 
-        cout << "Vertex " << i << ": ";       
+    {
+        cout << "Vertex " << i << ": ";
         vertices[i].display_vector();
         cout << "adjacency list: " << i << ": ";
         adjacency_list[i].print();

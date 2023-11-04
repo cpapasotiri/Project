@@ -10,9 +10,11 @@ using namespace std;
 template <typename T>
 struct Vertex {
     int id;
-    const Vector<T>& point;
+    Vector<T> point;
 
-    Vertex(int id, const Vector<T>& point); 
+    Vertex(int id, Vector<T> point); 
+    Vertex();
+    Vertex<T>& operator=(const Vertex<T>& other);
 };
 
 template <typename T>
@@ -26,7 +28,7 @@ private:
 public:
     Graph();
     ~Graph();
-    void add_vertex(const Vector<T>& point);    // create a vertex
+    void add_vertex(const Vector<T> point);    // create a vertex
     void add_edges(int K);              // create K edges for each vertex
     void add_edge(const Vertex<T>& vertex_a,const Vertex<T>& vertex_b); // TO REMOVE
     int get_number_of_vertices() const;
