@@ -5,12 +5,12 @@
 using namespace std;
 
 template <typename T>
-Vertex<T>::Vertex(int id, Vector<T> point) : id(id), point(point)
+Vertex<T>::Vertex(int id, Vector<T> &point) : id(id), point(new Vector<T>(point))
 {
 }
 
 template <typename T>
-Vertex<T>::Vertex() : id(0), point(Vector<T>()) {}
+Vertex<T>::Vertex() : id(0), point(new Vector<T>()) {}
 
 template <typename T>
 Vertex<T> &Vertex<T>::operator=(const Vertex<T> &other)
@@ -24,35 +24,42 @@ Vertex<T> &Vertex<T>::operator=(const Vertex<T> &other)
 }
 
 template <typename T>
+Vertex<T>::~Vertex() {
+    // cout << "destrustor of vertex " << endl;
+}
+
+// template <typename T>
+// void Vertex<T>::add_point(Vector<T> point) {
+//     this->point = point;
+// }
+
+template <typename T>
 Graph<T>::Graph()
 {
-    number_of_vertices = 0;
-    vertices = Vector<Vertex<T>>();
-    adjacency_list = Vector<DLL<T>>();
+    vertices = new Vector<Vertex<T>>();
+    adjacency_list = new Vector<DLL<T>>();
 }
 
 template <typename T>
 Graph<T>::~Graph()
-{
-    // for (int i = 0; i < number_of_vertices; i++)
-    // {
-    //     delete vertices[i];
-    // }
-    // delete[] adjacency_list;
+{   
+    // delete vertices;
+    // cout << "destructor of graph " << endl;
+
+    // delete adjacency_list;
 }
 
 // save vertex to vector and create a adjacency list for its neighbors
 template <typename T>
-void Graph<T>::add_vertex(const Vector<T> point) // CHECK if vertex pushed in the vectors & return boolean
+void Graph<T>::add_vertex(Vector<T> &point) // CHECK if vertex pushed in the vectors & return boolean
 {   
     cout << "bika mesa" << endl;
-    Vertex<T> vertex;
-    vertex.id = number_of_vertices;
-    vertex.point = point;
+    Vertex<T> *vertex = new Vertex<T>(number_of_vertices, point);
     cout << "Vertex " << number_of_vertices << " added" << endl;
-    vertices.push_back(vertex);
+    vertices->push_back(*vertex);
     cout << "pushback done" << endl;
-    adjacency_list.push_back(DLL<T>());
+    DLL<T> *list = new DLL<T>();
+    adjacency_list->push_back(*list);
     cout << "pushback adjacecny done" << endl;
     number_of_vertices++;
     cout << "number of vertices: " << number_of_vertices << endl;

@@ -20,6 +20,7 @@ DLL<T>::~DLL<T>()
         delete to_delete->Data;
         // delete to_delete;
     }
+    // cout << "destructor of dll" << endl;
 }
 
 template <typename T>

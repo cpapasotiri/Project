@@ -33,19 +33,19 @@ int main(int argc, char *argv[])
     }
 
     cout << "Whaaaat" << endl;
-    // store file data to graph as vertices 
-    Graph<float> *graph = new Graph<float>();
-    Vector<float> data;
-
-
+    
     uint32_t N;
     if (read(file, &N, sizeof(uint32_t)) != sizeof(uint32_t)){
         cerr << "Error reading file" << endl;
         return 1;
     }
+    cout << "HEREMAIN" << endl;
+    // store file data to graph as vertices 
+    Graph<float> *graph = new Graph<float>();
+    Vector<float> *data = new Vector<float>();
+
     cout << "Reading " << N << " points" << endl;
     for (uint32_t i = 0; i < N; i++){
-        
         for (int j = 0; j < dim; j++){
             float fnum;
             if (read(file, &fnum, sizeof(float)) != sizeof(float)){
@@ -53,16 +53,16 @@ int main(int argc, char *argv[])
                 close(file);
                 return 1;
             }
-            cout << fnum << endl;
-            data.push_back(fnum);
-            cout << data.get_size() << endl;
+            
+            // cout << fnum << endl;
+            data->push_back(fnum);
+            // cout << data.get_size() << endl;
         }
         cout << "prin thn add vertex" << endl;
-        graph->add_vertex(data);
+        graph->add_vertex(*data);
         cout << "Vertex " << i << ": ";
-        data.display_vector();
+        // data->display_vector();
         cout << endl;
-        data.resize(0);
     }
 
    

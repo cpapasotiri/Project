@@ -18,7 +18,6 @@ public:
     Vector();
     ~Vector();
     T &operator[](size_t index);
-    void resize(size_t new_size);
     void push_back(const T &element);
     size_t get_capacity() const;
     size_t get_size() const;

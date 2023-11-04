@@ -8,8 +8,10 @@ Vector<T>::Vector() : capacity(10), size(0)
 
 template <typename T>
 Vector<T>::~Vector()
-{
-    delete[] array;
+{   
+    // cout << "destructor of vector" << endl;
+    // delete array;
+    
 }
 
 template <typename T>
@@ -20,26 +22,6 @@ T &Vector<T>::operator[](size_t index)
         throw out_of_range("Index out of range");
     }
     return array[index];
-}
-
-template <typename T>
-void Vector<T>::resize(size_t new_size)
-{
-    if (new_size < size)
-    {
-        size = new_size;
-    }
-    else if (new_size > capacity)
-    {
-        capacity = new_size;
-        T *newArray = new T[capacity];
-        for (size_t i = 0; i < size; i++)
-        {
-            newArray[i] = array[i];
-        }
-        array = newArray;
-        delete[] newArray;
-    }
 }
 
 template <typename T>
