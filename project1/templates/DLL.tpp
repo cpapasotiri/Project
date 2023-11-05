@@ -131,7 +131,6 @@ void DLL<T>::addLast(const Vector<T> &data)
     End->Next = newNode; // Update the next node of the current last node to point to the new node
     End = newNode;       // Connect the new node with the End node
     Count++;             // Increase DLL's size by one
-    delete newNode;      // Delete the new node
     return;
 }
 template <typename T>

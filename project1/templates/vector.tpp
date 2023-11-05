@@ -1,4 +1,4 @@
-#include "vector.hpp"
+#include "../include/vector.hpp"
 
 template <typename T>
 Vector<T>::Vector() : capacity(10), size(0)
@@ -97,7 +97,7 @@ double Vector<T>::manhattanDistance(const Vector<T> &point2)
     }
 
     double distance = 0.0;
-    for (size_t i = 0; i < this.get_size(); i++)
+    for (size_t i = 0; i < this->get_size(); i++)
     {
         distance += abs(this->array[i] - point2.array[i]);
     }
