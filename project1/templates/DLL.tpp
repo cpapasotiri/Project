@@ -1,5 +1,5 @@
 #include <iostream>
-#include "DLL.hpp"
+#include "../include/DLL.hpp"
 
 using namespace std;
 
@@ -12,15 +12,15 @@ DLL<T>::DLL() : Count(0), Start(nullptr), End(nullptr) {}
 template <typename T>
 DLL<T>::~DLL<T>()
 {
-    for (int i = 0; i < Count; i++)
+    Node *current = Start;
+    Node *next = nullptr;
+    while (current != nullptr)
     {
-        typename DLL<T>::Node *current = Start;
-        typename DLL<T>::Node *to_delete = current;
-        current = Start->Next;
-        delete to_delete->Data;
-        // delete to_delete;
+        next = current->Next;
+        delete current->Data;
+        delete current;
+        current = next;
     }
-    // cout << "destructor of dll" << endl;
 }
 
 template <typename T>
@@ -113,7 +113,6 @@ void DLL<T>::addFirst(const Vector<T> &data)
     {
         End = newNode; // If it's the only node, connect it also with the Start node
     }
-    delete newNode; // Delete the new node
     return;
 }
 template <typename T>
@@ -124,7 +123,6 @@ void DLL<T>::addLast(const Vector<T> &data)
     if (isEmpty())
     {
         addFirst(data); // If the list is empty, add node in firts place
-        delete newNode;
         return;
     }
 
