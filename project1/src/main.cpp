@@ -56,13 +56,18 @@ int main(int argc, char *argv[])
             
             // cout << fnum << endl;
             data->push_back(fnum);
-            // cout << data.get_size() << endl;
+            
         }
         cout << "prin thn add vertex" << endl;
+        cout << data->get_size() << endl;
         graph->add_vertex(*data);
+        data->display_vector();
         cout << "Vertex " << i << ": ";
-        // data->display_vector();
+        graph->get_vertex(i).point->display_vector();
         cout << endl;
+        data->clear();
+        // data->display_vector();
+        //cout << endl;
     }
 
    

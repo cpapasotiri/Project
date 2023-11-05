@@ -35,8 +35,8 @@ void Vector<T>::push_back(const T &element)
         {
             newArray[i] = array[i];
         }
+        delete[] array;
         array = newArray;
-        delete[] newArray;
     }
     array[size++] = element;
 }
@@ -61,6 +61,15 @@ void Vector<T>::display_vector() const
         cout << array[i] << " ";
     }
     cout << endl;
+}
+
+template <typename T>
+void Vector<T>::clear()
+{
+    delete[] array;
+    capacity = 10;
+    size = 0;
+    array = new T[capacity];
 }
 
 template <typename T>

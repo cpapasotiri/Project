@@ -34,7 +34,7 @@ public:
     void add_edges(int K);              // create K edges for each vertex
     void add_edge(const Vertex<T>& vertex_a,const Vertex<T>& vertex_b); // TO REMOVE
     int get_number_of_vertices() const;
-    Vertex<T>* get_vertex(int id) const;    
+    Vertex<T>& get_vertex(int id) const;    
     DLL<T>* get_adjacent_list(int id) const;//get neighbors // IDK NECESSERY OR NOT
     int get_adjacent_list_size(int id) const;// get neightbors crowd // IDK NECESSERY OR NOT
     void display_graph();   // CHANGE IMPLEMENTATION

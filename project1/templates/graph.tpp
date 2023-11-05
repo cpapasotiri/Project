@@ -63,6 +63,7 @@ void Graph<T>::add_vertex(Vector<T> &point) // CHECK if vertex pushed in the vec
     cout << "pushback adjacecny done" << endl;
     number_of_vertices++;
     cout << "number of vertices: " << number_of_vertices << endl;
+    
 }
 
 // create K random unique edges for each vertex
@@ -93,14 +94,14 @@ int Graph<T>::get_number_of_vertices() const
 }
 
 template <typename T>
-Vertex<T> *Graph<T>::get_vertex(int id) const
+Vertex<T> &Graph<T>::get_vertex(int id) const
 {
     if (id > number_of_vertices || id < 0)
     {
         cerr << "Invalid vertex id" << endl;
-        return nullptr;
+        //return nullptr;
     }
-    return vertices[id];
+    return vertices->operator[](id);
 }
 
 template <typename T>
