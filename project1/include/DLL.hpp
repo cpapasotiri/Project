@@ -20,6 +20,7 @@ public:
     ~DLL();
     int size();
     bool isEmpty();
+    bool search(Vector<T> *data);
     typename DLL<T>::Node *getFirst();
     typename DLL<T>::Node *getLast();
     typename DLL<T>::Node *getPrevious(int nodeIndex);

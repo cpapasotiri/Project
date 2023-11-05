@@ -1,8 +1,23 @@
 {
     "files.associations": {
         "*.embeddedhtml": "html",
+        "array": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
         "*.tpp": "cpp",
+        "bitset": "cpp",
+        "initializer_list": "cpp",
+        "regex": "cpp",
+        "utility": "cpp",
+        "valarray": "cpp",
+        "ostream": "cpp",
+        "iostream": "cpp",
         "*.tcc": "cpp",
-        "list": "cpp"
+        "memory": "cpp",
+        "future": "cpp",
+        "istream": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp",
+        "variant": "cpp"
     }
 }

@@ -17,6 +17,7 @@ struct Vertex {
     Vertex<T>& operator=(const Vertex<T>& other);
     ~Vertex();
     // void add_point(Vector<T> point);  //TODELETE  // create a point
+    Vector<T>& get_point() const;
 };
 
 template <typename T>
@@ -26,22 +27,20 @@ private:
     int number_of_vertices;
     Vector<Vertex<T>> *vertices;     // vector of vertices
     Vector<DLL<T>> *adjacency_list;  // vector of adjacency lists
+    // use srand(time()) in main.cpp
+    int generate_random_vertex_number(int min, int max); 
 
 public:
     Graph();
     ~Graph();
     void add_vertex(Vector<T> &point);   //TODELETE    // create a vertex
     void add_edges(int K);              // create K edges for each vertex
-    void add_edge(const Vertex<T>& vertex_a,const Vertex<T>& vertex_b); // TO REMOVE
     int get_number_of_vertices() const;
-    Vertex<T>& get_vertex(int id) const;    
-    DLL<T>* get_adjacent_list(int id) const;//get neighbors // IDK NECESSERY OR NOT
+    Vertex<T>& get_vertex(int id) const;
+    DLL<T>& get_adjacent_list(int id) const;//get neighbors // IDK NECESSERY OR NOT
     int get_adjacent_list_size(int id) const;// get neightbors crowd // IDK NECESSERY OR NOT
     void display_graph();   // CHANGE IMPLEMENTATION
 };
 
-// TODO
-// int generateRandomNumber(int min, int max); 
-// bool isUnique(int);
 
 #include "../templates/graph.tpp"

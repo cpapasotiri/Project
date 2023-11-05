@@ -31,15 +31,13 @@ int main(int argc, char *argv[])
         cerr << "Unable to open file" << endl;
         return 1;
     }
-
-    cout << "Whaaaat" << endl;
     
     uint32_t N;
     if (read(file, &N, sizeof(uint32_t)) != sizeof(uint32_t)){
         cerr << "Error reading file" << endl;
         return 1;
     }
-    cout << "HEREMAIN" << endl;
+
     // store file data to graph as vertices 
     Graph<float> *graph = new Graph<float>();
     Vector<float> *data = new Vector<float>();
@@ -53,30 +51,17 @@ int main(int argc, char *argv[])
                 close(file);
                 return 1;
             }
-            
-            // cout << fnum << endl;
             data->push_back(fnum);
-            
         }
-        cout << "prin thn add vertex" << endl;
-        cout << data->get_size() << endl;
         graph->add_vertex(*data);
-        data->display_vector();
-        cout << "Vertex " << i << ": ";
-        graph->get_vertex(i).point->display_vector();
-        cout << endl;
         data->clear();
-        // data->display_vector();
-        //cout << endl;
     }
-
-   
-    cout << "IN MAIN" << endl;
+    close(file);
     
     // select K random neighbors for each vertex
-    // Vertex<float> *v1 = graph->add_vertex(data);
-    
-
+    cout << "Creating " << K << " random neighbors for each vertex" << endl;
+    srand(time(NULL));     // needed by random vertex number generator
+    graph->add_edges(K);
 
     return 0;
 }

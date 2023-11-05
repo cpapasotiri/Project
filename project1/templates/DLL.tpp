@@ -30,6 +30,28 @@ template <typename T>
 bool DLL<T>::isEmpty() { return Count == 0; }
 
 template <typename T>
+bool DLL<T>::search(Vector<T> *data)
+{
+    if (isEmpty())
+    {
+        return false; // empty list
+    }
+    Node *current;
+    current = Start;
+    for (int i = 0; i < Count; i++)
+    {
+        if (current->Data == data)
+        {
+            return true;
+        }
+        if (current->Next != nullptr) {
+            current = current->Next;
+        }
+    }
+    return false;
+}
+
+template <typename T>
 typename DLL<T>::Node *DLL<T>::getFirst()
 {
     if (isEmpty())
