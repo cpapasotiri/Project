@@ -24,6 +24,16 @@ TEST_CASE("DLL functionality tests", "[DLL]")
     REQUIRE(dll.size() == 2);
   }
 
+  SECTION("Getting elements from DLL")
+  {
+    dll.addFirst(vec1);
+    dll.addLast(vec2);
+    dll.addLast(vec2);
+
+    REQUIRE(dll.getNode(1) == dll.getNext(0));
+    REQUIRE(dll.getPrevious(1) == dll.getNode(0));
+  }
+
   SECTION("Remove elements from DLL decreases size")
   {
     dll.addFirst(vec1);

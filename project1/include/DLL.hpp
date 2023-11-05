@@ -1,5 +1,5 @@
 #pragma once
-#include "vector.hpp"
+#include "../include/vector.hpp"
 
 template <typename T>
 class DLL
@@ -24,7 +24,8 @@ public:
     typename DLL<T>::Node *getFirst();
     typename DLL<T>::Node *getLast();
     typename DLL<T>::Node *getPrevious(int nodeIndex);
-    typename DLL<T>::Node*getNext(int nodeIndex);
+    typename DLL<T>::Node *getNext(int nodeIndex);
+    typename DLL<T>::Node *getNode(int nodeIndex);
     void addFirst(const Vector<T> &data);
     void addLast(const Vector<T> &data);
     void remove(Node *nodeToRm);

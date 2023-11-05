@@ -44,7 +44,8 @@ bool DLL<T>::search(Vector<T> *data)
         {
             return true;
         }
-        if (current->Next != nullptr) {
+        if (current->Next != nullptr)
+        {
             current = current->Next;
         }
     }
@@ -69,12 +70,19 @@ typename DLL<T>::Node *DLL<T>::getLast()
     }
     return End;
 }
+
 template <typename T>
 typename DLL<T>::Node *DLL<T>::getPrevious(int nodeIndex)
 {
     if (isEmpty())
     { // If DLL<T> is empty, print a warning message
         cout << "The list is empty!" << endl;
+        return nullptr;
+    }
+
+    if (nodeIndex == 0)
+    {
+        cout << "Node 0 is the first node!" << endl;
     }
 
     Node *current = Start;
@@ -88,6 +96,7 @@ typename DLL<T>::Node *DLL<T>::getPrevious(int nodeIndex)
 
     return current->Prev;
 }
+
 template <typename T>
 typename DLL<T>::Node *DLL<T>::getNext(int nodeIndex) // Asking the number of the node, of which the next node should be given
 {
@@ -95,10 +104,16 @@ typename DLL<T>::Node *DLL<T>::getNext(int nodeIndex) // Asking the number of th
     if (isEmpty())
     {
         cout << "The list is empty!" << endl; // If DLL<T> is empty, print a warning message
+        return nullptr;
     }
     if (nodeIndex == 0)
     {
-        DLL<T>::GetFirst(); // If the node's number given is 0, get the first node
+        if (Count == 1)
+        {
+            cout << "The list has only one node!" << endl;
+            return Start;
+        }
+        return Start->Next;
     }
     else
     {
@@ -112,12 +127,38 @@ typename DLL<T>::Node *DLL<T>::getNext(int nodeIndex) // Asking the number of th
         if (current->Next == nullptr)
         {
             cout << "The given node is the last one!" << endl; // If the node given is the last one print message
+            return End;
         }
 
         return current->Next; // Return the next node of the given
     }
 }
+template <typename T>
+typename DLL<T>::Node *DLL<T>::getNode(int nodeIndex)
+{
+    Node *current = Start;
+    if (isEmpty())
+    {
+        cout << "The list is empty!" << endl; // If DLL<T> is empty, print a warning message
+        return nullptr;
+    }
+    if (nodeIndex == 0)
+    {   
+        return Start;
+    }
+    else
+    {
+        for (int i = 1; i <= nodeIndex; i++)
+        {
+            if (current->Next != nullptr)
+            {
+                current = current->Next; // In any other case, move till that node if it exists
+            }
+        }
 
+        return current; // Return the next node of the given
+    }
+}
 template <typename T>
 void DLL<T>::addFirst(const Vector<T> &data)
 {
@@ -137,6 +178,7 @@ void DLL<T>::addFirst(const Vector<T> &data)
     }
     return;
 }
+
 template <typename T>
 void DLL<T>::addLast(const Vector<T> &data)
 {
@@ -180,8 +222,7 @@ void DLL<T>::remove(Node *nodeToRm) // Asking for the node to be removed
     return;
 }
 template <typename T>
-void DLL<T>::print() /*This function is from the first chapter: Linked Data Representations
-                            changed to be used for vectors*/
+void DLL<T>::print()
 {
     Node *N;
     N = Start;
