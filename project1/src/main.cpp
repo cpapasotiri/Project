@@ -62,7 +62,9 @@ int main(int argc, char *argv[])
             }
             data->push_back(fnum);
         }
-        graph->add_vertex(*data);
+
+        graph->add_vertex(data);
+        //data->display_vector();
         data->clear();
     }
     close(file);
@@ -71,6 +73,6 @@ int main(int argc, char *argv[])
     cout << "Creating " << K << " random neighbors for each vertex" << endl;
     srand(time(NULL)); // needed by random vertex number generator
     graph->add_edges(K);
-    //graph->NNDescent();
+    graph->NNDescent();
     return 0;
 }

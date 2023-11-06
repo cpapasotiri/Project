@@ -12,8 +12,9 @@ struct Vertex {
     int id;
     Vector<T> *point;
 
-    Vertex(int id, Vector<T> &point); 
+   
     Vertex();
+    Vertex(const Vertex<T> &other);
     Vertex<T>& operator=(const Vertex<T>& other);
     ~Vertex();
     // void add_point(Vector<T> point);  //TODELETE  // create a point
@@ -33,11 +34,11 @@ private:
 public:
     Graph();
     ~Graph();
-    void add_vertex(Vector<T> &point);   //TODELETE    // create a vertex
+    void add_vertex(Vector<T> *p);   //TODELETE    // create a vertex
     void add_edges(int K);              // create K edges for each vertex
     void NNDescent();                   
     int get_number_of_vertices() const;
-    Vertex<T>& get_vertex(int id) const;
+    Vertex<T>& get_vertex(int id);
     DLL<T>& get_adjacent_list(int id) const;//get neighbors // IDK NECESSERY OR NOT
     int get_adjacent_list_size(int id) const;// get neightbors crowd // IDK NECESSERY OR NOT
     void display_graph();   // CHANGE IMPLEMENTATION

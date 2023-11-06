@@ -5,13 +5,20 @@ Vector<T>::Vector() : capacity(10), size(0)
 {
     array = new T[capacity];
 }
-
+template <typename T>
+Vector<T>::Vector(const Vector<T> &other) : capacity(other.capacity), size(other.size)
+{
+    array = new T[capacity];
+    for (size_t i = 0; i < size; i++)
+    {
+        array[i] = other.array[i];
+    }
+}
 template <typename T>
 Vector<T>::~Vector()
-{   
-    // cout << "destructor of vector" << endl;
+{
+    cout << "destructor of vector" << endl;
     // delete array;
-    
 }
 
 template <typename T>
@@ -22,6 +29,19 @@ T &Vector<T>::operator[](size_t index)
         throw out_of_range("Index out of range");
     }
     return array[index];
+}
+
+template <typename T>
+bool Vector<T>::operator==(Vector<T> const &other)
+{
+    for (size_t i = 0; i < size; i++)
+    {
+        if (array[i] == other.array[i])
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 template <typename T>

@@ -34,15 +34,18 @@ template <typename T>
 bool DLL<T>::search(Vector<T> *data)
 {
     if (isEmpty())
-    {
+    {   
+        cout << "The list is empty" << endl;
         return false; // empty list
     }
     Node *current;
     current = Start;
     for (int i = 0; i < Count; i++)
-    {
-        if (current->Data == data)
-        {
+    {   
+       // cout << "from search:   ";
+        if (current->Data->operator==(*data))
+        {   
+            //cout << "found" << endl;
             return true;
         }
         if (current->Next != nullptr)
@@ -229,14 +232,16 @@ void DLL<T>::print()
     N = Start;
 
     if (isEmpty())
-    {
+    {   
+        cout << "The list is empty!" << endl; // If DLL<T> is empty
         return;
     }
 
     for (int i = 0; i < Count; i++)
     {
 
-        cout << "Node with id: " << N->id << endl;
+        //cout << "Node with id: " << N->id << endl;
+        N->Data->display_vector();
         if (N->Next != nullptr)
         {
 

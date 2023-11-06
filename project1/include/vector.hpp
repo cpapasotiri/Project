@@ -16,8 +16,10 @@ private:
 
 public:
     Vector();
+    Vector(const Vector<T> &other);
     ~Vector();
     T &operator[](size_t index);
+    bool operator==(Vector<T> const &other);
     void push_back(const T &element);
     size_t get_capacity() const;
     size_t get_size() const;
