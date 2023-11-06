@@ -28,10 +28,11 @@
         cmake .
         cmake --build . 
         ./project1 <filepath> <dimensions> <K>
-    
+    e.g. ./project1 ../project1/datasets/2dims.bin 2 2  
+    e.g. ./project1 ../project1/datasets/00000020.bin 100 10
 
 ## Οργάνωση κώδικα
-project1/
+    project1/
     ├── datasets/
     │   ├── *.bin
     ├── include/
@@ -45,16 +46,4 @@ project1/
     └── CMakeLists.txt
 
 ## Υλοποίηση
-gui:
-
-K-NN Graph
-NN-descent algorithm
-
-unit tests: catch2 
-Run Tests in Github Actions 
-    
-
-## Σχόλια
-
-
-## Παρατηρήσεις
+    Δουλέψαμε παράλληλα στα περισσότερα τμήματα της εργασίας. Αναλυτικότερα, η Αναΐτ ασχολήθηκε αποκλειστικά με την υλοποίηση της κλάσης διπλά συνδεδεμένης λίστας  DLL και των tests. Η Χριστίνα ασχολήθηκε αποκλειστικά με την υλοποίηση της κλάσης του γράφου Graph, με το διάβασμα του αρχείου και με το compile του project. Συνεργαστήκαμε για την υλοποίηση του γράφου και του αλγορίθμου.

@@ -12,7 +12,6 @@ DLL<T>::DLL() : Count(0), Start(nullptr), End(nullptr) {}
 template <typename T>
 DLL<T>::~DLL<T>()
 {
-    cout << "Deleting DLL" << endl;
     Node *current = Start;
     Node *next = nullptr;
     while (current != nullptr)
@@ -33,20 +32,16 @@ bool DLL<T>::isEmpty() { return Count == 0; }
 template <typename T>
 bool DLL<T>::search(Vector<T> *data)
 {
-    // cout << "IN" << endl;
     if (isEmpty())
     {   
-        // cout << "The list is empty" << endl;
         return false; // empty list
     }
     Node *current;
     current = Start;
     for (int i = 0; i < Count; i++)
     {   
-       // cout << "from search:   ";
         if (current->Data->operator==(*data))
         {   
-            // cout << "found" << endl;
             return true;
         }
         if (current->Next != nullptr)
@@ -235,7 +230,6 @@ template <typename T>
 void DLL<T>::addAfter(Node* prevNode, const Vector<T> &data, int ID) // Asking for the node after of which the new node will be added
 {                                            // and the Data of new node
 
-    // cout << "Number " << data << " to be added after number " << prevNode->Data << "!" << endl;
     if (prevNode == nullptr)
     {
         cout << "The given previous node cannot be empty!" << endl; // If the node given is empty return
@@ -319,9 +313,8 @@ void DLL<T>::print()
 
     for (int i = 0; i < Count; i++)
     {
-
-        //cout << "Node with id: " << N->id << endl;
         N->Data->display_vector();
+        cout << endl;
         if (N->Next != nullptr)
         {
 

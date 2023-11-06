@@ -5,6 +5,7 @@ Vector<T>::Vector() : capacity(10), size(0)
 {
     array = new T[capacity];
 }
+
 template <typename T>
 Vector<T>::Vector(const Vector<T> &other) : capacity(other.capacity), size(other.size)
 {
@@ -14,11 +15,10 @@ Vector<T>::Vector(const Vector<T> &other) : capacity(other.capacity), size(other
         array[i] = other.array[i];
     }
 }
+
 template <typename T>
 Vector<T>::~Vector()
 {
-    cout << "destructor of vector" << endl;
-    // delete array;
 }
 
 template <typename T>
@@ -105,7 +105,6 @@ float Vector<T>::euclideanDistance(const Vector<T> &point2)
     {
         distance += pow(point2.array[i] - this->array[i], 2);
     }
-    // cout << "euclidean distance: " << (float)sqrt(distance) << endl;
     return (float)sqrt(distance);
 }
 

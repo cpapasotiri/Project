@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-// #include "input.hpp"
 #include "graph.hpp"
 #include "vector.hpp"
 #include "DLL.hpp"
@@ -46,7 +45,7 @@ int main(int argc, char *argv[])
     Graph<float> *graph = new Graph<float>();
     Vector<float> *data = new Vector<float>();
 
-    N=10;
+    // N=10;
     cout << "Reading " << N << " points" << endl;
     for (uint32_t i = 0; i < N; i++)
     {
@@ -64,7 +63,6 @@ int main(int argc, char *argv[])
         }
 
         graph->add_vertex(data);
-        //data->display_vector();
         data->clear();
     }
     close(file);
@@ -76,9 +74,9 @@ int main(int argc, char *argv[])
 
     graph->display_graph();
 
-    // implementation of algorithm 
-    graph->NNDescent();
+    // implementation of algorithm: running forever
+    // graph->NNDescent();
 
-    graph->display_graph();
+    // graph->display_graph();
     return 0;
 }
