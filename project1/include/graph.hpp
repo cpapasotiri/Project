@@ -35,6 +35,7 @@ public:
     ~Graph();
     void add_vertex(Vector<T> &point);   //TODELETE    // create a vertex
     void add_edges(int K);              // create K edges for each vertex
+    void NNDescent();                   
     int get_number_of_vertices() const;
     Vertex<T>& get_vertex(int id) const;
     DLL<T>& get_adjacent_list(int id) const;//get neighbors // IDK NECESSERY OR NOT

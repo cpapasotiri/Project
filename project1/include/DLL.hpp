@@ -5,11 +5,12 @@ template <typename T>
 class DLL
 {
     struct Node
-    {
+    {   
+        int id;
         Vector<T> *Data;
         Node *Next;
         Node *Prev;
-        Node(const Vector<T> &data);
+        Node(const Vector<T> &data,int ID);
     };
     int Count;
     Node *Start;
@@ -26,8 +27,8 @@ public:
     typename DLL<T>::Node *getPrevious(int nodeIndex);
     typename DLL<T>::Node *getNext(int nodeIndex);
     typename DLL<T>::Node *getNode(int nodeIndex);
-    void addFirst(const Vector<T> &data);
-    void addLast(const Vector<T> &data);
+    void addFirst(const Vector<T> &data, int ID);
+    void addLast(const Vector<T> &data, int ID);
     void remove(Node *nodeToRm);
     void print();
 };

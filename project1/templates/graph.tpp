@@ -18,13 +18,14 @@ Vertex<T> &Vertex<T>::operator=(const Vertex<T> &other)
     if (this != &other)
     {
         this->id = other.id;
-        this->point = other.point; 
+        this->point = other.point;
     }
     return *this;
 }
 
 template <typename T>
-Vertex<T>::~Vertex() {
+Vertex<T>::~Vertex()
+{
     // cout << "destrustor of vertex " << endl;
 }
 
@@ -34,7 +35,8 @@ Vertex<T>::~Vertex() {
 // }
 
 template <typename T>
-Vector<T>& Vertex<T>::get_point() const{
+Vector<T> &Vertex<T>::get_point() const
+{
     // cout << "den adexw allo" << endl;
     // cout << "MY ID IS " << this->id << endl;
     return *this->point;
@@ -49,7 +51,7 @@ Graph<T>::Graph()
 
 template <typename T>
 Graph<T>::~Graph()
-{   
+{
     // delete vertices;
     // cout << "destructor of graph " << endl;
 
@@ -59,7 +61,7 @@ Graph<T>::~Graph()
 // save vertex to vector and create a adjacency list for its neighbors
 template <typename T>
 void Graph<T>::add_vertex(Vector<T> &point) // CHECK if vertex pushed in the vectors & return boolean
-{   
+{
     // cout << "bika mesa" << endl;
     Vertex<T> *vertex = new Vertex<T>(number_of_vertices, point);
     // cout << "Vertex " << number_of_vertices << " added" << endl;
@@ -70,44 +72,87 @@ void Graph<T>::add_vertex(Vector<T> &point) // CHECK if vertex pushed in the vec
     // cout << "pushback adjacecny done" << endl;
     number_of_vertices++;
     // cout << "number of vertices: " << number_of_vertices << endl;
-    
 }
 
 // create K random unique edges for each vertex
 template <typename T>
 void Graph<T>::add_edges(int K)
-{   // create K edges for each vertex
+{ // create K edges for each vertex
     for (int i = 0; i < number_of_vertices; i++)
-    { // for each vertex
-        Vertex<T> current_vertex = get_vertex(i);  // i is the id of current vertex
+    {                                             // for each vertex
+        Vertex<T> current_vertex = get_vertex(i); // i is the id of current vertex
         // cout << "get current vertex " << endl;
-        Vector<T> current_point =  current_vertex.get_point();
+        Vector<T> current_point = current_vertex.get_point();
         // cout << "get current point" << endl;
-        DLL<T> current_list = get_adjacent_list(i);
+
+        DLL<T> *current_list = &get_adjacent_list(i);
         // cout << "get current list" << endl;
         int edges_count = 0;
-        while (edges_count < K) 
+        while (edges_count < K)
         { // select K random numbers
-            int random_vertex_id = generate_random_vertex_number(0, number_of_vertices - 1);       
+            int random_vertex_id = generate_random_vertex_number(0, number_of_vertices - 1);
             Vertex<T> random_vertex = get_vertex(random_vertex_id);
             // cout << "get rendom vertex" << endl;
-            Vector<T> random_point =  random_vertex.get_point();
+            Vector<T> random_point = random_vertex.get_point();
             // cout << "get random point" << endl;
-            DLL<T> random_list = get_adjacent_list(random_vertex_id);
+            DLL<T> *random_list = &get_adjacent_list(random_vertex_id);
             // cout << "get random list " << endl;
 
             // avoid self-connections and dublicate connections
-            bool in_current_list = current_list.search(&random_point);
+            bool in_current_list = current_list->search(&random_point);
             // cout << "search returns " << in_current_list << endl;
-            if (i != random_vertex_id && in_current_list == false) {
+            if (i != random_vertex_id && in_current_list == false)
+            {
                 // cout << "in random if " << endl;
-                current_list.addFirst(random_point);
-                random_list.addFirst(current_point);
-                edges_count++;      // edge added
+                current_list->addFirst(random_point, random_vertex_id);
+                
+                random_list->addFirst(current_point, i);
+
+                edges_count++; // edge added
                 cout << "In vertex_id " << i << " added the " << random_vertex_id << endl;
+                cout << "random point is ";
+                random_point.display_vector();
+                cout << "current_point" << endl;
+                current_point.display_vector();
             }
             // cout << "HERE " << endl;
         }
+    }
+}
+
+template <typename T>
+void Graph<T>::NNDescent()
+{
+    for (size_t i = 0; i < number_of_vertices; i++) // for every vertex
+    {
+        DLL<T> *list = &get_adjacent_list(i); // get the list of neighbors
+        cout << "Vertex " << i << " has " << list->size() << " neighbors" << endl;
+        // if (!list->isEmpty())
+        // {
+        for (size_t j = 0; j < list->size(); j++) // for every neighbor
+        {
+            int id = list->getNode(j)->id;                  // get the id of every neighbor
+            DLL<T> *neighborsList = &get_adjacent_list(id); // get the list of neighbors
+            for (size_t k = 0; k < neighborsList->size() - 1; k++)
+            {   
+                //cout << "distance between " << (&get_vertex(i))->point->get_size() << " and " << neighborsList->getNode(k)->Data->get_size() << endl;
+                float distance = (&get_vertex(i))->point->euclideanDistance(*(neighborsList->getNode(k)->Data));
+               // cout << "Distance " << distance << endl;
+            //    (&get_vertex(i))->point->display_vector();
+            //    cout << endl << "and" << endl;
+            //   neighborsList->getNode(k + 1)->Data->display_vector();
+               //cout << "distance between " << (&get_vertex(i))->point->get_size() << " and " << neighborsList->getNode(k+1)->Data->get_size() << endl;
+                float newDistance = (&get_vertex(i))->point->euclideanDistance(*(neighborsList->getNode(k + 1)->Data));
+              //  cout << "New Distance " << newDistance << endl;
+
+                if (newDistance < distance)
+                {
+                    cout << "have to change neighbor" << endl;
+                    neighborsList->remove(neighborsList->getNode(k));
+                }
+            }
+        }
+        //}
     }
 }
 
@@ -118,23 +163,22 @@ int Graph<T>::get_number_of_vertices() const
 }
 
 template <typename T>
-Vertex<T>& Graph<T>::get_vertex(int id) const
+Vertex<T> &Graph<T>::get_vertex(int id) const
 {
     if (id > number_of_vertices || id < 0)
     {
         cerr << "Invalid vertex id" << endl;
-        //return nullptr;
+        // return nullptr;
     }
     return vertices->operator[](id);
 }
 
 template <typename T>
-DLL<T>& Graph<T>::get_adjacent_list(int id) const
+DLL<T> &Graph<T>::get_adjacent_list(int id) const
 {
     if (id > number_of_vertices || id < 0)
     {
         cerr << "Invalid adjacency list id" << endl;
-        // return nullptr;
     }
     return adjacency_list->operator[](id);
 }
@@ -154,6 +198,7 @@ void Graph<T>::display_graph()
 }
 
 template <typename T>
-int Graph<T>::generate_random_vertex_number(int min, int max) {
+int Graph<T>::generate_random_vertex_number(int min, int max)
+{
     return min + rand() % (max - min + 1);
 }

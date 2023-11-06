@@ -23,8 +23,8 @@ public:
     size_t get_size() const;
     void display_vector() const;
     void clear();
-    double euclideanDistance(const Vector<T> &point2);
-    double manhattanDistance(const Vector<T> &point2);
+    float euclideanDistance(const Vector<T> &point2);
+    long double manhattanDistance(const Vector<T> &point2);
 };
 
 #include "../templates/vector.tpp"

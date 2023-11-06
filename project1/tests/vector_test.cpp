@@ -1,5 +1,5 @@
 #define CATCH_CONFIG_MAIN
-#include <catch2/catch.hpp>
+#include "../include/catch.hpp"
 #include "../include/vector.hpp"
 
 TEST_CASE("Vector operations work as expected", "[vector]") {

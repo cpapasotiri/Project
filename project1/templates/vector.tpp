@@ -73,23 +73,24 @@ void Vector<T>::clear()
 }
 
 template <typename T>
-double Vector<T>::euclideanDistance(const Vector<T> &point2)
+float Vector<T>::euclideanDistance(const Vector<T> &point2)
 {
     if (this->get_size() != point2.get_size())
     {
         throw std::invalid_argument("Points should have the same dimensions.");
     }
 
-    double distance = 0.0;
+    float distance = 0.0;
     for (size_t i = 0; i < this->get_size(); i++)
     {
-        distance += pow(this->array[i] - point2.array[i], 2);
+        distance += pow(point2.array[i] - this->array[i], 2);
     }
-    return sqrt(distance);
+    cout << "euclidean distance: " << (float)sqrt(distance) << endl;
+    return (float)sqrt(distance);
 }
 
 template <typename T>
-double Vector<T>::manhattanDistance(const Vector<T> &point2)
+long double Vector<T>::manhattanDistance(const Vector<T> &point2)
 {
     if (this->get_size() != point2.get_size())
     {

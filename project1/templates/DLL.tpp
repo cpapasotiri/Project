@@ -4,7 +4,7 @@
 using namespace std;
 
 template <typename T>
-DLL<T>::Node::Node(const Vector<T> &data) : Data(new Vector<T>(data)), Next(nullptr), Prev(nullptr) {}
+DLL<T>::Node::Node(const Vector<T> &data, int ID) : id(ID), Data(new Vector<T>(data)), Next(nullptr), Prev(nullptr) {}
 
 template <typename T>
 DLL<T>::DLL() : Count(0), Start(nullptr), End(nullptr) {}
@@ -12,6 +12,7 @@ DLL<T>::DLL() : Count(0), Start(nullptr), End(nullptr) {}
 template <typename T>
 DLL<T>::~DLL<T>()
 {
+    cout << "Deleting DLL" << endl;
     Node *current = Start;
     Node *next = nullptr;
     while (current != nullptr)
@@ -143,7 +144,7 @@ typename DLL<T>::Node *DLL<T>::getNode(int nodeIndex)
         return nullptr;
     }
     if (nodeIndex == 0)
-    {   
+    {
         return Start;
     }
     else
@@ -160,9 +161,9 @@ typename DLL<T>::Node *DLL<T>::getNode(int nodeIndex)
     }
 }
 template <typename T>
-void DLL<T>::addFirst(const Vector<T> &data)
+void DLL<T>::addFirst(const Vector<T> &data, int ID)
 {
-    Node *newNode = new Node(data);
+    Node *newNode = new Node(data, ID);
     newNode->Next = Start; // Inserting the new node in first place
     newNode->Prev = nullptr;
     if (!isEmpty())
@@ -180,13 +181,13 @@ void DLL<T>::addFirst(const Vector<T> &data)
 }
 
 template <typename T>
-void DLL<T>::addLast(const Vector<T> &data)
+void DLL<T>::addLast(const Vector<T> &data, int ID)
 {
-    Node *newNode = new Node(data);
+    Node *newNode = new Node(data, ID);
     newNode->Next = nullptr; // Inserting the new node in first place
     if (isEmpty())
     {
-        addFirst(data); // If the list is empty, add node in firts place
+        addFirst(data,ID); // If the list is empty, add node in firts place
         return;
     }
 
@@ -235,12 +236,11 @@ void DLL<T>::print()
     for (int i = 0; i < Count; i++)
     {
 
-        N->Data->display_vector();
+        cout << "Node with id: " << N->id << endl;
         if (N->Next != nullptr)
         {
-            cout << "print to N-Next" << endl;
+
             N = N->Next;
-            cout << "EDW META TO N->NEXT" << endl;
         }
     }
 }
