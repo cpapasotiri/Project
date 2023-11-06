@@ -35,7 +35,7 @@ bool DLL<T>::search(Vector<T> *data)
 {
     if (isEmpty())
     {   
-        cout << "The list is empty" << endl;
+        // cout << "The list is empty" << endl;
         return false; // empty list
     }
     Node *current;

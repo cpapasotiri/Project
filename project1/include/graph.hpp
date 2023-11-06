@@ -17,8 +17,6 @@ struct Vertex {
     Vertex(const Vertex<T> &other);
     Vertex<T>& operator=(const Vertex<T>& other);
     ~Vertex();
-    // void add_point(Vector<T> point);  //TODELETE  // create a point
-    Vector<T>& get_point() const;
 };
 
 template <typename T>

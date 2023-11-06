@@ -27,19 +27,6 @@ Vertex<T>::~Vertex()
     cout << "destrustor of vertex " << endl;
 }
 
-// template <typename T>
-// void Vertex<T>::add_point(Vector<T> point) {
-//     this->point = point;
-// }
-
-template <typename T>
-Vector<T> &Vertex<T>::get_point() const
-{
-    // cout << "den adexw allo" << endl;
-    // cout << "MY ID IS " << this->id << endl;
-    return *this->point;
-}
-
 template <typename T>
 Graph<T>::Graph()
 {
@@ -64,16 +51,16 @@ void Graph<T>::add_vertex(Vector<T> *p) // CHECK if vertex pushed in the vectors
     Vertex<T> *vertex = new Vertex<T>();
     vertex->id = number_of_vertices;
     vertex->point = new Vector<T>(*p);
-    cout << "adding vertex " << vertex->id << endl;
-    vertex->point->display_vector();
+    // cout << "adding vertex " << vertex->id << endl;
+    // vertex->point->display_vector();
     // cout << "Vertex " << number_of_vertices << " added" << endl;
     vertices->push_back(*vertex);
-    cout << "number of vertices " << vertices->get_size() << endl;
-    for (size_t i = 0; i < vertices->get_size(); i++)
-    {
-        cout << "Vertex " << i << " point" << endl;
-        get_vertex(i).point->display_vector();
-    }
+    // cout << "number of vertices " << vertices->get_size() << endl;
+    // for (size_t i = 0; i < vertices->get_size(); i++)
+    // {
+    //     // cout << "Vertex " << i << " point" << endl;
+    //     get_vertex(i).point->display_vector();
+    // }
 
     // cout << "pushback done" << endl;
     DLL<T> *list = new DLL<T>();
@@ -87,11 +74,11 @@ void Graph<T>::add_vertex(Vector<T> *p) // CHECK if vertex pushed in the vectors
 template <typename T>
 void Graph<T>::add_edges(int K)
 { // create K edges for each vertex
-    for (size_t i = 0; i < vertices->get_size(); i++)
-    {
-        cout << "Vertex " << i << " point" << endl;
-        get_vertex(i).point->display_vector();
-    }
+    // for (size_t i = 0; i < vertices->get_size(); i++)
+    // {
+    //     cout << "Vertex " << i << " point" << endl;
+    //     get_vertex(i).point->display_vector();
+    // }
     for (int i = 0; i < number_of_vertices; i++)
     {                                               // for each vertex
         //Vertex<T> *current_vertex = &get_vertex(i); // i is the id of current vertex
@@ -129,17 +116,16 @@ void Graph<T>::add_edges(int K)
             // current_point->display_vector();
             if ((i != random_vertex_id) && in_current_list == false)
             {
-                cout << "vertex id:" << random_vertex_id << "random point is ";
-                random_point->display_vector();
-                cout << "vertex id:" << i << "current_point is ";
-                current_point->display_vector();
-                cout << "in random if " << endl;
+                // cout << "vertex id:" << random_vertex_id << "random point is ";
+                // random_point->display_vector();
+                // cout << "vertex id:" << i << "current_point is ";
+                // current_point->display_vector();
+                // cout << "in random if " << endl;
                 current_list->addFirst(*random_point, random_vertex_id);
-
                 random_list->addFirst(*current_point, i);
 
                 edges_count++; // edge added
-                cout << "In vertex_id " << i << " added the " << random_vertex_id << endl;
+                // cout << "In vertex_id " << i << " added the " << random_vertex_id << endl;
             }
             // cout << "HERE " << endl;
         }
@@ -149,36 +135,41 @@ void Graph<T>::add_edges(int K)
 template <typename T>
 void Graph<T>::NNDescent()
 {
-    for (size_t i = 0; i < number_of_vertices; i++) // for every vertex
-    {
-        DLL<T> *list = &get_adjacent_list(i); // get the list of neighbors
-        cout << "Vertex " << i << " has " << list->size() << " neighbors" << endl;
-        // if (!list->isEmpty())
-        // {
-        for (size_t j = 0; j < list->size(); j++) // for every neighbor
+    int count = -1;
+    while (count != 0) {    // loop stops when the graph isnt changed
+        count = 0;
+        for (size_t i = 0; i < number_of_vertices; i++) // for every vertex
         {
-            int id = list->getNode(j)->id;                  // get the id of every neighbor
-            DLL<T> *neighborsList = &get_adjacent_list(id); // get the list of neighbors
-            for (size_t k = 0; k < neighborsList->size() - 1; k++)
+            DLL<T> *list = &get_adjacent_list(i); // get the list of neighbors
+            cout << "Vertex " << i << " has " << list->size() << " neighbors" << endl;
+            // if (!list->isEmpty())
+            // {
+            for (size_t j = 0; j < list->size(); j++) // for every neighbor
             {
-                // cout << "distance between " << (&get_vertex(i))->point->get_size() << " and " << neighborsList->getNode(k)->Data->get_size() << endl;
-                float distance = (&get_vertex(i))->point->euclideanDistance(*(neighborsList->getNode(k)->Data));
-                // cout << "Distance " << distance << endl;
-                //    (&get_vertex(i))->point->display_vector();
-                //    cout << endl << "and" << endl;
-                //   neighborsList->getNode(k + 1)->Data->display_vector();
-                // cout << "distance between " << (&get_vertex(i))->point->get_size() << " and " << neighborsList->getNode(k+1)->Data->get_size() << endl;
-                float newDistance = (&get_vertex(i))->point->euclideanDistance(*(neighborsList->getNode(k + 1)->Data));
-                //  cout << "New Distance " << newDistance << endl;
-
-                if (newDistance < distance)
+                int id = list->getNode(j)->id;                  // get the id of every neighbor
+                DLL<T> *neighborsList = &get_adjacent_list(id); // get the list of neighbors
+                for (size_t k = 0; k < neighborsList->size() - 1; k++)
                 {
-                    cout << "have to change neighbor" << endl;
-                    neighborsList->remove(neighborsList->getNode(k));
+                    // cout << "distance between " << (&get_vertex(i))->point->get_size() << " and " << neighborsList->getNode(k)->Data->get_size() << endl;
+                    float distance = (&get_vertex(i))->point->euclideanDistance(*(neighborsList->getNode(k)->Data));
+                    // cout << "Distance " << distance << endl;
+                    //    (&get_vertex(i))->point->display_vector();
+                    //    cout << endl << "and" << endl;
+                    //   neighborsList->getNode(k + 1)->Data->display_vector();
+                    // cout << "distance between " << (&get_vertex(i))->point->get_size() << " and " << neighborsList->getNode(k+1)->Data->get_size() << endl;
+                    float newDistance = (&get_vertex(i))->point->euclideanDistance(*(neighborsList->getNode(k + 1)->Data));
+                    //  cout << "New Distance " << newDistance << endl;
+
+                    if (newDistance < distance)
+                    {   // update neighbors
+                        cout << "HAVE to change neighbor" << endl;
+                        neighborsList->remove(neighborsList->getNode(k));
+                        // add neighbor of neighbor to current list of neighbors
+                        count++;
+                    }
                 }
             }
         }
-        //}
     }
 }
 

@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     cout << "Reading " << N << " points" << endl;
     for (uint32_t i = 0; i < N; i++)
     {
-        cout << "H FOR TOY N" << endl;
+        // cout << "H FOR TOY N" << endl;
         for (int j = 0; j < dim; j++)
         {
             float fnum;
@@ -73,6 +73,8 @@ int main(int argc, char *argv[])
     cout << "Creating " << K << " random neighbors for each vertex" << endl;
     srand(time(NULL)); // needed by random vertex number generator
     graph->add_edges(K);
+
+    // implementation of algorithm 
     graph->NNDescent();
     return 0;
 }
