@@ -10,6 +10,19 @@
         "regex": "cpp",
         "utility": "cpp",
         "valarray": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "iostream": "cpp",
+        "*.tcc": "cpp",
+        "memory": "cpp",
+        "future": "cpp",
+        "istream": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp",
+        "variant": "cpp",
+        "iterator": "cpp",
+        "algorithm": "cpp",
+        "deque": "cpp",
+        "vector": "cpp",
+        "cmath": "cpp"
     }
 }

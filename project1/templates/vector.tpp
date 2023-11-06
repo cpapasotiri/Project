@@ -1,4 +1,4 @@
-#include "vector.hpp"
+#include "../include/vector.hpp"
 
 template <typename T>
 Vector<T>::Vector() : capacity(10), size(0)
@@ -7,9 +7,18 @@ Vector<T>::Vector() : capacity(10), size(0)
 }
 
 template <typename T>
+Vector<T>::Vector(const Vector<T> &other) : capacity(other.capacity), size(other.size)
+{
+    array = new T[capacity];
+    for (size_t i = 0; i < size; i++)
+    {
+        array[i] = other.array[i];
+    }
+}
+
+template <typename T>
 Vector<T>::~Vector()
 {
-    delete[] array;
 }
 
 template <typename T>
@@ -23,23 +32,16 @@ T &Vector<T>::operator[](size_t index)
 }
 
 template <typename T>
-void Vector<T>::resize(size_t new_size)
+bool Vector<T>::operator==(Vector<T> const &other)
 {
-    if (new_size < size)
+    for (size_t i = 0; i < size; i++)
     {
-        size = new_size;
-    }
-    else if (new_size > capacity)
-    {
-        capacity = new_size;
-        T *newArray = new T[capacity];
-        for (size_t i = 0; i < size; ++i)
+        if (array[i] == other.array[i])
         {
-            newArray[i] = array[i];
+            return true;
         }
-        delete[] array;
-        array = newArray;
     }
+    return false;
 }
 
 template <typename T>
@@ -49,7 +51,7 @@ void Vector<T>::push_back(const T &element)
     {
         capacity *= 2;
         T *newArray = new T[capacity];
-        for (size_t i = 0; i < size; ++i)
+        for (size_t i = 0; i < size; i++)
         {
             newArray[i] = array[i];
         }
@@ -74,7 +76,7 @@ size_t Vector<T>::get_size() const
 template <typename T>
 void Vector<T>::display_vector() const
 {
-    for (size_t i = 0; i < size; ++i)
+    for (size_t i = 0; i < size; i++)
     {
         cout << array[i] << " ";
     }
@@ -82,7 +84,32 @@ void Vector<T>::display_vector() const
 }
 
 template <typename T>
-double Vector<T>::euclideanDistance(const Vector<T> &point2)
+void Vector<T>::clear()
+{
+    delete[] array;
+    capacity = 10;
+    size = 0;
+    array = new T[capacity];
+}
+
+template <typename T>
+float Vector<T>::euclideanDistance(const Vector<T> &point2)
+{
+    if (this->get_size() != point2.get_size())
+    {
+        throw std::invalid_argument("Points should have the same dimensions.");
+    }
+
+    float distance = 0.0;
+    for (size_t i = 0; i < this->get_size(); i++)
+    {
+        distance += pow(point2.array[i] - this->array[i], 2);
+    }
+    return (float)sqrt(distance);
+}
+
+template <typename T>
+long double Vector<T>::manhattanDistance(const Vector<T> &point2)
 {
     if (this->get_size() != point2.get_size())
     {
@@ -91,22 +118,6 @@ double Vector<T>::euclideanDistance(const Vector<T> &point2)
 
     double distance = 0.0;
     for (size_t i = 0; i < this->get_size(); i++)
-    {
-        distance += pow(this->array[i] - point2.array[i], 2);
-    }
-    return sqrt(distance);
-}
-
-template <typename T>
-double Vector<T>::manhattanDistance(const Vector<T> &point2)
-{
-    if (this->get_size() != point2.get_size())
-    {
-        throw std::invalid_argument("Points should have the same dimensions.");
-    }
-
-    double distance = 0.0;
-    for (size_t i = 0; i < this.get_size(); i++)
     {
         distance += abs(this->array[i] - point2.array[i]);
     }

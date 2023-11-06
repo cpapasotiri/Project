@@ -1,0 +1,22 @@
+# Ignore all files & directories
+*
+
+# Include specific file types
+!*.cpp
+!*.hpp
+!*.tpp
+!.gitignore
+!README.md
+!*.pdf
+!*.txt
+!*.png
+!*.bin
+!*.csv
+!*.tar.gz
+
+# Include specific directories
+!datasets/
+!include/
+!src/
+!templates/
+!tests/

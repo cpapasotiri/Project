@@ -1,90 +1,82 @@
 #include <iostream>
 #include <cstring>
+#include <cstdint>
+#include <unistd.h>
+#include <fcntl.h>
 
-// #include "input.hpp"
 #include "graph.hpp"
 #include "vector.hpp"
-#include "point.hpp"
 #include "DLL.hpp"
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    if (argc != 7){
-        cerr << "Usage: " << argv[0] << " -f <filepath> -d <dimensions> -k <K nearest neighbors>" << endl;
+    if (argc != 4)
+    {
+        cerr << "Usage: " << argv[0] << " <filepath> <dimensions> <K nearest neighbors>" << endl;
         return 1;
     }
 
-    if (strcmp(argv[1], "-f") != 0 || strcmp(argv[3], "-d") != 0){
-        cerr << "Usage: " << argv[0] << " -f <filepath> -d <dimensions> -k <K nearest neighbors>" << endl;
-        return 1;
+    char *filename = argv[1]; // inputFile
+    int dim = atoi(argv[2]);  // dimensions of point
+    int K = atoi(argv[3]);    // K nearest neighbors
+    if (dim <= 0 || K <= 0)
+    {
+        cerr << "Invalid dimensions or K" << endl;
     }
 
-    char *filename = argv[2];
-    FILE *file = fopen(filename, "rb"); // read from binary file
-    if (file == NULL){
+    // TODO use input.tpp & hpp files to read & use inputFile
+    int file = open(filename, O_RDONLY);
+    if (file == -1)
+    {
         cerr << "Unable to open file" << endl;
-        return 1;   
+        return 1;
     }
 
-    int dim = atoi(argv[4]);
-    int K = atoi(argv[6]);
+    uint32_t N;
+    if (read(file, &N, sizeof(uint32_t)) != sizeof(uint32_t))
+    {
+        cerr << "Error reading file" << endl;
+        return 1;
+    }
 
-    Vector<float> vector;
-    Graph<int> graph(K);
-    float fnum;
-    int count = 0;
-    while (fscanf(file, "%f", &fnum) == 1){
-        vector.push_back(fnum);
-        count++;
-        if (count == dim){
-            // found point (vector creation complited), push to graph
+    // store file data to graph as vertices
+    Graph<float> *graph = new Graph<float>();
+    Vector<float> *data = new Vector<float>();
 
-            count = 0;
+    // N=10;
+    cout << "Reading " << N << " points" << endl;
+    for (uint32_t i = 0; i < N; i++)
+    {
+        // cout << "H FOR TOY N" << endl;
+        for (int j = 0; j < dim; j++)
+        {
+            float fnum;
+            if (read(file, &fnum, sizeof(float)) != sizeof(float))
+            {
+                cerr << "Error reading data" << endl;
+                close(file);
+                return 1;
+            }
+            data->push_back(fnum);
         }
+
+        graph->add_vertex(data);
+        data->clear();
     }
+    close(file);
 
+    // select K random neighbors for each vertex
+    cout << "Creating " << K << " random neighbors for each vertex" << endl;
+    srand(time(0)); // needed by random vertex number generator
+    graph->add_edges(K);
 
-    // read_binary_file("../project1/datasets/00000020.bin");
-    // read_csv_file("../project1/datasets/points.csv");
+    graph->display_graph();
 
-    // Graph graph(5);
-    // graph.add_edge(0, 1);
-    // graph.add_edge(0, 2);
-    // graph.add_edge(1, 2);
-    // graph.add_edge(1, 3);
-    // graph.add_edge(2, 3);
-    // graph.add_edge(4, 3);
-    // graph.display_graph();
+    // implementation of algorithm: running forever
+    // graph->NNDescent();
 
-    Vector<int> v;
-    v.push_back(0);
-    v.push_back(1);
-    v.push_back(5);
-    // v.display_vector();
-
-    Vector<int> point1;
-    point1.push_back(1);
-    point1.push_back(2);
-    point1.push_back(3);
-
-    Vector<int> point2;
-    point2.push_back(4);
-    point2.push_back(6);
-    point2.push_back(8);
-
-    DLL<int> dll;
-
-    dll.addFirst(v);
-    dll.addFirst(point2);
-    dll.addLast(point2);
-    dll.addLast(point1);
-
-    dll.print();
-
-    cout << point1.euclideanDistance(point2) << endl;
-
-
+    // graph->display_graph();
     return 0;
 }

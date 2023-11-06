@@ -16,15 +16,17 @@ private:
 
 public:
     Vector();
+    Vector(const Vector<T> &other);
     ~Vector();
     T &operator[](size_t index);
-    void resize(size_t new_size);
+    bool operator==(Vector<T> const &other);
     void push_back(const T &element);
     size_t get_capacity() const;
     size_t get_size() const;
     void display_vector() const;
-    double euclideanDistance(const Vector<T> &point2);
-    double manhattanDistance(const Vector<T> &point2);
+    void clear();
+    float euclideanDistance(const Vector<T> &point2);
+    long double manhattanDistance(const Vector<T> &point2);
 };
 
-#include "../src/vector.tpp"
+#include "../templates/vector.tpp"
