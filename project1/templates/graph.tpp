@@ -57,7 +57,7 @@ template <typename T>
 void Graph<T>::add_edges(int K)
 { // create K edges for each vertex
     for (int i = 0; i < number_of_vertices; i++)
-    {                                               // for each vertex
+    { // for each vertex
         Vector<T> *current_point = get_vertex(i).point;
         DLL<T> *current_list = &get_adjacent_list(i);
 
@@ -66,7 +66,7 @@ void Graph<T>::add_edges(int K)
         { // select K random numbers
             int random_vertex_id = generate_random_vertex_number(0, number_of_vertices - 1);
 
-            //Vertex<T> *random_vertex = &get_vertex(random_vertex_id);     // TODO
+            // Vertex<T> *random_vertex = &get_vertex(random_vertex_id);     // TODO
 
             Vector<T> *random_point = get_vertex(random_vertex_id).point;
             DLL<T> *random_list = &get_adjacent_list(random_vertex_id);
@@ -84,33 +84,46 @@ void Graph<T>::add_edges(int K)
 }
 
 template <typename T>
-void Graph<T>::NNDescent(Vector<T> *p)
+DLL<T> &Graph<T>::KNN(Vector<T> *p) // after the KNNG has been created, this function will return the KNN of a given point
 {
+    for (size_t i = 0; i < number_of_vertices; i++)
+    {
+        if ((get_vertex(i).point)->operator==(*p))
+        {
+            return get_adjacent_list(i);
+        }
+    }
+}
 
+template <typename T>
+Vector<DLL<T>> &Graph<T>::K_NN()
+{
+    return adjacency_list;
 }
 
 template <typename T>
 void Graph<T>::NNDescent()
 {
     int count = -1;
-    while (count != 0) {    // loop stops when the graph isnt changed
-    // for (int t = 0; t < 1; t++){
+    while (count != 0)
+    {   // loop stops when the graph isnt changed
+        // for (int t = 0; t < 1; t++){
         count = 0;
         for (size_t i = 0; i < number_of_vertices; i++) // for every vertex
         {
-            DLL<T> *list = &get_adjacent_list(i); // get the list of neighbors
+            DLL<T> *list = &get_adjacent_list(i);     // get the list of neighbors
             for (size_t j = 0; j < list->size(); j++) // for every neighbor
             {
-                int id = list->getNode(j)->id;                  // get the id of every neighbor
+                int id = list->getNode(j)->id; // get the id of every neighbor
                 float distance = (&get_vertex(i))->point->euclideanDistance(*(list->getNode(j)->Data));
                 DLL<T> *neighborsList = &get_adjacent_list(id); // get the list of neighbors
                 for (size_t k = 0; k < neighborsList->size(); k++)
                 {
                     float newDistance = (&get_vertex(i))->point->euclideanDistance(*(neighborsList->getNode(k)->Data));
                     if (newDistance < distance && newDistance != 0 && distance != 0)
-                    {   
+                    {
                         if (list->search(neighborsList->getNode(k)->Data) == false)
-                        {   // update neighbors
+                        { // update neighbors
                             list->addBefore(list->getNext(j), *(neighborsList->getNode(k)->Data), neighborsList->getNode(k)->id);
                             list->remove(list->getNode(j));
                             // neighborsList->remove_by_id(get_vertex(i).id);
@@ -156,17 +169,18 @@ void Graph<T>::display_graph()
 { // for each vertex print adjacency graph
     for (int i = 0; i < number_of_vertices; i++)
     {
-        cout << "Vertex " << i << ": " << endl; 
+        cout << "Vertex " << i << ": " << endl;
         vertices->operator[](i).point->display_vector();
         cout << endl;
         cout << "adjacency list: " << i << ": " << endl;
         adjacency_list->operator[](i).print();
-        cout << endl << endl;
+        cout << endl
+             << endl;
     }
 }
 
 template <typename T>
 int Graph<T>::generate_random_vertex_number(int min, int max)
-{   
+{
     return min + rand() % (max - min + 1);
 }

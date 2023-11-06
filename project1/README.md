@@ -28,9 +28,12 @@
         cmake .
         cmake --build . 
         ./project1 <filepath> <dimensions> <K>
-    e.g. ./project1 ../project1/datasets/2dims.bin 2 2  
-    e.g. ./project1 ../project1/datasets/00000020.bin 100 10
-
+        e.g. ./project1 ../project1/datasets/2dims.bin 2 2  
+        e.g. ./project1 ../project1/datasets/00000020.bin 100 10
+    Use the following commands (inside tests/) to compile and run tests
+        g++ -o tests vector_test.cpp DLL_test.cpp
+        ./tests
+    
 ## Οργάνωση κώδικα
     project1/
     ├── datasets/
@@ -46,4 +49,4 @@
     └── CMakeLists.txt
 
 ## Υλοποίηση
-    Δουλέψαμε παράλληλα στα περισσότερα τμήματα της εργασίας. Αναλυτικότερα, η Αναΐτ ασχολήθηκε αποκλειστικά με την υλοποίηση της κλάσης διπλά συνδεδεμένης λίστας  DLL και των tests. Η Χριστίνα ασχολήθηκε αποκλειστικά με την υλοποίηση της κλάσης του γράφου Graph, με το διάβασμα του αρχείου και με το compile του project. Συνεργαστήκαμε για την υλοποίηση του γράφου και του αλγορίθμου.
+    Δουλέψαμε παράλληλα στα περισσότερα τμήματα της εργασίας. Αναλυτικότερα, η Αναΐτ ασχολήθηκε αποκλειστικά με την υλοποίηση της κλάσης διπλά συνδεδεμένης λίστας  DLL και των tests με τη χρήση του Catch2 framework. Η Χριστίνα ασχολήθηκε αποκλειστικά με την υλοποίηση της κλάσης του γράφου Graph, με το διάβασμα του αρχείου και με το compile του project. Συνεργαστήκαμε για την υλοποίηση του vector, του γράφου και του αλγορίθμου.

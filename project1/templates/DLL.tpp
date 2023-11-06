@@ -33,15 +33,15 @@ template <typename T>
 bool DLL<T>::search(Vector<T> *data)
 {
     if (isEmpty())
-    {   
+    {
         return false; // empty list
     }
     Node *current;
     current = Start;
     for (int i = 0; i < Count; i++)
-    {   
+    {
         if (current->Data->operator==(*data))
-        {   
+        {
             return true;
         }
         if (current->Next != nullptr)
@@ -49,7 +49,7 @@ bool DLL<T>::search(Vector<T> *data)
             current = current->Next;
         }
     }
-    
+
     return false;
 }
 
@@ -189,7 +189,7 @@ void DLL<T>::addLast(const Vector<T> &data, int ID)
     newNode->Next = nullptr; // Inserting the new node in first place
     if (isEmpty())
     {
-        addFirst(data,ID); // If the list is empty, add node in firts place
+        addFirst(data, ID); // If the list is empty, add node in firts place
         return;
     }
 
@@ -202,8 +202,8 @@ void DLL<T>::addLast(const Vector<T> &data, int ID)
 }
 
 template <typename T>
-void DLL<T>::addBefore(Node* nextNode, const Vector<T> &data, int ID) // Asking for the node before of which the new node will be added
-{                                             // and the Data of new node
+void DLL<T>::addBefore(Node *nextNode, const Vector<T> &data, int ID) // Asking for the node before of which the new node will be added
+{                                                                     // and the Data of new node
     // cout << "Number " << data << " to be added before number " << nextNode->Data << "!" << endl;
     if (nextNode == nullptr)
     {
@@ -226,9 +226,9 @@ void DLL<T>::addBefore(Node* nextNode, const Vector<T> &data, int ID) // Asking 
     Count++; // Increase DLL's size by one
 }
 
-template <typename T> 
-void DLL<T>::addAfter(Node* prevNode, const Vector<T> &data, int ID) // Asking for the node after of which the new node will be added
-{                                            // and the Data of new node
+template <typename T>
+void DLL<T>::addAfter(Node *prevNode, const Vector<T> &data, int ID) // Asking for the node after of which the new node will be added
+{                                                                    // and the Data of new node
 
     if (prevNode == nullptr)
     {
@@ -249,7 +249,6 @@ void DLL<T>::addAfter(Node* prevNode, const Vector<T> &data, int ID) // Asking f
     }
     Count++; // Increase DLL's size by one
 }
-
 
 template <typename T>
 void DLL<T>::remove(Node *nodeToRm) // Asking for the node to be removed
@@ -277,26 +276,27 @@ void DLL<T>::remove(Node *nodeToRm) // Asking for the node to be removed
 }
 
 template <typename T>
-void DLL<T>::remove_by_id(int id){
+void DLL<T>::remove_by_id(int id)
+{
     Node *current = Start;
     if (isEmpty())
     {
         cout << "The list is empty!" << endl; // If DLL<T> is empty, print a warning message
-        return ;
+        return;
     }
-    
+
     for (int i = 0; i < size(); i++)
     {
         if (current->id == id)
         {
             remove(current);
             return;
-        } 
+        }
         else if (current->Next != nullptr)
         {
             current = current->Next; // In any other case, move till that node if it exists
         }
-    }    
+    }
 }
 
 template <typename T>
@@ -306,7 +306,7 @@ void DLL<T>::print()
     N = Start;
 
     if (isEmpty())
-    {   
+    {
         cout << "The list is empty!" << endl; // If DLL<T> is empty
         return;
     }
