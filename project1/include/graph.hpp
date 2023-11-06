@@ -34,6 +34,7 @@ public:
     ~Graph();
     void add_vertex(Vector<T> *p);   //TODELETE    // create a vertex
     void add_edges(int K);              // create K edges for each vertex
+    void NNDescent(Vector<T> *p);   // implementation for 1 point
     void NNDescent();                   
     int get_number_of_vertices() const;
     Vertex<T>& get_vertex(int id);

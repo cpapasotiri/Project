@@ -33,6 +33,7 @@ bool DLL<T>::isEmpty() { return Count == 0; }
 template <typename T>
 bool DLL<T>::search(Vector<T> *data)
 {
+    // cout << "IN" << endl;
     if (isEmpty())
     {   
         // cout << "The list is empty" << endl;
@@ -45,7 +46,7 @@ bool DLL<T>::search(Vector<T> *data)
        // cout << "from search:   ";
         if (current->Data->operator==(*data))
         {   
-            //cout << "found" << endl;
+            // cout << "found" << endl;
             return true;
         }
         if (current->Next != nullptr)
@@ -53,6 +54,7 @@ bool DLL<T>::search(Vector<T> *data)
             current = current->Next;
         }
     }
+    
     return false;
 }
 
@@ -137,6 +139,7 @@ typename DLL<T>::Node *DLL<T>::getNext(int nodeIndex) // Asking the number of th
         return current->Next; // Return the next node of the given
     }
 }
+
 template <typename T>
 typename DLL<T>::Node *DLL<T>::getNode(int nodeIndex)
 {
@@ -163,6 +166,7 @@ typename DLL<T>::Node *DLL<T>::getNode(int nodeIndex)
         return current; // Return the next node of the given
     }
 }
+
 template <typename T>
 void DLL<T>::addFirst(const Vector<T> &data, int ID)
 {
@@ -201,6 +205,58 @@ void DLL<T>::addLast(const Vector<T> &data, int ID)
     Count++;             // Increase DLL's size by one
     return;
 }
+
+template <typename T>
+void DLL<T>::addBefore(Node* nextNode, const Vector<T> &data, int ID) // Asking for the node before of which the new node will be added
+{                                             // and the Data of new node
+    // cout << "Number " << data << " to be added before number " << nextNode->Data << "!" << endl;
+    if (nextNode == nullptr)
+    {
+        cout << "The given next node cannot be empty!" << endl; // If the node given is empty return
+        return;
+    }
+
+    Node *newNode = new Node(data, ID);
+    newNode->Prev = nextNode->Prev;
+    nextNode->Prev = newNode; // Inserting the new node in the exact place
+    newNode->Next = nextNode;
+    if (newNode->Next == Start)
+    {
+        Start = newNode; // If the new node is added in the first place, connect Start node
+    }
+    else
+    {
+        newNode->Prev->Next = newNode; // Otherwise, connect it with the previous node
+    }
+    Count++; // Increase DLL's size by one
+}
+
+template <typename T> 
+void DLL<T>::addAfter(Node* prevNode, const Vector<T> &data, int ID) // Asking for the node after of which the new node will be added
+{                                            // and the Data of new node
+
+    // cout << "Number " << data << " to be added after number " << prevNode->Data << "!" << endl;
+    if (prevNode == nullptr)
+    {
+        cout << "The given previous node cannot be empty!" << endl; // If the node given is empty return
+        return;
+    }
+    Node *newNode = new Node(data, ID);
+    newNode->Next = prevNode->Next;
+    prevNode->Next = newNode; // inserting the new node in the exact place
+    newNode->Prev = prevNode;
+    if (newNode->Next == nullptr)
+    {
+        End = newNode; // If the new node is added in the last place, connect Start node
+    }
+    else
+    {
+        newNode->Next->Prev = newNode; // Otherwise connect it with the Next node
+    }
+    Count++; // Increase DLL's size by one
+}
+
+
 template <typename T>
 void DLL<T>::remove(Node *nodeToRm) // Asking for the node to be removed
 {
@@ -225,6 +281,30 @@ void DLL<T>::remove(Node *nodeToRm) // Asking for the node to be removed
     Count--;         // Decrease DLL<T>'s size by one
     return;
 }
+
+template <typename T>
+void DLL<T>::remove_by_id(int id){
+    Node *current = Start;
+    if (isEmpty())
+    {
+        cout << "The list is empty!" << endl; // If DLL<T> is empty, print a warning message
+        return ;
+    }
+    
+    for (int i = 0; i < size(); i++)
+    {
+        if (current->id == id)
+        {
+            remove(current);
+            return;
+        } 
+        else if (current->Next != nullptr)
+        {
+            current = current->Next; // In any other case, move till that node if it exists
+        }
+    }    
+}
+
 template <typename T>
 void DLL<T>::print()
 {

@@ -105,7 +105,7 @@ float Vector<T>::euclideanDistance(const Vector<T> &point2)
     {
         distance += pow(point2.array[i] - this->array[i], 2);
     }
-    cout << "euclidean distance: " << (float)sqrt(distance) << endl;
+    // cout << "euclidean distance: " << (float)sqrt(distance) << endl;
     return (float)sqrt(distance);
 }
 

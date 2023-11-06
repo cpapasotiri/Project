@@ -71,10 +71,14 @@ int main(int argc, char *argv[])
 
     // select K random neighbors for each vertex
     cout << "Creating " << K << " random neighbors for each vertex" << endl;
-    srand(time(NULL)); // needed by random vertex number generator
+    srand(time(0)); // needed by random vertex number generator
     graph->add_edges(K);
+
+    graph->display_graph();
 
     // implementation of algorithm 
     graph->NNDescent();
+
+    graph->display_graph();
     return 0;
 }
