@@ -33,6 +33,8 @@
             e.g. ./project2 ../project2/datasets/00000020.bin 100 10
         Run the Catch2 Unit Tests with the following command:
             ./allTests
+    Use the following command to clean build files:
+        make clean_all  
         
     
 ## Οργάνωση κώδικα
@@ -48,6 +50,7 @@
     ├── tests/
     │   └── *_tests.cpp
     └── CMakeLists.txt
+    └── clean.cmake
 
 ## Υλοποίηση
 

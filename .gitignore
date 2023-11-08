@@ -13,6 +13,7 @@
 !*.bin
 !*.csv
 !*.tar.gz
+!*.cmake 
 
 # Include specific directories
 !project1/

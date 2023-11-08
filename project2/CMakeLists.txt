@@ -41,3 +41,9 @@ add_test(NAME CatchTests COMMAND allTests)
 
 # Set the working directory for the test
 set_tests_properties(CatchTests PROPERTIES WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+
+# Create a custom target for cleaning
+add_custom_target(clean_all
+    COMMAND ${CMAKE_COMMAND} -P "${CMAKE_SOURCE_DIR}/clean.cmake"
+    COMMENT "Cleaning build files"
+)
