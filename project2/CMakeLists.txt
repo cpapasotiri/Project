@@ -21,8 +21,6 @@ source_group("Test Files" FILES ${TEST_FILES})
 # Compiler flags (optional)
 add_compile_options(-Wall -Wextra -pedantic)
 
-# set(project/project2/build/bin ${CMAKE_BINARY_DIR}/bin)
-
 # Create the executable
 add_executable(project2 ${SOURCE_FILES} ${HEADER_FILES} ${TEMPLATE_FILES})
 
