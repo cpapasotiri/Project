@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <unistd.h>
 #include <fcntl.h>
+#include <ctime>
 
 #include "graph.hpp"
 #include "vector.hpp"
@@ -41,10 +42,15 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    //  measure the running time of ...
+    clock_t start, end;
+    double elapsed_time;
+
     // store file data to graph as vertices
     Graph<float> *graph = new Graph<float>();
     Vector<float> *data = new Vector<float>();
 
+    start = clock();
     // N=10;
     cout << "Reading " << N << " points" << endl;
     for (uint32_t i = 0; i < N; i++)
@@ -66,11 +72,19 @@ int main(int argc, char *argv[])
         data->clear();
     }
     close(file);
+    
+    end = clock();
+    elapsed_time = double(end-start) / CLOCKS_PER_SEC;
+    cout << "Elapsed time for creation of points into graph: " << elapsed_time << endl;
 
     // select K random neighbors for each vertex
     cout << "Creating " << K << " random neighbors for each vertex" << endl;
     srand(time(0)); // needed by random vertex number generator
     graph->add_edges(K);
+    
+    end = clock();
+    elapsed_time = double(end-start) / CLOCKS_PER_SEC;
+    cout << "Elapsed time for creation of graph adges: " << elapsed_time << endl;
 
     graph->display_graph();
 
