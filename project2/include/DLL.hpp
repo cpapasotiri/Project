@@ -1,16 +1,16 @@
 #pragma once
-#include "vector.hpp"
+#include "vertex.hpp"
+
 
 template <typename T>
 class DLL
 {
     struct Node
     {
-        int id;
-        Vector<T> *Data;
+        Vertex<T> *Data;
         Node *Next;
         Node *Prev;
-        Node(const Vector<T> &data, int ID);
+        Node(const Vertex<T> &data);
     };
     int Count;
     Node *Start;
@@ -21,16 +21,17 @@ public:
     ~DLL();
     int size();
     bool isEmpty();
-    bool search(Vector<T> *data);
+    bool search(Vertex<T> *data);
     typename DLL<T>::Node *getFirst();
     typename DLL<T>::Node *getLast();
     typename DLL<T>::Node *getPrevious(int nodeIndex);
     typename DLL<T>::Node *getNext(int nodeIndex);
     typename DLL<T>::Node *getNode(int nodeIndex);
-    void addFirst(const Vector<T> &data, int ID);
-    void addLast(const Vector<T> &data, int ID);
-    void addBefore(Node *nextNode, const Vector<T> &data, int ID);
-    void addAfter(Node *prevNode, const Vector<T> &data, int ID);
+    typename DLL<T>::Node *getNodeById(int id);
+    void addFirst(const Vertex<T> &data);
+    void addLast(const Vertex<T> &data);
+    void addBefore(Node *nextNode, const Vertex<T> &data);
+    void addAfter(Node *prevNode, const Vertex<T> &data);
     void remove(Node *nodeToRm);
     void remove_by_id(int id);
     void print();

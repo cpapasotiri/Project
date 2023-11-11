@@ -18,7 +18,7 @@ source_group("Header Files" FILES ${HEADER_FILES})
 source_group("Template Files" FILES ${TEMPLATE_FILES})
 source_group("Test Files" FILES ${TEST_FILES})
 
-# Compiler flags (optional)
+# Compiler flags
 add_compile_options(-Wall -Wextra -pedantic)
 
 # Create the executable

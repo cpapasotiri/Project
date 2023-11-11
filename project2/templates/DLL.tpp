@@ -4,7 +4,7 @@
 using namespace std;
 
 template <typename T>
-DLL<T>::Node::Node(const Vector<T> &data, int ID) : id(ID), Data(new Vector<T>(data)), Next(nullptr), Prev(nullptr) {}
+DLL<T>::Node::Node(const Vertex<T> &data) :  Data(new Vertex<T>(data)), Next(nullptr), Prev(nullptr) {}
 
 template <typename T>
 DLL<T>::DLL() : Count(0), Start(nullptr), End(nullptr) {}
@@ -30,7 +30,7 @@ template <typename T>
 bool DLL<T>::isEmpty() { return Count == 0; }
 
 template <typename T>
-bool DLL<T>::search(Vector<T> *data)
+bool DLL<T>::search(Vertex<T> *data)
 {
     if (isEmpty())
     {
@@ -158,14 +158,42 @@ typename DLL<T>::Node *DLL<T>::getNode(int nodeIndex)
             }
         }
 
-        return current; // Return the next node of the given
+        return current; // Return the current node 
     }
 }
 
 template <typename T>
-void DLL<T>::addFirst(const Vector<T> &data, int ID)
+typename DLL<T>::Node *DLL<T>::getNodeById(int id)
 {
-    Node *newNode = new Node(data, ID);
+    Node *current = Start;
+    if (isEmpty())
+    {
+        cout << "The list is empty!" << endl; // If DLL<T> is empty, print a warning message
+        return nullptr;
+    }
+
+    {
+        for (int i = 1; i <= Count; i++)
+        {   
+            if (current->Data->id == id)
+            {
+                return current;
+            }
+            
+            if (current->Next != nullptr)
+            {
+                current = current->Next; // In any other case, move till that node if it exists
+            }
+        }
+
+        return current; // Return the current node 
+    }
+}
+
+template <typename T>
+void DLL<T>::addFirst(const Vertex<T> &data)
+{
+    Node *newNode = new Node(data);
     newNode->Next = Start; // Inserting the new node in first place
     newNode->Prev = nullptr;
     if (!isEmpty())
@@ -183,13 +211,13 @@ void DLL<T>::addFirst(const Vector<T> &data, int ID)
 }
 
 template <typename T>
-void DLL<T>::addLast(const Vector<T> &data, int ID)
+void DLL<T>::addLast(const Vertex<T> &data)
 {
-    Node *newNode = new Node(data, ID);
+    Node *newNode = new Node(data);
     newNode->Next = nullptr; // Inserting the new node in first place
     if (isEmpty())
     {
-        addFirst(data, ID); // If the list is empty, add node in firts place
+        addFirst(data); // If the list is empty, add node in firts place
         return;
     }
 
@@ -202,7 +230,7 @@ void DLL<T>::addLast(const Vector<T> &data, int ID)
 }
 
 template <typename T>
-void DLL<T>::addBefore(Node *nextNode, const Vector<T> &data, int ID) // Asking for the node before of which the new node will be added
+void DLL<T>::addBefore(Node *nextNode, const Vertex<T> &data) // Asking for the node before of which the new node will be added
 {                                                                     // and the Data of new node
     // cout << "Number " << data << " to be added before number " << nextNode->Data << "!" << endl;
     if (nextNode == nullptr)
@@ -211,7 +239,7 @@ void DLL<T>::addBefore(Node *nextNode, const Vector<T> &data, int ID) // Asking 
         return;
     }
 
-    Node *newNode = new Node(data, ID);
+    Node *newNode = new Node(data);
     newNode->Prev = nextNode->Prev;
     nextNode->Prev = newNode; // Inserting the new node in the exact place
     newNode->Next = nextNode;
@@ -227,7 +255,7 @@ void DLL<T>::addBefore(Node *nextNode, const Vector<T> &data, int ID) // Asking 
 }
 
 template <typename T>
-void DLL<T>::addAfter(Node *prevNode, const Vector<T> &data, int ID) // Asking for the node after of which the new node will be added
+void DLL<T>::addAfter(Node *prevNode, const Vertex<T> &data) // Asking for the node after of which the new node will be added
 {                                                                    // and the Data of new node
 
     if (prevNode == nullptr)
@@ -235,7 +263,7 @@ void DLL<T>::addAfter(Node *prevNode, const Vector<T> &data, int ID) // Asking f
         cout << "The given previous node cannot be empty!" << endl; // If the node given is empty return
         return;
     }
-    Node *newNode = new Node(data, ID);
+    Node *newNode = new Node(data);
     newNode->Next = prevNode->Next;
     prevNode->Next = newNode; // inserting the new node in the exact place
     newNode->Prev = prevNode;
@@ -287,7 +315,7 @@ void DLL<T>::remove_by_id(int id)
 
     for (int i = 0; i < size(); i++)
     {
-        if (current->id == id)
+        if (current->Data->id == id)
         {
             remove(current);
             return;
@@ -312,8 +340,9 @@ void DLL<T>::print()
     }
 
     for (int i = 0; i < Count; i++)
-    {
-        N->Data->display_vector();
+    {   
+        cout << "Node " << N->Data->id << ": " << endl;
+        N->Data->point->display_vector();
         cout << endl;
         if (N->Next != nullptr)
         {

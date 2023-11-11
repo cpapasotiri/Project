@@ -3,21 +3,9 @@
 #include <iostream>
 #include <string>
 #include "DLL.hpp"
-#include "vector.hpp"
+#include "vertex.hpp"
 
 using namespace std;
-
-template <typename T>
-struct Vertex
-{
-    int id;
-    Vector<T> *point;
-
-    Vertex();
-    Vertex(const Vertex<T> &other);
-    Vertex<T> &operator=(const Vertex<T> &other);
-    ~Vertex();
-};
 
 template <typename T>
 class Graph

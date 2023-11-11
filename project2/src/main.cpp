@@ -51,7 +51,6 @@ int main(int argc, char *argv[])
     Vector<float> *data = new Vector<float>();
 
     start = clock();
-    // N=10;
     cout << "Reading " << N << " points" << endl;
     for (uint32_t i = 0; i < N; i++)
     {
@@ -86,11 +85,14 @@ int main(int argc, char *argv[])
     elapsed_time = double(end-start) / CLOCKS_PER_SEC;
     cout << "Elapsed time for creation of graph adges: " << elapsed_time << endl;
 
-    graph->display_graph();
+    //graph->display_graph();
 
     // implementation of algorithm: running forever
-    // graph->NNDescent();
+    graph->NNDescent();
 
-    // graph->display_graph();
+    //graph->display_graph();
+    end = clock();
+    elapsed_time = double(end-start) / CLOCKS_PER_SEC;
+     cout << "Elapsed time for everything: " << elapsed_time << endl;
     return 0;
 }
