@@ -29,8 +29,8 @@
         cmake --build . 
         Run the project executable with the following command:
             ./project <filepath> <dimensions> <K>
-            e.g. ./project ../project2/datasets/2dims.bin 2 2  
-            e.g. ./project ../project2/datasets/00000020.bin 100 10
+            e.g. ./project datasets/2dims.bin 2 2  
+            e.g. ./project datasets/00000020.bin 100 10
             
     Use the the following commands to run Catch2 Unit Tests:
         Run the tests executable with the following command:            

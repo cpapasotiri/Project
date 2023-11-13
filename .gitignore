@@ -16,8 +16,6 @@
 !*.cmake 
 
 # Include specific directories
-!project1/
-!project2/
 !datasets/
 !include/
 !src/
