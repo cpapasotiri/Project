@@ -1,6 +1,6 @@
 <p align="center"><img src="../logo_el.png" alt="Λογότυπο ΕΚΠΑ DiT" width=50%/></p>
 
-# <center>Ανάπτυξη Λογισμικού για Πληροφοριακά Συστήματα - Project 2 - Χειμερινού Εξαμήνου 2023-2024</center>
+# <center>Ανάπτυξη Λογισμικού για Πληροφοριακά Συστήματα - Project - Χειμερινού Εξαμήνου 2023-2024</center>
 
 
 ## Προσωπικά δεδομένα ομάδας
@@ -24,21 +24,26 @@
 
 ## Compile & Run
     C++
-    Use the following commands to compile
+    Use the following commands to compile:
         cmake .
         cmake --build . 
-        Run the project2 executable with the following command:
-            ./project2 <filepath> <dimensions> <K>
-            e.g. ./project2 ../project2/datasets/2dims.bin 2 2  
-            e.g. ./project2 ../project2/datasets/00000020.bin 100 10
-        Run the Catch2 Unit Tests with the following command:
+        Run the project executable with the following command:
+            ./project <filepath> <dimensions> <K>
+            e.g. ./project ../project2/datasets/2dims.bin 2 2  
+            e.g. ./project ../project2/datasets/00000020.bin 100 10
+            
+    Use the the following commands to run Catch2 Unit Tests:
+        Run the tests executable with the following command:            
             ./allTests
+        Run to see tests in detail:
+            make run_tests
+
+
     Use the following command to clean build files:
         make clean_all  
-        
     
 ## Οργάνωση κώδικα
-    project2/
+    Project/
     ├── datasets/
     │   ├── *.bin
     ├── include/

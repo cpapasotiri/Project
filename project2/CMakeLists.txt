@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(project2)
+project(project)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 11)
@@ -22,23 +22,34 @@ source_group("Test Files" FILES ${TEST_FILES})
 add_compile_options(-Wall -Wextra -pedantic)
 
 # Create the executable
-add_executable(project2 ${SOURCE_FILES} ${HEADER_FILES} ${TEMPLATE_FILES})
+add_executable(project ${SOURCE_FILES} ${HEADER_FILES} ${TEMPLATE_FILES})
 
 # Create the tests executable and link it with project source files
 add_executable(allTests ${TEST_FILES} ${HEADER_FILES})
 
 # Set target-specific include directories
-target_include_directories(project2 PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(project PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_include_directories(allTests PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
 # Run tests using Catch2
 include(CTest)
 
 # Run tests using catch.hpp
-add_test(NAME CatchTests COMMAND allTests)
+add_test(NAME CatchTests COMMAND allTests --success)
 
 # Set the working directory for the test
 set_tests_properties(CatchTests PROPERTIES WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+
+# Enable verbose output for tests
+set(CTEST_ARGS "--verbose")
+
+# Create a custom target for running all tests
+add_custom_target(run_tests
+    COMMAND ${CMAKE_CTEST_COMMAND} ${CTEST_ARGS}
+    DEPENDS allTests
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Running all tests"
+)
 
 # Create a custom target for cleaning
 add_custom_target(clean_all

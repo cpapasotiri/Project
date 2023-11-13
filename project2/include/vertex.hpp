@@ -11,6 +11,7 @@ struct Vertex
     
     Vertex();
     Vertex(const Vertex<T> &other);
+    Vertex(int i, Vector<T> *point);
     Vertex<T> &operator=(const Vertex<T> &other);
     bool operator==(Vertex<T> &other);
     ~Vertex();

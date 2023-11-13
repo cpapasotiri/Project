@@ -54,7 +54,6 @@ int main(int argc, char *argv[])
     cout << "Reading " << N << " points" << endl;
     for (uint32_t i = 0; i < N; i++)
     {
-        // cout << "H FOR TOY N" << endl;
         for (int j = 0; j < dim; j++)
         {
             float fnum;
@@ -66,11 +65,11 @@ int main(int argc, char *argv[])
             }
             data->push_back(fnum);
         }
-
         graph->add_vertex(data);
         data->clear();
     }
     close(file);
+    delete data;
     
     end = clock();
     elapsed_time = double(end-start) / CLOCKS_PER_SEC;
@@ -93,6 +92,9 @@ int main(int argc, char *argv[])
     //graph->display_graph();
     end = clock();
     elapsed_time = double(end-start) / CLOCKS_PER_SEC;
-     cout << "Elapsed time for everything: " << elapsed_time << endl;
+    cout << "Elapsed time for everything: " << elapsed_time << endl;
+
+    delete graph;
+
     return 0;
 }

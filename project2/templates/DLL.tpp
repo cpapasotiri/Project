@@ -62,6 +62,7 @@ typename DLL<T>::Node *DLL<T>::getFirst()
     }
     return Start;
 }
+
 template <typename T>
 typename DLL<T>::Node *DLL<T>::getLast()
 {
@@ -346,7 +347,6 @@ void DLL<T>::print()
         cout << endl;
         if (N->Next != nullptr)
         {
-
             N = N->Next;
         }
     }

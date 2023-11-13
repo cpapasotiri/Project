@@ -18,7 +18,12 @@ Vector<T>::Vector(const Vector<T> &other) : capacity(other.capacity), size(other
 
 template <typename T>
 Vector<T>::~Vector()
-{
+{   
+    for (size_t i = 0; i < size; i++)
+    {
+        // array[i] = other.array[i];
+        array[i].~T();
+    }
 }
 
 template <typename T>

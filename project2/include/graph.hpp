@@ -20,16 +20,16 @@ private:
 public:
     Graph();
     ~Graph();
-    void add_vertex(Vector<T> *p); // TODELETE    // create a vertex
+    void add_vertex(Vector<T> *p); // create a vertex
     void add_edges(int K);         // create K edges for each vertex
     DLL<T> &KNN(Vector<T> *p);     // K nearest neighbors for a given point
     Vector<DLL<T>> &K_NN();        // K nearest neighbors for all points
     void NNDescent();
     int get_number_of_vertices() const;
     Vertex<T> &get_vertex(int id);
-    DLL<T> &get_adjacent_list(int id) const;  // get neighbors // IDK NECESSERY OR NOT
-    int get_adjacent_list_size(int id) const; // get neightbors crowd // IDK NECESSERY OR NOT
-    void display_graph();                     // CHANGE IMPLEMENTATION
+    DLL<T> &get_adjacent_list(int id) const;  // get neighbors
+    int get_adjacent_list_size(int id) const; // get neightbors crowd
+    void display_graph();
 };
 
 #include "../templates/graph.tpp"

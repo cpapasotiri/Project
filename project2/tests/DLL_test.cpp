@@ -4,11 +4,9 @@
 TEST_CASE("DLL functionality tests", "[DLL]")
 {
   DLL<int> dll;
-  Vector<int> vec1, vec2;
-  vec1.push_back(1);
-  vec1.push_back(2);
-  vec2.push_back(3);
-  vec2.push_back(4);
+  Vertex<int> ver1, ver2;
+  // dll.addFirst(ver1);
+  // dll.addFirst(ver2);
 
   SECTION("DLL size is initially zero")
   {
@@ -17,18 +15,18 @@ TEST_CASE("DLL functionality tests", "[DLL]")
 
   SECTION("Adding elements to DLL increases size")
   {
-    dll.addFirst(vec1,1);
+    dll.addFirst(ver1);
     REQUIRE(dll.size() == 1);
 
-    dll.addLast(vec2,2);
+    dll.addLast(ver2);
     REQUIRE(dll.size() == 2);
   }
 
   SECTION("Getting elements from DLL")
   {
-    dll.addFirst(vec1,1);
-    dll.addLast(vec2,2);
-    dll.addLast(vec2,3);
+    dll.addFirst(ver1);
+    dll.addLast(ver2);
+    dll.addLast(ver2);
 
     REQUIRE(dll.getNode(1) == dll.getNext(0));
     REQUIRE(dll.getPrevious(1) == dll.getNode(0));
@@ -36,8 +34,8 @@ TEST_CASE("DLL functionality tests", "[DLL]")
 
   SECTION("Remove elements from DLL decreases size")
   {
-    dll.addFirst(vec1,1);
-    dll.addLast(vec2,2);
+    dll.addFirst(ver1);
+    dll.addLast(ver2);
 
     dll.remove(dll.getFirst());
     REQUIRE(dll.size() == 1);
