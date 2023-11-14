@@ -28,16 +28,15 @@
         cmake .
         cmake --build . 
         Run the project executable with the following command:
-            ./project <filepath> <dimensions> <K>
-            e.g. ./project datasets/2dims.bin 2 2  
-            e.g. ./project datasets/00000020.bin 100 10
+            ./project <filepath> <dimensions> <K> <distance type e or m>
+            e.g. ./project datasets/2dims.bin 2 2 e
+            e.g. ./project datasets/00000020.bin 100 10 m
             
     Use the the following commands to run Catch2 Unit Tests:
         Run the tests executable with the following command:            
             ./allTests
         Run to see tests in detail:
             make run_tests
-
 
     Use the following command to clean build files:
         make clean_all  

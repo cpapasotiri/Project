@@ -13,21 +13,33 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    if (argc != 4)
+    if (argc != 5)
     {
-        cerr << "Usage: " << argv[0] << " <filepath> <dimensions> <K nearest neighbors>" << endl;
+        cerr << "Usage: " << argv[0] << " <filepath> <dimensions> <K nearest neighbors> <distance type e or m>" << endl;
+        return 1;
+    }
+
+    int dim = atoi(argv[2]);  // dimensions of point
+    if (dim <= 0)
+    {
+        cerr << "Invalid dimensions" << endl;
+        return 1;
+    }
+
+    int K = atoi(argv[3]);    // K nearest neighbors
+    if(K <= 0)
+    {
+        cerr << "Invalid K" << endl;
+        return 1;
+    }
+
+    char *distance = argv[4]; // distance type
+    if (strcmp(distance, "e") != 0 && strcmp(distance, "m") != 0){
+        cerr << "Invalid distance type. Select e for euclidean or m for manhattan." << endl;
         return 1;
     }
 
     char *filename = argv[1]; // inputFile
-    int dim = atoi(argv[2]);  // dimensions of point
-    int K = atoi(argv[3]);    // K nearest neighbors
-    if (dim <= 0 || K <= 0)
-    {
-        cerr << "Invalid dimensions or K" << endl;
-    }
-
-    // TODO use input.tpp & hpp files to read & use inputFile
     int file = open(filename, O_RDONLY);
     if (file == -1)
     {
