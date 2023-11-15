@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#include "graph.hpp"
+#include "vector.hpp"
 #include "IO.hpp"
 
 using namespace std;
@@ -51,10 +53,13 @@ int main(int argc, char *argv[])
     }
 
     // create output file
-    size_t len = strlen(filepath) + strlen("output/") + strlen("_") + strlen(distance) + 1;
-    char output_filepath[256];
-    create_output_filepath(filepath, distance, output_filepath, len);
-    cout << "Output filepath: " << output_filepath << endl; 
+    // size_t len = strlen(filepath) + strlen("output/") + strlen("_") + strlen(distance) + 1;
+    // char output_filepath[256];
+    // create_output_filepath(filepath, distance, output_filepath, len);
+    // cout << "Output filepath: " << output_filepath << endl; 
+
+    Graph<float> *graph = new Graph<float>();
+    Vector<float> *data = new Vector<float>();
 
     cout << "Reading " << N << " points" << endl;
     for (uint32_t i = 0; i < N; i++)
@@ -68,11 +73,17 @@ int main(int argc, char *argv[])
                 close(file);
                 return 1;
             }
-
+            data->push_back(fnum);
         }
-
+        graph->add_vertex(data);
+        data->clear();
     }
     close(file);
+    delete data;
+
+    graph->display_graph();
+    graph->bruteForce(K);
+    graph->display_graph();
       
     // brute force algorithm calling
         // write distances to output_filepath file

@@ -5,6 +5,18 @@
 using namespace std;
 
 template <typename T>
+Pair<T>::Pair(float dist, Vertex<T> &vertex):distance(dist), v(new Vertex<T>(vertex))
+{
+
+}
+
+template <typename T>
+Pair<T>::Pair():distance(0), v(new Vertex<T>())
+{
+
+}
+
+template <typename T>
 Graph<T>::Graph()
 {
     number_of_vertices = 0;
@@ -168,4 +180,55 @@ template <typename T>
 int Graph<T>::generate_random_vertex_number(int min, int max)
 {
     return min + rand() % (max - min + 1);
+}
+
+template <typename T>
+void Graph<T>::bruteForce(int K)
+{
+    for (size_t i = 0; i < number_of_vertices; i++)
+    {   
+        Vector<Pair<T>> *pairs = new Vector<Pair<T>>();
+        for (size_t j = 0; j < number_of_vertices; j++)
+        {
+            if (j != i)
+            {
+                float dist = (&get_vertex(i))->point->euclideanDistance(*(get_vertex(j)).point);
+                cout << "distance of " << i << " and " << j << " is " << dist << endl;
+                Pair<T> *p = new Pair<T>(dist, get_vertex(j));
+                pairs->push_back(*p);
+                
+            }
+            
+        }
+
+        for (size_t t = 0; t < pairs->get_size(); t++)
+        {
+            for (size_t k = 0; k < pairs->get_size(); k++)
+            {
+                if(pairs->operator[](t).distance < pairs->operator[](k).distance)
+                {   
+                    float temp = pairs->operator[](t).distance;
+                    Vertex<T> *tempVertex = pairs->operator[](t).v;
+
+                    pairs->operator[](t).distance = pairs->operator[](k).distance;
+                    pairs->operator[](t).v = pairs->operator[](k).v;
+                    pairs->operator[](k).distance = temp;
+                    pairs->operator[](k).v = tempVertex;
+                    
+                }
+            }
+            
+        }
+        
+        for (int count = 0; count < K; count++)
+        {   
+            int id = get_vertex(i).id; 
+            cout << "pushing " << count << " in " << i << endl;
+            pairs->operator[](count).v->point->display_vector();
+            adjacency_list->operator[](id).addLast(*(pairs->operator[](count).v));
+        }
+        
+        pairs->clear();
+    }
+    
 }

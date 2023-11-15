@@ -342,7 +342,7 @@ void DLL<T>::print()
 
     for (int i = 0; i < Count; i++)
     {   
-        cout << "Node " << N->Data->id << ": " << endl;
+        cout << "Vertex " << N->Data->id << ": " << endl;
         N->Data->point->display_vector();
         cout << endl;
         if (N->Next != nullptr)
