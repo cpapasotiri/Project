@@ -50,6 +50,12 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    // create output file
+    size_t len = strlen(filepath) + strlen("output/") + strlen("_") + strlen(distance) + 1;
+    char output_filepath[256];
+    create_output_filepath(filepath, distance, output_filepath, len);
+    cout << "Output filepath: " << output_filepath << endl; 
+
     cout << "Reading " << N << " points" << endl;
     for (uint32_t i = 0; i < N; i++)
     {
@@ -62,21 +68,14 @@ int main(int argc, char *argv[])
                 close(file);
                 return 1;
             }
-            
+
         }
 
     }
     close(file);
-
+      
     // brute force algorithm calling
-
-    // write distances to bin file  
-    size_t len = strlen(filepath) + strlen("output/") + strlen("_") + strlen(distance) + 1;
-    char output_filepath[256];
-    create_output_filepath(filepath, distance, output_filepath, len);
-    
-    cout << "Output filepath: " << output_filepath << endl;
-    // write(file)
+        // write distances to output_filepath file
 
     return 0;
 }

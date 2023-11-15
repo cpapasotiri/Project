@@ -22,7 +22,21 @@ void create_output_filepath(char* filepath, char* distance, char* output_filepat
 
             // Append the remaining part of the original path
             strncpy(output_filepath, startPos, length);
-            output_filepath[length] = '\0'; // Null-terminate the output_filepath string
+
+            // Add "_" to the filename
+            strncpy(output_filepath + length, "_", 1);
+            length += 1;
+
+            // Add distance type to the filename
+            strncpy(output_filepath + length, distance, 1);
+            length += 1;
+
+            // Add the file extension ".bin"
+            strncpy(output_filepath + length, ".bin", 4);
+            length += 4;
+
+            // Null-terminate the output_filepath string
+            output_filepath[length] = '\0'; 
         }
     } else 
     {

@@ -39,8 +39,8 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    char *filename = argv[1]; // inputFile
-    int file = open(filename, O_RDONLY);
+    char *filepath = argv[1]; // inputFile
+    int file = open(filepath, O_RDONLY);
     if (file == -1)
     {
         cerr << "Unable to open file" << endl;
