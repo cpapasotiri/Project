@@ -1,4 +1,4 @@
-<p align="center"><img src="../logo_el.png" alt="Λογότυπο ΕΚΠΑ DiT" width=50%/></p>
+<p align="center"><img src="logo_el.png" alt="Λογότυπο ΕΚΠΑ DiT" width=50%/></p>
 
 # <center>Ανάπτυξη Λογισμικού για Πληροφοριακά Συστήματα - Project - Χειμερινού Εξαμήνου 2023-2024</center>
 
@@ -31,7 +31,9 @@
             ./project <filepath> <dimensions> <K> <distance type e or m>
             e.g. ./project datasets/2dims.bin 2 2 e
             e.g. ./project datasets/00000020.bin 100 10 m
-            
+        Run the brute force executable with the following command:
+            ./brute_force <filepath> <dimensions> <K> <distance type e or m>
+
     Use the the following commands to run Catch2 Unit Tests:
         Run the tests executable with the following command:            
             ./allTests

@@ -18,6 +18,10 @@
 # Include specific directories
 !datasets/
 !include/
+!output/
 !src/
+!common/
+!project/
+!brute_force/
 !templates/
 !tests/
