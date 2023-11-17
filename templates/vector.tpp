@@ -114,7 +114,7 @@ float Vector<T>::euclideanDistance(const Vector<T> &point2)
 }
 
 template <typename T>
-long double Vector<T>::manhattanDistance(const Vector<T> &point2)
+float Vector<T>::manhattanDistance(const Vector<T> &point2)
 {
     if (this->get_size() != point2.get_size())
     {

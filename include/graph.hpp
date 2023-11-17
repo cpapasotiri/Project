@@ -8,6 +8,16 @@
 using namespace std;
 
 template <typename T>
+struct Pair
+{
+    float distance;
+    Vertex<T> *v;
+
+    Pair(float dist, Vertex<T> &v);
+    Pair();
+};
+
+template <typename T>
 class Graph
 {
 private:
@@ -30,6 +40,7 @@ public:
     DLL<T> &get_adjacent_list(int id) const;  // get neighbors
     int get_adjacent_list_size(int id) const; // get neightbors crowd
     void display_graph();
+    void bruteForce(int K);
 };
 
 #include "../templates/graph.tpp"

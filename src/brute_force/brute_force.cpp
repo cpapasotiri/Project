@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#include "graph.hpp"
+#include "vector.hpp"
 #include "IO.hpp"
 
 using namespace std;
@@ -56,6 +58,9 @@ int main(int argc, char *argv[])
     create_output_filepath(filepath, distance, output_filepath, len);
     cout << "Output filepath: " << output_filepath << endl; 
 
+    Graph<float> *graph = new Graph<float>();
+    Vector<float> *data = new Vector<float>();
+
     // Open the file for writing with read-write permissions, creating it if it doesn't exist
     int outfile = open(output_filepath, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR); 
     if (outfile == -1) 
@@ -76,12 +81,19 @@ int main(int argc, char *argv[])
                 close(file);
                 return 1;
             }
-
+            data->push_back(fnum);
         }
-
+        graph->add_vertex(data);
+        data->clear();
     }
     close(file);
 
+    delete data;
+
+    graph->display_graph();
+    graph->bruteForce(K);
+    graph->display_graph();
+ 
     // brute force algorithm calling
     // write distances to output_filepath file
     char* data = "test insert to file";

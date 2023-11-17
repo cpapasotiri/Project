@@ -26,7 +26,7 @@ public:
     void display_vector() const;
     void clear();
     float euclideanDistance(const Vector<T> &point2);
-    long double manhattanDistance(const Vector<T> &point2);
+    float manhattanDistance(const Vector<T> &point2);
 };
 
 #include "../templates/vector.tpp"
