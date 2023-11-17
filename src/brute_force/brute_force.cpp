@@ -51,8 +51,8 @@ int main(int argc, char *argv[])
     }
 
     // create output file
-    size_t len = strlen(filepath) + strlen("output/") + strlen("_") + strlen(distance) + 1;
-    char output_filepath[256];
+    size_t len = 255;
+    char output_filepath[len];
     create_output_filepath(filepath, distance, output_filepath, len);
     cout << "Output filepath: " << output_filepath << endl; 
 
