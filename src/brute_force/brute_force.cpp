@@ -53,13 +53,21 @@ int main(int argc, char *argv[])
     }
 
     // create output file
-    // size_t len = strlen(filepath) + strlen("output/") + strlen("_") + strlen(distance) + 1;
-    // char output_filepath[256];
-    // create_output_filepath(filepath, distance, output_filepath, len);
-    // cout << "Output filepath: " << output_filepath << endl; 
+    size_t len = 255;
+    char output_filepath[len];
+    create_output_filepath(filepath, distance, output_filepath, len);
+    cout << "Output filepath: " << output_filepath << endl; 
 
     Graph<float> *graph = new Graph<float>();
     Vector<float> *data = new Vector<float>();
+
+    // Open the file for writing with read-write permissions, creating it if it doesn't exist
+    int outfile = open(output_filepath, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR); 
+    if (outfile == -1) 
+    {
+        cerr << "Unable to open file:" << output_filepath << endl;
+        return 1;
+    }
 
     cout << "Reading " << N << " points" << endl;
     for (uint32_t i = 0; i < N; i++)
@@ -79,14 +87,21 @@ int main(int argc, char *argv[])
         data->clear();
     }
     close(file);
+
     delete data;
 
     graph->display_graph();
     graph->bruteForce(K);
     graph->display_graph();
-      
+ 
     // brute force algorithm calling
-        // write distances to output_filepath file
+    // write distances to output_filepath file
+    char* data = "test insert to file";
+    if (write(outfile, data, strlen(data)) == -1) 
+    {
+        std::cerr << "Error writing to file: " << output_filepath << endl;
+    }
+    close(outfile);
 
     return 0;
 }

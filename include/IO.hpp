@@ -1,7 +1,10 @@
 #pragma once
+
 #include <iostream>
 #include <cstring>
 #include <fstream>
+
+// THESE FUNCTIONS WORKS PROPERLY ONLY BY USING BINARY EXTENSION FILES
 
 using namespace std;
 

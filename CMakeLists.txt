@@ -30,7 +30,7 @@ add_executable(project ${PROJECT_SOURCE_FILES} ${COMMON_SOURCE_FILES} ${HEADER_F
 add_executable(brute_force ${BRUTE_FORCE_SOURCE_FILES} ${COMMON_SOURCE_FILES} ${HEADER_FILES} ${TEMPLATE_FILES})
 
 # Create the tests executable and link it with project source files
-add_executable(allTests ${TEST_FILES} ${HEADER_FILES})
+add_executable(allTests ${TEST_FILES} ${COMMON_SOURCE_FILES} ${HEADER_FILES})
 
 # Set target-specific include directories
 target_include_directories(project PRIVATE ${CMAKE_SOURCE_DIR}/include)
