@@ -186,49 +186,48 @@ template <typename T>
 void Graph<T>::bruteForce(int K)
 {
     for (size_t i = 0; i < number_of_vertices; i++)
-    {   
+    {
         Vector<Pair<T>> *pairs = new Vector<Pair<T>>();
         for (size_t j = 0; j < number_of_vertices; j++)
         {
             if (j != i)
             {
                 float dist = (&get_vertex(i))->point->euclideanDistance(*(get_vertex(j)).point);
-                cout << "distance of " << i << " and " << j << " is " << dist << endl;
+              //  cout << "distance of " << i << " and " << j << " is " << dist << endl;
                 Pair<T> *p = new Pair<T>(dist, get_vertex(j));
                 pairs->push_back(*p);
-                
             }
-            
         }
 
         for (size_t t = 0; t < pairs->get_size(); t++)
-        {
-            for (size_t k = 0; k < pairs->get_size(); k++)
-            {
-                if(pairs->operator[](t).distance < pairs->operator[](k).distance)
-                {   
-                    float temp = pairs->operator[](t).distance;
-                    Vertex<T> *tempVertex = pairs->operator[](t).v;
+        {   
+           // cout << "in pairs: vector t " << t << " has distance " << pairs->operator[](t).distance << endl;
+            
+            for (size_t k = 0; k < pairs->get_size()-t-1; k++)
+            {   
+                // cout << "in pairs: vector k " << k << " has distance " << pairs->operator[](k).distance << endl;
+                if (pairs->operator[](k).distance > pairs->operator[](k+1).distance)
+                {
+                    float temp = pairs->operator[](k).distance;
+                    Vertex<T> *tempVertex = pairs->operator[](k).v;
 
-                    pairs->operator[](t).distance = pairs->operator[](k).distance;
-                    pairs->operator[](t).v = pairs->operator[](k).v;
-                    pairs->operator[](k).distance = temp;
-                    pairs->operator[](k).v = tempVertex;
-                    
+                    pairs->operator[](k).distance = pairs->operator[](k+1).distance;
+                    pairs->operator[](k).v = pairs->operator[](k+1).v;
+                    pairs->operator[](k+1).distance = temp;
+                    pairs->operator[](k+1).v = tempVertex;
                 }
             }
-            
         }
-        
+
         for (int count = 0; count < K; count++)
-        {   
-            int id = get_vertex(i).id; 
+        {
+            int id = get_vertex(i).id;
             cout << "pushing " << count << " in " << i << endl;
-            pairs->operator[](count).v->point->display_vector();
+            cout << "distance " << pairs->operator[](count).distance << endl;
+            //pairs->operator[](count).v->point->display_vector();
             adjacency_list->operator[](id).addLast(*(pairs->operator[](count).v));
         }
-        
+
         pairs->clear();
     }
-    
 }
