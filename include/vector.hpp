@@ -24,7 +24,6 @@ public:
     size_t get_capacity() const;
     size_t get_size() const;
     void display_vector() const;
-    void clear();
     float euclideanDistance(const Vector<T> &point2);
     float manhattanDistance(const Vector<T> &point2);
 };

@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     cout << "Output filepath: " << output_filepath << endl; 
 
     Graph<float> *graph = new Graph<float>();
-    Vector<float> *data = new Vector<float>();
+    
 
     // Open the file for writing with read-write permissions, creating it if it doesn't exist
     int outfile = open(output_filepath, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR); 
@@ -71,7 +71,8 @@ int main(int argc, char *argv[])
 
     cout << "Reading " << N << " points" << endl;
     for (uint32_t i = 0; i < N; i++)
-    {
+    {   
+        Vector<float> *data = new Vector<float>();
         for (int j = 0; j < dim; j++)
         {
             float fnum;
@@ -84,11 +85,9 @@ int main(int argc, char *argv[])
             data->push_back(fnum);
         }
         graph->add_vertex(data);
-        data->clear();
+        delete data;
     }
     close(file);
-
-    delete data;
 
     graph->display_graph();
     graph->bruteForce(K);
@@ -96,12 +95,13 @@ int main(int argc, char *argv[])
  
     // brute force algorithm calling
     // write distances to output_filepath file
-    char* data = "test insert to file";
-    if (write(outfile, data, strlen(data)) == -1) 
+    char* test = "test insert to file";
+    if (write(outfile, test, strlen(test)) == -1) 
     {
         std::cerr << "Error writing to file: " << output_filepath << endl;
     }
     close(outfile);
 
+    delete graph;
     return 0;
 }

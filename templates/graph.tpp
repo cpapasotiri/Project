@@ -17,6 +17,10 @@ Pair<T>::Pair():distance(0), v(new Vertex<T>())
 }
 
 template <typename T>
+Pair<T>::~Pair(){
+}
+
+template <typename T>
 Graph<T>::Graph()
 {
     number_of_vertices = 0;
@@ -26,7 +30,7 @@ Graph<T>::Graph()
 
 template <typename T>
 Graph<T>::~Graph()
-{
+{   
     delete vertices;
     delete adjacency_list;
 }
@@ -43,6 +47,8 @@ void Graph<T>::add_vertex(Vector<T> *p)
     DLL<T> *list = new DLL<T>();
     adjacency_list->push_back(*list);
     number_of_vertices++;
+    delete list;
+    delete vertex;
 }
 
 // create K random unique edges for each vertex
@@ -61,7 +67,7 @@ void Graph<T>::add_edges(int K)
 
             // Vertex<T> *random_vertex = &get_vertex(random_vertex_id);     // TODO
 
-            DLL<T> *random_list = &get_adjacent_list(random_vertex_id);
+            //DLL<T> *random_list = &get_adjacent_list(random_vertex_id);
 
             // avoid self-connections and dublicate connections
             bool in_current_list = current_list->search(&get_vertex(random_vertex_id));
@@ -184,17 +190,19 @@ int Graph<T>::generate_random_vertex_number(int min, int max)
 
 template <typename T>
 void Graph<T>::bruteForce(int K)
-{
+{   
+    Vector<Pair<T>> *pairs;
+    Pair<T> *p;
     for (size_t i = 0; i < number_of_vertices; i++)
     {
-        Vector<Pair<T>> *pairs = new Vector<Pair<T>>();
+        pairs = new Vector<Pair<T>>();
         for (size_t j = 0; j < number_of_vertices; j++)
         {
             if (j != i)
             {
                 float dist = (&get_vertex(i))->point->euclideanDistance(*(get_vertex(j)).point);
               //  cout << "distance of " << i << " and " << j << " is " << dist << endl;
-                Pair<T> *p = new Pair<T>(dist, get_vertex(j));
+                p = new Pair<T>(dist, get_vertex(j));
                 pairs->push_back(*p);
             }
         }
@@ -228,6 +236,8 @@ void Graph<T>::bruteForce(int K)
             adjacency_list->operator[](id).addLast(*(pairs->operator[](count).v));
         }
 
-        pairs->clear();
-    }
+        delete pairs;
+
+    }    
+    delete p;
 }

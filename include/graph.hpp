@@ -15,6 +15,7 @@ struct Pair
 
     Pair(float dist, Vertex<T> &v);
     Pair();
+    ~Pair();
 };
 
 template <typename T>

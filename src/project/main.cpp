@@ -19,22 +19,23 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    int dim = atoi(argv[2]);  // dimensions of point
+    int dim = atoi(argv[2]); // dimensions of point
     if (dim <= 0)
     {
         cerr << "Invalid dimensions" << endl;
         return 1;
     }
 
-    int K = atoi(argv[3]);    // K nearest neighbors
-    if(K <= 0)
+    int K = atoi(argv[3]); // K nearest neighbors
+    if (K <= 0)
     {
         cerr << "Invalid K" << endl;
         return 1;
     }
 
     char *distance = argv[4]; // distance type
-    if (strcmp(distance, "e") != 0 && strcmp(distance, "m") != 0){
+    if (strcmp(distance, "e") != 0 && strcmp(distance, "m") != 0)
+    {
         cerr << "Invalid distance type. Select e for euclidean or m for manhattan." << endl;
         return 1;
     }
@@ -60,12 +61,12 @@ int main(int argc, char *argv[])
 
     // store file data to graph as vertices
     Graph<float> *graph = new Graph<float>();
-    Vector<float> *data = new Vector<float>();
 
     start = clock();
     cout << "Reading " << N << " points" << endl;
     for (uint32_t i = 0; i < N; i++)
     {
+        Vector<float> *data = new Vector<float>();
         for (int j = 0; j < dim; j++)
         {
             float fnum;
@@ -78,32 +79,31 @@ int main(int argc, char *argv[])
             data->push_back(fnum);
         }
         graph->add_vertex(data);
-        data->clear();
+        delete data;
     }
     close(file);
-    delete data;
-    
+
     end = clock();
-    elapsed_time = double(end-start) / CLOCKS_PER_SEC;
+    elapsed_time = double(end - start) / CLOCKS_PER_SEC;
     cout << "Elapsed time for creation of points into graph: " << elapsed_time << endl;
 
     // select K random neighbors for each vertex
     cout << "Creating " << K << " random neighbors for each vertex" << endl;
     srand(time(0)); // needed by random vertex number generator
     graph->add_edges(K);
-    
+
     end = clock();
-    elapsed_time = double(end-start) / CLOCKS_PER_SEC;
+    elapsed_time = double(end - start) / CLOCKS_PER_SEC;
     cout << "Elapsed time for creation of graph adges: " << elapsed_time << endl;
 
-    //graph->display_graph();
+    // graph->display_graph();
 
     // implementation of algorithm: running forever
     graph->NNDescent();
 
-    //graph->display_graph();
+    graph->display_graph();
     end = clock();
-    elapsed_time = double(end-start) / CLOCKS_PER_SEC;
+    elapsed_time = double(end - start) / CLOCKS_PER_SEC;
     cout << "Elapsed time for everything: " << elapsed_time << endl;
 
     delete graph;
