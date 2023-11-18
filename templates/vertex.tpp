@@ -40,7 +40,6 @@ bool Vertex<T>::operator==(Vertex<T> &other)
         return true;
     }
     return false;
-    
 }
 
 template <typename T>

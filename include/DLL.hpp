@@ -1,6 +1,9 @@
 #pragma once
+
+#include <iostream>
 #include "vertex.hpp"
 
+using namespace std;
 
 template <typename T>
 class DLL

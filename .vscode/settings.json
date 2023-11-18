@@ -24,6 +24,7 @@
         "deque": "cpp",
         "vector": "cpp",
         "cmath": "cpp",
-        "cstring": "cpp"
+        "cstring": "cpp",
+        "thread": "cpp"
     }
 }

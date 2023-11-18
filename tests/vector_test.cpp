@@ -31,7 +31,7 @@ TEST_CASE("Vector operations work as expected", "[vector]")
         REQUIRE((v1 == v2) == false);
     }
 
-    SECTION("Testing copy constructor and distructor")
+    SECTION("Testing copy constructor and destructor")
     {
         Vector<int> v1;
         v1.push_back(1);
@@ -80,5 +80,4 @@ TEST_CASE("Vector operations work as expected", "[vector]")
         double dist = v1.manhattanDistance(v2);
         REQUIRE(dist == Approx(7.0)); // Approx is used for floating-point comparison
     }
-
 }

@@ -6,19 +6,15 @@ using namespace std;
 
 template <typename T>
 Pair<T>::Pair(float dist, Vertex<T> &vertex):distance(dist), v(new Vertex<T>(vertex))
-{
-
-}
+{}
 
 template <typename T>
 Pair<T>::Pair():distance(0), v(new Vertex<T>())
-{
-
-}
+{}
 
 template <typename T>
-Pair<T>::~Pair(){
-}
+Pair<T>::~Pair() 
+{}
 
 template <typename T>
 Graph<T>::Graph()
@@ -39,9 +35,6 @@ Graph<T>::~Graph()
 template <typename T>
 void Graph<T>::add_vertex(Vector<T> *p)
 {
-    // Vertex<T> *vertex = new Vertex<T>();
-    // vertex->id = number_of_vertices;
-    // vertex->point = new Vector<T>(*p);
     Vertex<T> *vertex = new Vertex<T>(number_of_vertices, p);
     vertices->push_back(*vertex);
     DLL<T> *list = new DLL<T>();
@@ -57,7 +50,6 @@ void Graph<T>::add_edges(int K)
 { // create K edges for each vertex
     for (int i = 0; i < number_of_vertices; i++)
     { // for each vertex
-        Vector<T> *current_point = get_vertex(i).point;
         DLL<T> *current_list = &get_adjacent_list(i);
 
         int edges_count = 0;
@@ -65,16 +57,11 @@ void Graph<T>::add_edges(int K)
         { // select K random numbers
             int random_vertex_id = generate_random_vertex_number(0, number_of_vertices - 1);
 
-            // Vertex<T> *random_vertex = &get_vertex(random_vertex_id);     // TODO
-
-            //DLL<T> *random_list = &get_adjacent_list(random_vertex_id);
-
             // avoid self-connections and dublicate connections
             bool in_current_list = current_list->search(&get_vertex(random_vertex_id));
             if ((i != random_vertex_id) && in_current_list == false)
             {
                 current_list->addFirst(get_vertex(random_vertex_id));
-                // random_list->addFirst(*current_point, i);        // TODO
                 edges_count++; // edge added
             }
         }
@@ -109,30 +96,20 @@ void Graph<T>::NNDescent()
         for (int i = 0; i < number_of_vertices; i++) // for every vertex
         {
             DLL<T> *list = &get_adjacent_list(i); // get the list of neighbors
-            // cout << "list of neighbors of vertex " << i << ": " << endl;
-            // list->print();
             for (int j = 0; j < list->size(); j++) // for every neighbor
             {
                 int id = list->getNode(j)->Data->id; // get the id of every neighbor
                 float distance = (&get_vertex(i))->point->euclideanDistance(*(list->getNode(j)->Data->point));
                 DLL<T> *neighborsList = &get_adjacent_list(id); // get the list of neighbors
-                // cout << "list of neighbor's neighbor of vertex " << i << ": " << endl;
-                // neighborsList->print();
                 for (int k = 0; k < neighborsList->size(); k++)
                 {
-
                     if (list->search(neighborsList->getNode(k)->Data) == false)
                     {
                         float newDistance = (&get_vertex(i))->point->euclideanDistance(*(neighborsList->getNode(k)->Data->point));
-                        // cout << "Distance: " << distance << endl;
-                        // cout << "New Distance: " << newDistance << endl;
                         if (newDistance < distance && newDistance != 0 && distance != 0)
                         { // update neighbors
                             list->addBefore(list->getNext(j), *(neighborsList->getNode(k)->Data));
-                            // list->addFirst(*(neighborsList->getNodeById(k)->Data));
                             list->remove(list->getNodeById(id));
-                            // neighborsList->remove_by_id(get_vertex(i).id);
-                            // get_adjacent_list(neighborsList->getNode(k)->id).addLast(*(neighborsList->getNode(k)->Data), neighborsList->getNode(k)->id);
                             count++;
                         }
                     }
@@ -169,6 +146,16 @@ DLL<T> &Graph<T>::get_adjacent_list(int id) const
 }
 
 template <typename T>
+int Graph<T>::get_adjacent_list_size(int id) const
+{
+    if (id > number_of_vertices || id < 0)
+    {
+        cerr << "Invalid adjacency list id" << endl;
+    }
+    return adjacency_list->operator[](id).size();
+}
+
+template <typename T>
 void Graph<T>::display_graph()
 { // for each vertex print adjacency graph
     for (int i = 0; i < number_of_vertices; i++)
@@ -193,27 +180,23 @@ void Graph<T>::bruteForce(int K)
 {   
     Vector<Pair<T>> *pairs;
     Pair<T> *p;
-    for (size_t i = 0; i < number_of_vertices; i++)
+    for (int i = 0; i < number_of_vertices; i++)
     {
         pairs = new Vector<Pair<T>>();
-        for (size_t j = 0; j < number_of_vertices; j++)
+        for (int j = 0; j < number_of_vertices; j++)
         {
             if (j != i)
             {
                 float dist = (&get_vertex(i))->point->euclideanDistance(*(get_vertex(j)).point);
-              //  cout << "distance of " << i << " and " << j << " is " << dist << endl;
                 p = new Pair<T>(dist, get_vertex(j));
                 pairs->push_back(*p);
             }
         }
 
         for (size_t t = 0; t < pairs->get_size(); t++)
-        {   
-           // cout << "in pairs: vector t " << t << " has distance " << pairs->operator[](t).distance << endl;
-            
+        {            
             for (size_t k = 0; k < pairs->get_size()-t-1; k++)
             {   
-                // cout << "in pairs: vector k " << k << " has distance " << pairs->operator[](k).distance << endl;
                 if (pairs->operator[](k).distance > pairs->operator[](k+1).distance)
                 {
                     float temp = pairs->operator[](k).distance;
@@ -232,12 +215,9 @@ void Graph<T>::bruteForce(int K)
             int id = get_vertex(i).id;
             cout << "pushing " << count << " in " << i << endl;
             cout << "distance " << pairs->operator[](count).distance << endl;
-            //pairs->operator[](count).v->point->display_vector();
             adjacency_list->operator[](id).addLast(*(pairs->operator[](count).v));
         }
-
         delete pairs;
-
     }    
     delete p;
 }

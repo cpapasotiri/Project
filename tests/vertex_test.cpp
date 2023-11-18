@@ -5,10 +5,9 @@ TEST_CASE("Vertex functionality tests", "[Vertex]")
 {
   SECTION("Testing creation using default constructor")
   {
-    Vertex<int> *vertex = new Vertex<int>(); 
-    REQUIRE(vertex->id == 0);
-    REQUIRE(vertex->point->get_size() == 0);
-    delete vertex;
+    Vertex<int> vertex;
+    REQUIRE(vertex.id == 0);
+    REQUIRE(vertex.point->get_size() == 0);
   }
 
   SECTION("Testing creation using copy constructor")
@@ -16,25 +15,33 @@ TEST_CASE("Vertex functionality tests", "[Vertex]")
 
   }
 
+  Vector<int> point1;
+  point1.push_back(1);
+  point1.push_back(2);
+  point1.push_back(3); 
+
+  Vector<int> point2;
+  point2.push_back(2);
+  point2.push_back(3);
+  point2.push_back(4);
+
   SECTION("Testing creation using parameterized constructor")
   {
-    Vector<int> *p = new Vector<int>();
-    p->push_back(1);
-    p->push_back(2);
-    p->push_back(3);
-    Vertex<int> *vertex = new Vertex<int>(11, p); 
-    REQUIRE(vertex->id == 11);
-    REQUIRE(vertex->point->get_size() == 3);
+    Vertex<int> vertex(11, &point1); 
+    REQUIRE(vertex.id == 11);
+    REQUIRE(vertex.point->get_size() == 3);
+  }
+  
+  SECTION("Testing operator ==")
+  {
+    REQUIRE(point1.operator==(point1) == true);
+    REQUIRE(point1.operator==(point2) == false);
   }
 
   SECTION("Testing operator =")
-  {
-
-  }
-
-  SECTION("Testing operator ==")
-  {
-
+  { // TODO or change or delete operator= implementation 
+    // point1.operator=(point2);
+    // REQUIRE(point1.operator==(point2) == true);
   }
 
   SECTION("Testing destructor to delete ")
