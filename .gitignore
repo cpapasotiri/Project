@@ -8,12 +8,13 @@
 !.gitignore
 !README.md
 !*.pdf
-!*.txt
 !*.png
 !*.bin
-!*.csv
 !*.tar.gz
-!*.cmake 
+
+# Include specific files
+!CMakeLists.txt
+!clean.cmake 
 
 # Include specific directories
 !datasets/
