@@ -60,7 +60,6 @@ int main(int argc, char *argv[])
 
     Graph<float> *graph = new Graph<float>();
     
-
     // Open the file for writing with read-write permissions, creating it if it doesn't exist
     int outfile = open(output_filepath, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR); 
     if (outfile == -1) 
@@ -90,7 +89,7 @@ int main(int argc, char *argv[])
     close(file);
 
     graph->display_graph();
-    graph->bruteForce(K);
+    graph->bruteForce(K);   // TODO: write calculations to binary file 
     graph->display_graph();
  
     // brute force algorithm calling
