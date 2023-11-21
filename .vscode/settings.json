@@ -26,5 +26,6 @@
         "cmath": "cpp",
         "cstring": "cpp",
         "thread": "cpp"
-    }
+    },
+    "cmake.configureOnOpen": false
 }
