@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-#include <string>
+#include <cstring>
 #include "DLL.hpp"
 #include "vertex.hpp"
 
@@ -25,11 +25,13 @@ private:
     int number_of_vertices;
     Vector<Vertex<T>> *vertices;    // vector of vertices
     Vector<DLL<T>> *adjacency_list; // vector of adjacency lists
+
     // use srand(time()) in main.cpp
     int generate_random_vertex_number(int min, int max);
+    float (Vector<T>::*distance_function)(const Vector<T>&); // pointer to distance function
 
 public:
-    Graph();
+    Graph(char* distance);
     ~Graph();
     void add_vertex(Vector<T> *p); // create a vertex
     void add_edges(int K);         // create K edges for each vertex

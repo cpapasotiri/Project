@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     create_output_filepath(filepath, distance, output_filepath, len);
     cout << "Output filepath: " << output_filepath << endl; 
 
-    Graph<float> *graph = new Graph<float>();
+    Graph<float> *graph = new Graph<float>(distance);
     
     // Open the file for writing with read-write permissions, creating it if it doesn't exist
     int outfile = open(output_filepath, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR); 

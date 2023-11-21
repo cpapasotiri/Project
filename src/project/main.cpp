@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
     double elapsed_time;
 
     // store file data to graph as vertices
-    Graph<float> *graph = new Graph<float>();
+    Graph<float> *graph = new Graph<float>(distance);
 
     start = clock();
     cout << "Reading " << N << " points" << endl;
@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
 
     // graph->display_graph();
 
-    // implementation of algorithm: running forever
+    // implementation of NN-Descent Algorithm
     graph->NNDescent();
 
     graph->display_graph();

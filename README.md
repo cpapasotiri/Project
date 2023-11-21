@@ -50,7 +50,12 @@
     ├── include/
     │   ├── *.hpp
     ├── src/
-    │   ├── *.cpp
+    │   ├── brute_force/
+    │   │   ├── *.cpp
+    │   ├── common/
+    │   │   ├── *.cpp
+    │   ├── project/
+    │   │   ├── *.cpp
     ├── templates/
     │   ├── *.tpp
     ├── tests/

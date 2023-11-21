@@ -17,11 +17,25 @@ Pair<T>::~Pair()
 {}
 
 template <typename T>
-Graph<T>::Graph()
+Graph<T>::Graph(char* distance)
 {
     number_of_vertices = 0;
     vertices = new Vector<Vertex<T>>();
     adjacency_list = new Vector<DLL<T>>();
+    if (strcmp(distance, "e") == 0)
+    {
+        cout << "Euclidean distance selected" << endl;
+        distance_function = &Vector<T>::euclideanDistance;
+    }
+    else if (strcmp(distance, "m") == 0)
+    {
+        cout << "Manhattan distance selected" << endl;
+        distance_function = &Vector<T>::manhattanDistance;
+    }
+    else
+    {
+        cerr << "Invalid distance type. Select e for euclidean or m for manhattan." << endl;
+    }
 }
 
 template <typename T>
@@ -93,19 +107,19 @@ void Graph<T>::NNDescent()
     while (count != 0)
     { // loop stops when the graph isnt changed
         count = 0;
-        for (int i = 0; i < number_of_vertices; i++) // for every vertex
-        {
-            DLL<T> *list = &get_adjacent_list(i); // get the list of neighbors
-            for (int j = 0; j < list->size(); j++) // for every neighbor
-            {
-                int id = list->getNode(j)->Data->id; // get the id of every neighbor
-                float distance = (&get_vertex(i))->point->euclideanDistance(*(list->getNode(j)->Data->point));
-                DLL<T> *neighborsList = &get_adjacent_list(id); // get the list of neighbors
+        for (int i = 0; i < number_of_vertices; i++) 
+        { // for every vertex
+            DLL<T> *list = &get_adjacent_list(i);   // get the list of neighbors
+            for (int j = 0; j < list->size(); j++) 
+            { // for every neighbor
+                int id = list->getNode(j)->Data->id;    // get the id of every neighbor
+                float distance = ((&get_vertex(i))->point->*distance_function)(*(list->getNode(j)->Data->point));
+                DLL<T> *neighborsList = &get_adjacent_list(id);     // get the list of neighbors
                 for (int k = 0; k < neighborsList->size(); k++)
                 {
                     if (list->search(neighborsList->getNode(k)->Data) == false)
                     {
-                        float newDistance = (&get_vertex(i))->point->euclideanDistance(*(neighborsList->getNode(k)->Data->point));
+                        float newDistance = ((&get_vertex(i))->point->*distance_function)(*(neighborsList->getNode(k)->Data->point));
                         if (newDistance < distance && newDistance != 0 && distance != 0)
                         { // update neighbors
                             list->addBefore(list->getNext(j), *(neighborsList->getNode(k)->Data));
