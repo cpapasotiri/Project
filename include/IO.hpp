@@ -3,10 +3,15 @@
 #include <iostream>
 #include <cstring>
 #include <fstream>
-
-// THESE FUNCTIONS WORKS PROPERLY ONLY BY USING BINARY EXTENSION FILES
+#include <sys/stat.h>
+// #include <sys/types.h>
 
 using namespace std;
+
+// create directory if it doesn't exist
+bool create_directory(const char* path);
+
+// THESE FUNCTIONS WORKS PROPERLY ONLY BY USING BINARY EXTENSION FILES:
 
 // extract filename from filepath and use distance type to create a new filename in output_filepath 
 // example: filepath = dataset/2dims.bin & distance = e => output_filepath = output/2dims_e.bin

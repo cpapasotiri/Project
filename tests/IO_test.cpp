@@ -2,6 +2,19 @@
 #include "IO.hpp"
 
 TEST_CASE("IO functionality tests", "[IO]"){
+    SECTION("Directory creation", "[create_directory]")
+    {
+        const char* dirpath = "test_directory";
+        REQUIRE(create_directory(dirpath) == true);
+    }
+
+    SECTION("Try to create an existing directory", "[create_directory]")
+    {
+        const char* dirpath = "test_directory";
+        REQUIRE(create_directory(dirpath) == true);     // first try to create
+        REQUIRE(create_directory(dirpath) == true);     // second try to create the same directory
+    }
+
     size_t len = 255;
     SECTION("Testing create output filepath using datasets/2dims.bin inputFile")
     {

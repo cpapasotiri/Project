@@ -1,11 +1,27 @@
 #include "IO.hpp"
 
-using namespace std;
+bool create_directory(const char* dirpath) 
+{
+    struct stat info;
+    bool directory_exists = (stat(dirpath, &info) == 0) && S_ISDIR(info.st_mode);
+    if(!directory_exists) 
+    {
+        if(mkdir(dirpath, 0777) == -1) 
+        {
+            cerr << "Error creating directory" << dirpath << endl;
+            return false;
+        }
+    }
+    return true;
+}
 
 void create_output_filepath(char* filepath, char* distance, char* output_filepath, size_t output_filepath_len) 
 {
     char output_directory[8] = "output/";
     char file_extension[5] = ".bin";
+
+    // create output/ if it doesn't exist
+    create_directory(output_directory); 
 
     // Find the last occurrence of the path separator ('/') to get the filename
     char* filenameStart = strrchr(filepath, '/');

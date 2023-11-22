@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
     // implementation of NN-Descent Algorithm
     graph->NNDescent();
 
-    graph->display_graph();
+    // graph->display_graph();
     end = clock();
     elapsed_time = double(end - start) / CLOCKS_PER_SEC;
     cout << "Elapsed time for everything: " << elapsed_time << endl;

@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     {
         cerr << "Error reading file" << endl;
         return 1;
-    }
+    }  
 
     // create output file
     size_t len = 256;
