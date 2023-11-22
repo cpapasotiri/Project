@@ -195,20 +195,20 @@ void Graph<T>::bruteForce(int K)
     Vector<Pair<T>> *pairs;
     Pair<T> *p;
     for (int i = 0; i < number_of_vertices; i++)
-    {
+    { // for every vertex
         pairs = new Vector<Pair<T>>();
         for (int j = 0; j < number_of_vertices; j++)
-        {
+        { // for every vertex except itself
             if (j != i)
-            {
+            { // calculate distance and save it as Pair
                 float dist = ((&get_vertex(i))->point->*distance_function)(*(get_vertex(j)).point);
                 p = new Pair<T>(dist, get_vertex(j));
                 pairs->push_back(*p);
             }
         }
-
+        
         for (size_t t = 0; t < pairs->get_size(); t++)
-        {            
+        { // sort pairs by distance            
             for (size_t k = 0; k < pairs->get_size()-t-1; k++)
             {   
                 if (pairs->operator[](k).distance > pairs->operator[](k+1).distance)
@@ -225,7 +225,7 @@ void Graph<T>::bruteForce(int K)
         }
 
         for (int count = 0; count < K; count++)
-        {
+        { // insert the first K pairs into the adjacency list
             int id = get_vertex(i).id;
             cout << "pushing " << count << " in " << i << endl;
             cout << "distance " << pairs->operator[](count).distance << endl;
