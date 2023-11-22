@@ -15,36 +15,69 @@ TEST_CASE("IO functionality tests", "[IO]"){
         REQUIRE(create_directory(dirpath) == true);     // second try to create the same directory
     }
 
-    size_t len = 255;
-    SECTION("Testing create output filepath using datasets/2dims.bin inputFile")
+    SECTION("Create output filepath using datasets/2dims.bin inputFile")
     {
-        char outputPath[len];
+        char outputPath[256];
         char distance[2] = "e";
-        create_output_filepath("datasets/2dims.bin", distance, outputPath, sizeof(outputPath));
-        REQUIRE(strcmp(outputPath, "output/2dims_e.bin") == 0);
+        char filepath[19] = "datasets/2dims.bin";
+        create_output_filepath(filepath, distance, outputPath, sizeof(outputPath));
+        REQUIRE(strcmp(outputPath, "output/2dims_neighbors_e.bin") == 0);
     }
 
-    SECTION("Testing create output filepath using datasets/00000020.bin inputFile")
+    SECTION("Create output filepath using datasets/00000020.bin inputFile")
     {
-        char outputPath[len];
+        char outputPath[256];
         char distance[2] = "m";
-        create_output_filepath("datasets/00000020.bin", distance, outputPath, sizeof(outputPath));
-        REQUIRE(strcmp(outputPath, "output/00000020_m.bin") == 0);
+        char filepath[22] = "datasets/00000020.bin";
+        create_output_filepath(filepath, distance, outputPath, sizeof(outputPath));
+        REQUIRE(strcmp(outputPath, "output/00000020_neighbors_m.bin") == 0);
     }
 
-    SECTION("Testing create output filepath using 2dims.bin inputFile")
+    SECTION("Create output filepath using 2dims.bin inputFile")
     {
-        char outputPath[len];
+        char outputPath[256];
         char distance[2] = "m";
-        create_output_filepath("2dims.bin", distance, outputPath, sizeof(outputPath));
-        REQUIRE(strcmp(outputPath, "output/2dims_m.bin") == 0);
+        char filepath[10] = "2dims.bin";
+        create_output_filepath(filepath, distance, outputPath, sizeof(outputPath));
+        REQUIRE(strcmp(outputPath, "output/2dims_neighbors_m.bin") == 0);
     }
 
-    SECTION("Testing create output filepath using include/2dims.bin inputFile")
+    SECTION("Create output filepath using include/2dims.bin inputFile")
     {
-        char outputPath[len];
+        char outputPath[256];
         char distance[2] = "e";
-        create_output_filepath("include/2dims.bin", distance, outputPath, sizeof(outputPath));
-        REQUIRE(strcmp(outputPath, "output/2dims_e.bin") == 0);
+        char filepath[18] = "include/2dims.bin";
+        create_output_filepath(filepath, distance, outputPath, sizeof(outputPath));
+        REQUIRE(strcmp(outputPath, "output/2dims_neighbors_e.bin") == 0);
+    }
+
+    SECTION("Open & close filepath", "[open_filepath close_filepath]")
+    {
+        const char* filepath = "datasets/2dims.bin";
+        int file = open_filepath(filepath, O_RDONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+        REQUIRE(file != -1);
+        close_filepath(file);
+    }
+
+    SECTION("Read from filepath", "[read_from_filepath]")
+    {
+        const char* filepath = "datasets/2dims.bin";
+        int file = open_filepath(filepath, O_RDONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+        REQUIRE(file != -1);
+        uint32_t N;
+        REQUIRE(read_from_filepath(file, &N, sizeof(uint32_t)) == sizeof(uint32_t));
+        REQUIRE(N == 40);
+        close_filepath(file);
+    }
+
+    SECTION("Write to filepath", "[write_to_filepath]")
+    {
+        const char* filepath = "test_write.bin";
+        int file = open_filepath(filepath, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+        REQUIRE(file != -1);
+        uint32_t N = 40;
+        REQUIRE(write_to_filepath(file, &N, sizeof(uint32_t)) == sizeof(uint32_t));
+        close_filepath(file);
+        remove(filepath);
     }
 }

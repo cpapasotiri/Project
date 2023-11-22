@@ -19,6 +19,7 @@ void create_output_filepath(char* filepath, char* distance, char* output_filepat
 {
     char output_directory[8] = "output/";
     char file_extension[5] = ".bin";
+    char neighbors[10] = "neighbors";
 
     // create output/ if it doesn't exist
     create_directory(output_directory); 
@@ -57,6 +58,14 @@ void create_output_filepath(char* filepath, char* distance, char* output_filepat
         strncpy(output_filepath + length, "_", 1);
         length += 1;
 
+        // Add "neighbors" to the filename
+        strncpy(output_filepath + length, neighbors, 9);
+        length += 9;
+
+        // Add "_" to the filename
+        strncpy(output_filepath + length, "_", 1);
+        length += 1;
+
         // Add distance type to the filename
         strncpy(output_filepath + length, distance, 1);
         length += 1;
@@ -68,4 +77,44 @@ void create_output_filepath(char* filepath, char* distance, char* output_filepat
         // Null-terminate the output_filepath string
         output_filepath[length] = '\0'; 
     }   
+}
+
+int open_filepath(const char* filepath, int flags, mode_t mode) 
+{
+    int fd = open(filepath, flags, mode);
+    if (fd == -1)
+    {
+        cerr << "Unable to open file" << endl;
+        return 1;
+    }
+    return fd;
+}
+
+void close_filepath(int fd)
+{
+    if (close(fd) == -1) 
+    {
+        cerr << "Error closing file" << endl;
+    }
+}
+
+size_t read_from_filepath(int fd, void* buf, size_t size) 
+{
+    size_t read_size = read(fd, buf, size);
+    if (size == (size_t)-1)
+    {
+        cerr << "Error reading file" << endl;
+        return 1;
+    }
+    return read_size;
+}
+
+int write_to_filepath(int fd, const void* buf, size_t size) 
+{
+    size_t write_size = write(fd, buf, size);
+    if (write_size == (size_t)-1) 
+    {
+        cerr << "Error writing to file: " << buf << endl;
+    }
+    return write_size;
 }

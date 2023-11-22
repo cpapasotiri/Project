@@ -227,9 +227,10 @@ void Graph<T>::bruteForce(int K)
         for (int count = 0; count < K; count++)
         { // insert the first K pairs into the adjacency list
             int id = get_vertex(i).id;
-            cout << "pushing " << count << " in " << i << endl;
-            cout << "distance " << pairs->operator[](count).distance << endl;
+            // cout << "pushing " << count << " in " << i << endl;
+            // cout << "distance " << pairs->operator[](count).distance << endl;
             adjacency_list->operator[](id).addLast(*(pairs->operator[](count).v));
+            // add to outputfilepath
         }
         delete pairs;
     }    
