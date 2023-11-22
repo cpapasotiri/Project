@@ -201,7 +201,7 @@ void Graph<T>::bruteForce(int K)
         {
             if (j != i)
             {
-                float dist = (&get_vertex(i))->point->euclideanDistance(*(get_vertex(j)).point);
+                float dist = ((&get_vertex(i))->point->*distance_function)(*(get_vertex(j)).point);
                 p = new Pair<T>(dist, get_vertex(j));
                 pairs->push_back(*p);
             }

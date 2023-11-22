@@ -88,9 +88,9 @@ int main(int argc, char *argv[])
     }
     close(file);
 
-    graph->display_graph();
+    // graph->display_graph();
     graph->bruteForce(K);   // TODO: write calculations to binary file 
-    graph->display_graph();
+    // graph->display_graph();
  
     // brute force algorithm calling
     // write distances to output_filepath file
