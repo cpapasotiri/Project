@@ -1,8 +1,6 @@
 #include <iostream>
 #include <cstring>
 #include <cstdint>
-#include <unistd.h>
-#include <fcntl.h>
 #include <ctime>
 
 #include "graph.hpp"
@@ -48,6 +46,7 @@ int main(int argc, char *argv[])
     if (read_from_filepath(file, &N, sizeof(uint32_t)) != sizeof(uint32_t))
     {
         cerr << "Error reading file" << endl;
+        close_filepath(file);
         return 1;
     }
 
@@ -96,6 +95,39 @@ int main(int argc, char *argv[])
 
     // implementation of NN-Descent Algorithm
     graph->NNDescent();
+
+    // open output file created by brute force  
+    char output_filepath[256];
+    create_output_filepath(filepath, distance, output_filepath, sizeof(output_filepath));
+    cout << "Output filepath: " << output_filepath << endl;
+    int output_file = open_filepath(output_filepath, O_RDONLY, S_IRUSR | S_IRGRP | S_IROTH);
+    
+    if (read_from_filepath(output_file, &K, sizeof(Pair<float>)) != sizeof(Pair<float>))
+    {
+        cerr << "Error reading output file" << endl;
+        close_filepath(output_file);
+        return 1;
+    }
+
+    // cout << "Reading " << N*K << "vertices" << endl;
+    // // for every k neighbors of every vertex compare 
+    // for (uint32_t i = 0; i < N; i++)
+    // {
+    //     Vector<float> *vector = new Vector<float>();
+    //     for (int j = 0; j < K; j++)
+    //     {
+    //         Vertex<float> *v = new Vertex<float>();
+    //         if (read_from_filepath(output_file, v, sizeof(Vertex<float>)) != sizeof(Vertex<float>))
+    //         {
+    //             cerr << "Error reading output file" << endl;
+    //             close_filepath(output_file);
+    //             return 1;
+    //         }
+    //         vector->push_back(v);
+    //     }
+    //     delete v;
+    // }
+    // close_filepath(output_file); 
 
     // graph->display_graph();
     end = clock();

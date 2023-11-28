@@ -69,21 +69,16 @@ int main(int argc, char *argv[])
     // create output file
     char output_filepath[256];
     create_output_filepath(filepath, distance, output_filepath, sizeof(output_filepath));
-    cout << "Output filepath: " << output_filepath << endl; 
-    
+        
     // Open the file for writing with read-write permissions, creating it if it doesn't exist
     int outfile = open_filepath(output_filepath, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR); 
 
     // graph->display_graph();
 
     // brute force algorithm calling
-    graph->bruteForce(K);   // TODO: write calculations to binary file 
+    graph->bruteForce(K, outfile);
     
     // graph->display_graph();
- 
-    // write distances to output_filepath file
-    char* test = "test insert to file";
-    write_to_filepath(outfile, test, sizeof(test));
     
     close_filepath(outfile);
 

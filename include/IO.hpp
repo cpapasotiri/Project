@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <cstring>
-#include <fstream>
+// #include <fstream>
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -22,7 +22,7 @@ void create_output_filepath(char* filepath, char* distance, char* output_filepat
 int open_filepath(const char* filepath, int flags, mode_t mode);
 
 // close filepath with file descriptor fd
-void close_filepath(int fd);
+int close_filepath(int fd);
 
 // read size into buf from file descriptor fd
 // returns -1 on error or 0 on success

@@ -190,7 +190,7 @@ int Graph<T>::generate_random_vertex_number(int min, int max)
 }
 
 template <typename T>
-void Graph<T>::bruteForce(int K)
+void Graph<T>::bruteForce(int K, int fd)
 {   
     Vector<Pair<T>> *pairs;
     Pair<T> *p;
@@ -225,14 +225,12 @@ void Graph<T>::bruteForce(int K)
         }
 
         for (int count = 0; count < K; count++)
-        { // insert the first K pairs into the adjacency list
+        { // insert the first K pairs into the adjacency list & write vertex into file
             int id = get_vertex(i).id;
-            // cout << "pushing " << count << " in " << i << endl;
-            // cout << "distance " << pairs->operator[](count).distance << endl;
             adjacency_list->operator[](id).addLast(*(pairs->operator[](count).v));
-            // add to outputfilepath
+            write_to_filepath(fd, pairs->operator[](count).v, sizeof(pairs->operator[](count).v));
         }
         delete pairs;
-    }    
+    }
     delete p;
 }

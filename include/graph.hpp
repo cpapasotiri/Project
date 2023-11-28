@@ -43,7 +43,7 @@ public:
     DLL<T> &get_adjacent_list(int id) const;  // get neighbors
     int get_adjacent_list_size(int id) const; // get neightbors crowd
     void display_graph();
-    void bruteForce(int K);
+    void bruteForce(int K, int fd);
 };
 
 #include "../templates/graph.tpp"

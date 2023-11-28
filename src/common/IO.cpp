@@ -90,12 +90,15 @@ int open_filepath(const char* filepath, int flags, mode_t mode)
     return fd;
 }
 
-void close_filepath(int fd)
-{
-    if (close(fd) == -1) 
+int close_filepath(int fd)
+{   
+    int f = close(fd);
+    if (f == -1) 
     {
         cerr << "Error closing file" << endl;
+        return 1;
     }
+    return f;
 }
 
 size_t read_from_filepath(int fd, void* buf, size_t size) 
