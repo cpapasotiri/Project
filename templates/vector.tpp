@@ -116,3 +116,17 @@ float Vector<T>::manhattanDistance(const Vector<T> &point2)
     }
     return distance;
 }
+
+template <typename T>
+bool Vector<T>::contains(T &element) 
+{
+    for (size_t i = 0; i < size; i++)
+    {
+        if (array[i] == element)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+

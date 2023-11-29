@@ -37,7 +37,7 @@ public:
     void add_edges(int K);         // create K edges for each vertex
     DLL<T> &KNN(Vector<T> *p);     // K nearest neighbors for a given point
     Vector<DLL<T>> &K_NN();        // K nearest neighbors for all points
-    void NNDescent();
+    void NNDescent(int K);
     int get_number_of_vertices() const;
     Vertex<T> &get_vertex(int id);
     DLL<T> &get_adjacent_list(int id) const;  // get neighbors

@@ -91,23 +91,25 @@ int main(int argc, char *argv[])
     elapsed_time = double(end - start) / CLOCKS_PER_SEC;
     cout << "Elapsed time for creation of graph adges: " << elapsed_time << endl;
 
-    // graph->display_graph();
+    //graph->display_graph();
 
     // implementation of NN-Descent Algorithm
-    graph->NNDescent();
+    graph->NNDescent(K);
+
+    //graph->display_graph();
 
     // open output file created by brute force  
-    char output_filepath[256];
-    create_output_filepath(filepath, distance, output_filepath, sizeof(output_filepath));
-    cout << "Output filepath: " << output_filepath << endl;
-    int output_file = open_filepath(output_filepath, O_RDONLY, S_IRUSR | S_IRGRP | S_IROTH);
+    // char output_filepath[256];
+    // create_output_filepath(filepath, distance, output_filepath, sizeof(output_filepath));
+    // cout << "Output filepath: " << output_filepath << endl;
+    // int output_file = open_filepath(output_filepath, O_RDONLY, S_IRUSR | S_IRGRP | S_IROTH);
     
-    if (read_from_filepath(output_file, &K, sizeof(Pair<float>)) != sizeof(Pair<float>))
-    {
-        cerr << "Error reading output file" << endl;
-        close_filepath(output_file);
-        return 1;
-    }
+    // if (read_from_filepath(output_file, &K, sizeof(Pair<float>)) != sizeof(Pair<float>))
+    // {
+    //     cerr << "Error reading output file" << endl;
+    //     close_filepath(output_file);
+    //     return 1;
+    // }
 
     // cout << "Reading " << N*K << "vertices" << endl;
     // // for every k neighbors of every vertex compare 

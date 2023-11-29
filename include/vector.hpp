@@ -26,6 +26,7 @@ public:
     void display_vector() const;
     float euclideanDistance(const Vector<T> &point2);
     float manhattanDistance(const Vector<T> &point2);
+    bool contains(T &element);
 };
 
 #include "../templates/vector.tpp"
