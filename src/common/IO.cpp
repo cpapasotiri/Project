@@ -20,6 +20,7 @@ void create_output_filepath(char* filepath, char* distance, char* output_filepat
     char output_directory[8] = "output/";
     char file_extension[5] = ".bin";
     char neighbors[10] = "neighbors";
+    char bar[2] = "_";
 
     // create output/ if it doesn't exist
     create_directory(output_directory); 
@@ -55,7 +56,7 @@ void create_output_filepath(char* filepath, char* distance, char* output_filepat
         }
 
         // Add "_" to the filename
-        strncpy(output_filepath + length, "_", 1);
+        strncpy(output_filepath + length, bar, 1);
         length += 1;
 
         // Add "neighbors" to the filename
@@ -63,7 +64,7 @@ void create_output_filepath(char* filepath, char* distance, char* output_filepat
         length += 9;
 
         // Add "_" to the filename
-        strncpy(output_filepath + length, "_", 1);
+        strncpy(output_filepath + length, bar, 1);
         length += 1;
 
         // Add distance type to the filename

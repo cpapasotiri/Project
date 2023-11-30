@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    //  measure the running time of ...
+    // measure the running time of ...
     clock_t start, end;
     double elapsed_time;
 
@@ -95,42 +95,39 @@ int main(int argc, char *argv[])
 
     // implementation of NN-Descent Algorithm
     graph->NNDescent(K);
-
+    cout << "N: here4 " << N << endl;
     //graph->display_graph();
 
     // open output file created by brute force  
-    // char output_filepath[256];
-    // create_output_filepath(filepath, distance, output_filepath, sizeof(output_filepath));
-    // cout << "Output filepath: " << output_filepath << endl;
-    // int output_file = open_filepath(output_filepath, O_RDONLY, S_IRUSR | S_IRGRP | S_IROTH);
+    char output_filepath[256];
+    create_output_filepath(filepath, distance, output_filepath, sizeof(output_filepath));
+    cout << "Output filepath: " << output_filepath << endl;
+    int output_file = open_filepath(output_filepath, O_RDONLY, S_IRUSR | S_IRGRP | S_IROTH);
+    int vertices;
+    if (read_from_filepath(output_file, &vertices, sizeof(Vertex<float>)) != sizeof(Vertex<float>))
+    {
+        cerr << "Error reading output file" << endl;
+        close_filepath(output_file);
+        return 1;
+    }
+
+    cout << "Reading " << vertices << " vertices" << endl;
+    // Compare k neighbors of every vertex from brute_force using 
+    Vertex<float> *vertex = new Vertex<float>();
+    for (uint32_t i = 0; i < N; i++)
+    {
+        for (int j = 0; j < K; j++)
+        {
+            if (read_from_filepath(output_file, vertex, sizeof(Vertex<float>)) != sizeof(Vertex<float>))
+            {
+                cerr << "Error reading output file" << endl;
+                close_filepath(output_file);
+                return 1;
+            }
+        }
+    }
+    close_filepath(output_file);
     
-    // if (read_from_filepath(output_file, &K, sizeof(Pair<float>)) != sizeof(Pair<float>))
-    // {
-    //     cerr << "Error reading output file" << endl;
-    //     close_filepath(output_file);
-    //     return 1;
-    // }
-
-    // cout << "Reading " << N*K << "vertices" << endl;
-    // // for every k neighbors of every vertex compare 
-    // for (uint32_t i = 0; i < N; i++)
-    // {
-    //     Vector<float> *vector = new Vector<float>();
-    //     for (int j = 0; j < K; j++)
-    //     {
-    //         Vertex<float> *v = new Vertex<float>();
-    //         if (read_from_filepath(output_file, v, sizeof(Vertex<float>)) != sizeof(Vertex<float>))
-    //         {
-    //             cerr << "Error reading output file" << endl;
-    //             close_filepath(output_file);
-    //             return 1;
-    //         }
-    //         vector->push_back(v);
-    //     }
-    //     delete v;
-    // }
-    // close_filepath(output_file); 
-
     // graph->display_graph();
     end = clock();
     elapsed_time = double(end - start) / CLOCKS_PER_SEC;

@@ -24,7 +24,7 @@ Graph<T>::Graph(char *distance)
 {
     number_of_vertices = 0;
     vertices = new Vector<Vertex<T>>();
-    adjacency_list = new Vector<DLL<T>>();
+    neighbors_list = new Vector<DLL<T>>();
     if (strcmp(distance, "e") == 0)
     {
         cout << "Euclidean distance selected" << endl;
@@ -45,7 +45,7 @@ template <typename T>
 Graph<T>::~Graph()
 {
     delete vertices;
-    delete adjacency_list;
+    delete neighbors_list;
 }
 
 // save vertex to vector and create a adjacency list for its neighbors
@@ -55,7 +55,7 @@ void Graph<T>::add_vertex(Vector<T> *p)
     Vertex<T> *vertex = new Vertex<T>(number_of_vertices, p);
     vertices->push_back(*vertex);
     DLL<T> *list = new DLL<T>();
-    adjacency_list->push_back(*list);
+    neighbors_list->push_back(*list);
     number_of_vertices++;
     delete list;
     delete vertex;
@@ -67,7 +67,7 @@ void Graph<T>::add_edges(int K)
 { // create K edges for each vertex
     for (int i = 0; i < number_of_vertices; i++)
     { // for each vertex
-        DLL<T> *current_list = &get_adjacent_list(i);
+        DLL<T> *current_list = &get_neighbors_list(i);
         Vertex<T> *current_vertex = &get_vertex(i);
 
         int edges_count = 0;
@@ -75,7 +75,7 @@ void Graph<T>::add_edges(int K)
         { // select K random numbers
             int random_vertex_id = generate_random_vertex_number(0, number_of_vertices - 1);
 
-            DLL<T> *random_list = &get_adjacent_list(random_vertex_id);
+            DLL<T> *random_list = &get_neighbors_list(random_vertex_id);
 
             // avoid self-connections and dublicate connections
             bool in_current_list = current_list->search(&get_vertex(random_vertex_id));
@@ -96,7 +96,7 @@ DLL<T> &Graph<T>::KNN(Vector<T> *p) // after the KNNG has been created, this fun
     {
         if ((get_vertex(i).point)->operator==(*p))
         {
-            return get_adjacent_list(i);
+            return get_neighbors_list(i);
         }
     }
 }
@@ -104,7 +104,7 @@ DLL<T> &Graph<T>::KNN(Vector<T> *p) // after the KNNG has been created, this fun
 template <typename T>
 Vector<DLL<T>> &Graph<T>::K_NN()
 {
-    return adjacency_list;
+    return neighbors_list;
 }
 
 template <typename T>
@@ -120,7 +120,7 @@ void Graph<T>::NNDescent(int K)
         for (int i = 0; i < number_of_vertices; i++)
         { // for every vertex
             pairs = new Vector<Pair<T>>();
-            DLL<T> *list = &get_adjacent_list(i);  // get the list of neighbors
+            DLL<T> *list = &get_neighbors_list(i);  // get the list of neighbors
             for (int j = 0; j < list->size(); j++) // for every neighbor
             {
                 int id = list->getNode(j)->Data->id; // get the id of every neighbor
@@ -131,7 +131,7 @@ void Graph<T>::NNDescent(int K)
                     pairs->push_back(*p1);
                 }
 
-                DLL<T> *neighborsList = &get_adjacent_list(id); // get the list of neighbors
+                DLL<T> *neighborsList = &get_neighbors_list(id); // get the list of neighbors
                 for (int k = 0; k < neighborsList->size(); k++)
                 {
                     if (list->search(neighborsList->getNode(k)->Data) == false)
@@ -212,23 +212,23 @@ Vertex<T> &Graph<T>::get_vertex(int id)
 }
 
 template <typename T>
-DLL<T> &Graph<T>::get_adjacent_list(int id) const
+DLL<T> &Graph<T>::get_neighbors_list(int id) const
 {
     if (id > number_of_vertices || id < 0)
     {
         cerr << "Invalid adjacency list id" << endl;
     }
-    return adjacency_list->operator[](id);
+    return neighbors_list->operator[](id);
 }
 
 template <typename T>
-int Graph<T>::get_adjacent_list_size(int id) const
+int Graph<T>::get_neighbors_list_size(int id) const
 {
     if (id > number_of_vertices || id < 0)
     {
         cerr << "Invalid adjacency list id" << endl;
     }
-    return adjacency_list->operator[](id).size();
+    return neighbors_list->operator[](id).size();
 }
 
 template <typename T>
@@ -240,7 +240,7 @@ void Graph<T>::display_graph()
         vertices->operator[](i).point->display_vector();
         cout << endl;
         cout << "neigbors are: " << endl;
-        adjacency_list->operator[](i).print();
+        neighbors_list->operator[](i).print();
         cout << endl
              << endl;
     }
@@ -253,7 +253,7 @@ int Graph<T>::generate_random_vertex_number(int min, int max)
 }
 
 template <typename T>
-void Graph<T>::bruteForce(int K, int fd)
+void Graph<T>::bruteForce(int K)
 {
     Vector<Pair<T>> *pairs;
     Pair<T> *p;
@@ -290,10 +290,29 @@ void Graph<T>::bruteForce(int K, int fd)
         for (int count = 0; count < K; count++)
         { // insert the first K pairs into the adjacency list & write vertex into file
             int id = get_vertex(i).id;
-            adjacency_list->operator[](id).addLast(*(pairs->operator[](count).v));
-            write_to_filepath(fd, pairs->operator[](count).v, sizeof(pairs->operator[](count).v));
+            neighbors_list->operator[](id).addLast(*(pairs->operator[](count).v));
+            // write_to_filepath(fd, pairs->operator[](count).v, sizeof(pairs->operator[](count).v));
         }
         delete pairs;
     }
     delete p;
+}
+
+template <typename T>
+bool Graph<T>::store_neighbors(int K, int fd)
+{
+    for (int i = 0; i < number_of_vertices; i++)
+    { // for every vertex
+        for (int j = 0; j < K; j++)
+        { // for every neighbor
+        int id = get_vertex(i).id;
+            Vertex<T> *v = neighbors_list->operator[](id).getNodeById(id)->Data;
+            if (write_to_filepath(fd, v, sizeof(Vertex<T>)) != sizeof(Vertex<T>))
+            {
+                cerr << "Error writing to output file" << endl;
+                return false;
+            }
+        }
+    }
+    return true;
 }

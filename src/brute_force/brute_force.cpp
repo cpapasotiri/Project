@@ -76,7 +76,10 @@ int main(int argc, char *argv[])
     // graph->display_graph();
 
     // brute force algorithm calling
-    graph->bruteForce(K, outfile);
+    graph->bruteForce(K);
+
+    bool result = graph->store_neighbors(K, outfile);
+    cout << result << endl;
     
     // graph->display_graph();
     

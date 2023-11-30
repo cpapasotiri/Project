@@ -107,7 +107,7 @@ TEST_CASE("Graph functionality tests", "[Graph]")
     graph.add_edges(K);
     // for (int i = 0; i < vertices; i++) 
     // {
-    //   REQUIRE(graph.get_adjacent_list_size(i) == K);
+    //   REQUIRE(graph.get_neighbors_list_size(i) == K);
     // }
 
     graph.NNDescent(K);
@@ -145,19 +145,24 @@ TEST_CASE("Graph functionality tests", "[Graph]")
     REQUIRE(vertex2.id == 2);
   }
 
-  SECTION("Testing get adjacency list by id")
+  SECTION("Testing get neighbors list by id")
   { // TODO
     // graph.add_vertex(&point0);
     // graph.add_vertex(&point1);
     // graph.add_vertex(&point2);
-    // DLL<int> list0 = graph.get_adjacent_list(0);
+    // DLL<int> list0 = graph.get_neighbors_list(0);
   }
 
-  SECTION("Testing get adjacency list size")
+  SECTION("Testing get neighbors list size")
   {
     graph.add_vertex(&point0);
-    REQUIRE(graph.get_adjacent_list_size(0) == 0);
+    REQUIRE(graph.get_neighbors_list_size(0) == 0);
     graph.add_vertex(&point1);
-    REQUIRE(graph.get_adjacent_list_size(1) == 0);
+    REQUIRE(graph.get_neighbors_list_size(1) == 0);
+  }
+
+  SECTION("Testing store neighbors in file")
+  { // TODO
+   
   }
 }

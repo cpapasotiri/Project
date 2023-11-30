@@ -24,7 +24,7 @@ class Graph
 private:
     int number_of_vertices;
     Vector<Vertex<T>> *vertices;    // vector of vertices
-    Vector<DLL<T>> *adjacency_list; // vector of adjacency lists
+    Vector<DLL<T>> *neighbors_list; // vector of adjacency lists
 
     // use srand(time()) in main.cpp
     int generate_random_vertex_number(int min, int max);
@@ -40,10 +40,11 @@ public:
     void NNDescent(int K);
     int get_number_of_vertices() const;
     Vertex<T> &get_vertex(int id);
-    DLL<T> &get_adjacent_list(int id) const;  // get neighbors
-    int get_adjacent_list_size(int id) const; // get neightbors crowd
-    void display_graph();
-    void bruteForce(int K, int fd);
+    DLL<T> &get_neighbors_list(int id) const;   // get neighbors
+    int get_neighbors_list_size(int id) const;  // get neightbors crowd
+    void display_graph();           // print graph
+    void bruteForce(int K);
+    bool store_neighbors(int K, int fd);        // store neighbors in file, returns true if successful or false otherwise
 };
 
 #include "../templates/graph.tpp"
