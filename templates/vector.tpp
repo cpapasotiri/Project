@@ -18,12 +18,8 @@ Vector<T>::Vector(const Vector<T> &other) : capacity(other.capacity), size(other
 
 template <typename T>
 Vector<T>::~Vector()
-{   
-    for (size_t i = 0; i < size; i++)
-    {
-        // array[i] = other.array[i];
-        array[i].~T();
-    }
+{
+    delete[] array;
 }
 
 template <typename T>
@@ -88,14 +84,6 @@ void Vector<T>::display_vector() const
     cout << endl;
 }
 
-template <typename T>
-void Vector<T>::clear()
-{
-    delete[] array;
-    capacity = 10;
-    size = 0;
-    array = new T[capacity];
-}
 
 template <typename T>
 float Vector<T>::euclideanDistance(const Vector<T> &point2)
@@ -128,3 +116,17 @@ float Vector<T>::manhattanDistance(const Vector<T> &point2)
     }
     return distance;
 }
+
+template <typename T>
+bool Vector<T>::contains(T &element) 
+{
+    for (size_t i = 0; i < size; i++)
+    {
+        if (array[i] == element)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+

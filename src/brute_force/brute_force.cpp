@@ -1,7 +1,5 @@
 #include <iostream>
 #include <cstring>
-#include <unistd.h>
-#include <fcntl.h>
 
 #include "graph.hpp"
 #include "vector.hpp"
@@ -38,70 +36,55 @@ int main(int argc, char *argv[])
     }
 
     char *filepath = argv[1]; // inputFile
-    int file = open(filepath, O_RDONLY);
-    if (file == -1)
-    {
-        cerr << "Unable to open file" << endl;
-        return 1;
-    }
+    int file = open_filepath(filepath, O_RDONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 
     uint32_t N;
-    if (read(file, &N, sizeof(uint32_t)) != sizeof(uint32_t))
+    if (read_from_filepath(file, &N, sizeof(uint32_t)) != sizeof(uint32_t))
     {
         cerr << "Error reading file" << endl;
         return 1;
-    }
+    }  
 
-    // create output file
-    size_t len = 255;
-    char output_filepath[len];
-    create_output_filepath(filepath, distance, output_filepath, len);
-    cout << "Output filepath: " << output_filepath << endl; 
-
-    Graph<float> *graph = new Graph<float>();
-    Vector<float> *data = new Vector<float>();
-
-    // Open the file for writing with read-write permissions, creating it if it doesn't exist
-    int outfile = open(output_filepath, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR); 
-    if (outfile == -1) 
-    {
-        cerr << "Unable to open file:" << output_filepath << endl;
-        return 1;
-    }
-
+    Graph<float> *graph = new Graph<float>(distance);
     cout << "Reading " << N << " points" << endl;
     for (uint32_t i = 0; i < N; i++)
-    {
+    {   
+        Vector<float> *data = new Vector<float>();
         for (int j = 0; j < dim; j++)
         {
             float fnum;
-            if (read(file, &fnum, sizeof(float)) != sizeof(float))
+            if (read_from_filepath(file, &fnum, sizeof(float)) != sizeof(float))
             {
                 cerr << "Error reading data" << endl;
-                close(file);
+                close_filepath(file);
                 return 1;
             }
             data->push_back(fnum);
         }
         graph->add_vertex(data);
-        data->clear();
+        delete data;
     }
-    close(file);
+    close_filepath(file);
 
-    delete data;
+    // create output file
+    char output_filepath[256];
+    create_output_filepath(filepath, distance, output_filepath, sizeof(output_filepath));
+        
+    // Open the file for writing with read-write permissions, creating it if it doesn't exist
+    int outfile = open_filepath(output_filepath, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR); 
 
-    graph->display_graph();
-    graph->bruteForce(K);
-    graph->display_graph();
- 
+    // graph->display_graph();
+
     // brute force algorithm calling
-    // write distances to output_filepath file
-    char* data = "test insert to file";
-    if (write(outfile, data, strlen(data)) == -1) 
-    {
-        std::cerr << "Error writing to file: " << output_filepath << endl;
-    }
-    close(outfile);
+    graph->bruteForce(K);
 
+    bool result = graph->store_neighbors(K, outfile);
+    cout << result << endl;
+    
+    // graph->display_graph();
+    
+    close_filepath(outfile);
+
+    delete graph;
     return 0;
 }
