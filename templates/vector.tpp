@@ -33,7 +33,7 @@ T &Vector<T>::operator[](size_t index)
 }
 
 template <typename T>
-bool Vector<T>::operator==(Vector<T> const &other)
+bool Vector<T>::operator==(Vector<T> &other)
 {
     for (size_t i = 0; i < size; i++)
     {

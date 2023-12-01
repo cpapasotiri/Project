@@ -44,7 +44,8 @@ public:
     int get_neighbors_list_size(int id) const;  // get neightbors crowd
     void display_graph();           // print graph
     void bruteForce(int K);
-    bool store_neighbors(int K, int fd);        // store neighbors in file, returns true if successful or false otherwise
+    int store_neighbors(int fd);        // store neighbors in file, returns true if successful or false otherwise
+    int compare_neighbors(int fd);       // read & compare neighbors from file, returns count of same neighbors if successful or -1 otherwise
 };
 
 #include "../templates/graph.tpp"

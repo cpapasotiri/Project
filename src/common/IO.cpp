@@ -86,7 +86,7 @@ int open_filepath(const char* filepath, int flags, mode_t mode)
     if (fd == -1)
     {
         cerr << "Unable to open file" << endl;
-        return 1;
+        return fd;
     }
     return fd;
 }
@@ -97,7 +97,7 @@ int close_filepath(int fd)
     if (f == -1) 
     {
         cerr << "Error closing file" << endl;
-        return 1;
+        return f;
     }
     return f;
 }
@@ -108,7 +108,7 @@ size_t read_from_filepath(int fd, void* buf, size_t size)
     if (size == (size_t)-1)
     {
         cerr << "Error reading file" << endl;
-        return 1;
+        return -1;
     }
     return read_size;
 }
@@ -119,6 +119,7 @@ int write_to_filepath(int fd, const void* buf, size_t size)
     if (write_size == (size_t)-1) 
     {
         cerr << "Error writing to file: " << buf << endl;
+        return -1;
     }
     return write_size;
 }

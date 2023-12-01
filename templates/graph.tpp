@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include "graph.hpp"
+#include "IO.hpp"
 
 using namespace std;
 
@@ -299,20 +300,105 @@ void Graph<T>::bruteForce(int K)
 }
 
 template <typename T>
-bool Graph<T>::store_neighbors(int K, int fd)
-{
-    for (int i = 0; i < number_of_vertices; i++)
+int Graph<T>::store_neighbors(int fd)
+{   
+    for (size_t i = 0; i < neighbors_list->get_size(); i++)
     { // for every vertex
-        for (int j = 0; j < K; j++)
-        { // for every neighbor
-        int id = get_vertex(i).id;
-            Vertex<T> *v = neighbors_list->operator[](id).getNodeById(id)->Data;
-            if (write_to_filepath(fd, v, sizeof(Vertex<T>)) != sizeof(Vertex<T>))
+        cout << "Vertex " << i << endl;
+        DLL<T> *neighbors = &get_neighbors_list(i);
+        for (int j = 0; j < neighbors->size(); j++)
+        { // for every neighbor write vertex into file
+            // Write vertex id 
+            Vertex<T> *vertex = neighbors->getNode(j)->Data;
+            int id = vertex->id;
+            if (write_to_filepath(fd, &id, sizeof(int)) != sizeof(int))
             {
-                cerr << "Error writing to output file" << endl;
-                return false;
+                cerr << "Error writing ID to file" << endl;
+                return -1;
             }
+            cout << "wrote id = " << id << endl;
+
+            // Write vector size 
+            size_t vector_size = vertex->point->get_size();
+            if (write_to_filepath(fd, &vector_size, sizeof(size_t)) != sizeof(size_t))
+            {
+                cerr << "Error writing vector size to file" << endl;
+                return -1;
+            }
+            cout << "Vector size: " << vector_size << endl;
+
+            // Write vector elements
+            for(size_t j = 0; j < vector_size; j++){
+                float element = vertex->point->operator[](j);
+                if (write_to_filepath(fd, &element, sizeof(float)) != sizeof(float))
+                {
+                    cerr << "Error writing vector data to file" << endl;
+                    return -1;
+                }
+                cout << "element = " <<  element << endl;
+            }
+            cout << endl;
         }
     }
-    return true;
+    return 0;
+}
+
+template <typename T>
+int Graph<T>::compare_neighbors(int fd)
+{   
+    int found = 0;
+    int count_vertices = 0;
+    for (int i = 0; i < number_of_vertices; i++)
+    { // for every vertex
+    cout << "vertex " << i << endl;
+        // Read vertex id
+        int id;
+        if (read_from_filepath(fd, &id, sizeof(int)) != sizeof(int)) 
+        {
+            cerr << "Error reading ID from file" << endl;
+            return -1;
+        }
+        cout << "read id = " << id << endl;
+
+        // Read vector size
+        size_t vector_size;
+        if (read_from_filepath(fd, &vector_size, sizeof(size_t)) != sizeof(size_t)) 
+        {
+            cerr << "Error reading vector size from file" << endl;
+            return -1;
+        }
+        cout << "vector_size = " << vector_size << endl;
+
+        // Read vector elements
+        Vector<float> *vector = new Vector<float>();
+        for (size_t j = 0; j < vector_size; j++)
+        {   
+            float vector_element;
+            if (read_from_filepath(fd, &vector_element, sizeof(float)) != sizeof(float))
+            {
+                cerr << "Error reading vector eleement from file" << endl;
+                return -1;
+            }
+            vector->push_back(vector_element);
+            cout << "element = " << vector_element << endl;
+            count_vertices++;
+        }
+        cout << endl;
+        Vertex<T> *vertex = new Vertex<T>(id, vector);
+
+        // search for vertex and increase found counter if found
+        DLL<T> *neighbors = &get_neighbors_list(i);
+        if (neighbors->search(vertex) == true)
+        {
+            found++;
+        }
+        delete vertex;
+        delete vector;
+    }
+
+    cout << "count of vertices = "  << count_vertices << endl;
+    cout << "found = " << found << endl;
+    
+    int success = ((float) found/ (float) count_vertices) * 100;
+    return success;
 }
