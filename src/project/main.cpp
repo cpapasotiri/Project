@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
     Graph<float> *graph = new Graph<float>(distance);
 
     start = clock();
-    cout << "Reading " << N << " points from " << file << endl;
+    cout << "Reading " << N << " points from " << filepath << endl;
     for (uint32_t i = 0; i < N; i++)
     {
         Vector<float> *data = new Vector<float>();
@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
 
     end = clock();
     elapsed_time = double(end - start) / CLOCKS_PER_SEC;
-    cout << "Elapsed time for creation of graph adges: " << elapsed_time << endl;
+    cout << "Elapsed time for creation of graph neighbors: " << elapsed_time << endl;
 
     // graph->display_graph();
 
@@ -102,10 +102,10 @@ int main(int argc, char *argv[])
     graph->NNDescent(K);
 
 
-    // open output file created by brute force
+    // open for reading output file created by brute force
     char output_filepath[256];
     create_output_filepath(filepath, distance, output_filepath, sizeof(output_filepath));
-    cout << "Output filepath: " << output_filepath << endl;
+    cout << endl <<  "Output filepath: " << output_filepath << endl;
     int output_file = open_filepath(output_filepath, O_RDONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
     if (output_file == -1) 
     {
@@ -115,13 +115,17 @@ int main(int argc, char *argv[])
     }
 
 
-    graph->display_graph();
+    // graph->display_graph();
     cout << "Reading vertices from outfile" << endl;
     // Compare k neighbors of every vertex from brute_force using
     int success = graph->compare_neighbors(output_file);
     cout << "NN-Descend was " << success << "% successful!" << endl;
 
-    close_filepath(output_file);
+    if (close_filepath(output_file))
+    {
+        cerr << "Error closing outfile" << endl;
+        return -1;
+    }
 
     end = clock();
     elapsed_time = double(end - start) / CLOCKS_PER_SEC;

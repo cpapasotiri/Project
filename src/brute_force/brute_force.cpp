@@ -74,9 +74,9 @@ int main(int argc, char *argv[])
     // create output file
     char output_filepath[256];
     create_output_filepath(filepath, distance, output_filepath, sizeof(output_filepath));
-        
-    // Open the file for writing with read-write permissions, creating it if it doesn't exist
-    int outfile = open_filepath(output_filepath, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR); 
+    cout << "output file : " << output_filepath << endl;
+    // Open the output file for writing 
+    int outfile = open_filepath(output_filepath, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH); 
     if (outfile == -1) 
     {
         cerr << "Error opening outfile" << endl;
@@ -92,9 +92,13 @@ int main(int argc, char *argv[])
     graph->store_neighbors(outfile);
     
     // graph->display_graph();
-    
-    close_filepath(outfile);
-
     delete graph;
+    if (close_filepath(outfile))
+    {
+        cerr << "Error closing outfile" << endl;
+        return -1;
+    }
+
+    
     return 0;
 }

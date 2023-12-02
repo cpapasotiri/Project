@@ -25,7 +25,8 @@
         "vector": "cpp",
         "cmath": "cpp",
         "cstring": "cpp",
-        "thread": "cpp"
+        "thread": "cpp",
+        "new": "cpp"
     },
     "cmake.configureOnOpen": false
 }

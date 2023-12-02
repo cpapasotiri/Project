@@ -2,12 +2,14 @@
 
 #include <iostream>
 #include <cstring>
-// #include <fstream>
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 
 using namespace std;
+
+// 
+// int main_args_validator(int argc, char *argv, int dimensions, int K, char *distance, char *filepath);
 
 // create directory if it doesn't exist
 bool create_directory(const char* path);
