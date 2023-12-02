@@ -121,7 +121,7 @@ void Graph<T>::NNDescent(int K)
         for (int i = 0; i < number_of_vertices; i++)
         { // for every vertex
             pairs = new Vector<Pair<T>>();
-            DLL<T> *list = &get_neighbors_list(i);  // get the list of neighbors
+            DLL<T> *list = &get_neighbors_list(i); // get the list of neighbors
             for (int j = 0; j < list->size(); j++) // for every neighbor
             {
                 int id = list->getNode(j)->Data->id; // get the id of every neighbor
@@ -301,14 +301,14 @@ void Graph<T>::bruteForce(int K)
 
 template <typename T>
 int Graph<T>::store_neighbors(int fd)
-{   
+{
     for (size_t i = 0; i < neighbors_list->get_size(); i++)
     { // for every vertex
         cout << "Vertex " << i << endl;
         DLL<T> *neighbors = &get_neighbors_list(i);
         for (int j = 0; j < neighbors->size(); j++)
         { // for every neighbor write vertex into file
-            // Write vertex id 
+            // Write vertex id
             Vertex<T> *vertex = neighbors->getNode(j)->Data;
             int id = vertex->id;
             if (write_to_filepath(fd, &id, sizeof(int)) != sizeof(int))
@@ -318,7 +318,7 @@ int Graph<T>::store_neighbors(int fd)
             }
             cout << "wrote id = " << id << endl;
 
-            // Write vector size 
+            // Write vector size
             size_t vector_size = vertex->point->get_size();
             if (write_to_filepath(fd, &vector_size, sizeof(size_t)) != sizeof(size_t))
             {
@@ -328,14 +328,15 @@ int Graph<T>::store_neighbors(int fd)
             cout << "Vector size: " << vector_size << endl;
 
             // Write vector elements
-            for(size_t j = 0; j < vector_size; j++){
+            for (size_t j = 0; j < vector_size; j++)
+            {
                 float element = vertex->point->operator[](j);
                 if (write_to_filepath(fd, &element, sizeof(float)) != sizeof(float))
                 {
                     cerr << "Error writing vector data to file" << endl;
                     return -1;
                 }
-                cout << "element = " <<  element << endl;
+                cout << "element = " << element << endl;
             }
             cout << endl;
         }
@@ -345,60 +346,62 @@ int Graph<T>::store_neighbors(int fd)
 
 template <typename T>
 int Graph<T>::compare_neighbors(int fd)
-{   
+{
     int found = 0;
     int count_vertices = 0;
     for (int i = 0; i < number_of_vertices; i++)
     { // for every vertex
-    cout << "vertex " << i << endl;
-        // Read vertex id
-        int id;
-        if (read_from_filepath(fd, &id, sizeof(int)) != sizeof(int)) 
+        DLL<T> *neighbors = &get_neighbors_list(i);
+        cout << "vertex " << i << endl;
+        for (int k = 0; k < neighbors->size(); k++)
         {
-            cerr << "Error reading ID from file" << endl;
-            return -1;
-        }
-        cout << "read id = " << id << endl;
-
-        // Read vector size
-        size_t vector_size;
-        if (read_from_filepath(fd, &vector_size, sizeof(size_t)) != sizeof(size_t)) 
-        {
-            cerr << "Error reading vector size from file" << endl;
-            return -1;
-        }
-        cout << "vector_size = " << vector_size << endl;
-
-        // Read vector elements
-        Vector<float> *vector = new Vector<float>();
-        for (size_t j = 0; j < vector_size; j++)
-        {   
-            float vector_element;
-            if (read_from_filepath(fd, &vector_element, sizeof(float)) != sizeof(float))
+            // Read vertex id
+            int id;
+            if (read_from_filepath(fd, &id, sizeof(int)) != sizeof(int))
             {
-                cerr << "Error reading vector eleement from file" << endl;
+                cerr << "Error reading ID from file" << endl;
                 return -1;
             }
-            vector->push_back(vector_element);
-            cout << "element = " << vector_element << endl;
-            count_vertices++;
-        }
-        cout << endl;
-        Vertex<T> *vertex = new Vertex<T>(id, vector);
+            cout << "read id = " << id << endl;
 
-        // search for vertex and increase found counter if found
-        DLL<T> *neighbors = &get_neighbors_list(i);
-        if (neighbors->search(vertex) == true)
-        {
-            found++;
+            // Read vector size
+            size_t vector_size;
+            if (read_from_filepath(fd, &vector_size, sizeof(size_t)) != sizeof(size_t))
+            {
+                cerr << "Error reading vector size from file" << endl;
+                return -1;
+            }
+            cout << "vector_size = " << vector_size << endl;
+
+            // Read vector elements
+            Vector<float> *vector = new Vector<float>();
+            for (size_t j = 0; j < vector_size; j++)
+            {
+                float vector_element;
+                if (read_from_filepath(fd, &vector_element, sizeof(float)) != sizeof(float))
+                {
+                    cerr << "Error reading vector eleement from file" << endl;
+                    return -1;
+                }
+                vector->push_back(vector_element);
+                cout << "element = " << vector_element << endl;
+            }
+            cout << endl;
+            Vertex<T> *vertex = new Vertex<T>(id, vector);
+            count_vertices++;
+            // search for vertex and increase found counter if found
+            if (neighbors->search(vertex) == true)
+            {
+                found++;
+            }
+            delete vertex;
+            delete vector;
         }
-        delete vertex;
-        delete vector;
     }
 
-    cout << "count of vertices = "  << count_vertices << endl;
+    cout << "count of vertices = " << count_vertices << endl;
     cout << "found = " << found << endl;
-    
-    int success = ((float) found/ (float) count_vertices) * 100;
+
+    int success = ((float)found / (float)count_vertices) * 100;
     return success;
 }
