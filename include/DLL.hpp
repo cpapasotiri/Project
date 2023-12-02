@@ -11,6 +11,7 @@ class DLL
     struct Node
     {
         Vertex<T> *Data;
+        bool flag;
         Node *Next;
         Node *Prev;
         Node(const Vertex<T> &data);
