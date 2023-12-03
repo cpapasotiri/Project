@@ -8,35 +8,19 @@
 using namespace std;
 
 int main(int argc, char *argv[])
-{
-    if (argc != 5)
+{   
+    // validate main arguments
+    char input_filepath[256], distance[2];
+    int dimensions, K;
+    if (main_args_validator(argc, argv, input_filepath, &dimensions, &K, distance) == -1)
     {
-        cerr << "Usage: " << argv[0] << " <filepath> <dimensions> <K nearest neighbors> <distance type e or m>" << endl;
+        cerr << "Error validating main arguments" << endl;
         return -1;
     }
+    cout << "input_filepath: " << input_filepath << ", dimensions = " << dimensions << ", K = " << K << ", distance = " <<  distance << endl;
 
-    int dim = atoi(argv[2]);  // dimensions of point
-    if (dim <= 0)
-    {
-        cerr << "Invalid dimensions" << endl;
-        return -1;
-    }
-
-    int K = atoi(argv[3]);    // K nearest neighbors
-    if(K <= 0)
-    {
-        cerr << "Invalid K" << endl;
-        return -1;
-    }
-
-    char *distance = argv[4]; // distance type
-    if (strcmp(distance, "e") != 0 && strcmp(distance, "m") != 0){
-        cerr << "Invalid distance type. Select e for euclidean or m for manhattan." << endl;
-        return -1;
-    }
-
-    char *filepath = argv[1]; // inputFile
-    int file = open_filepath(filepath, O_RDONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+    // open for reading input file
+    int file = open_filepath(input_filepath, O_RDONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
     if (file == -1) 
     {
         cerr << "Error opening input file" << endl;
@@ -55,7 +39,7 @@ int main(int argc, char *argv[])
     for (uint32_t i = 0; i < N; i++)
     {   
         Vector<float> *data = new Vector<float>();
-        for (int j = 0; j < dim; j++)
+        for (int j = 0; j < dimensions; j++)
         {
             float fnum;
             if (read_from_filepath(file, &fnum, sizeof(float)) != sizeof(float))
@@ -73,11 +57,11 @@ int main(int argc, char *argv[])
 
     // create output file
     char output_filepath[256];
-    create_output_filepath(filepath, distance, output_filepath, sizeof(output_filepath));
-    cout << "output file : " << output_filepath << endl;
+    create_output_filepath(input_filepath, distance, K, output_filepath, sizeof(output_filepath));
+
     // Open the output file for writing 
     int outfile = open_filepath(output_filepath, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH); 
-    if (outfile == -1) 
+    if (outfile == -1)
     {
         cerr << "Error opening outfile" << endl;
         delete graph;

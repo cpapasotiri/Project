@@ -1,5 +1,38 @@
 #include "IO.hpp"
 
+int main_args_validator(int argc, char* argv[], char *input_filepath, int* dimensions, int* K, char *distance)
+{
+    if (argc != 5)
+    {
+        cerr << "Usage: " << argv[0] << " <filepath> <dimensions> <K nearest neighbors> <distance type e or m>" << endl;
+        return -1;
+    }
+
+    strncpy(input_filepath, argv[1], strlen(argv[1])); // inputFile
+
+    *dimensions = atoi(argv[2]); // dimensions of point
+    if (*dimensions <= 0)
+    {
+        cerr << "Invalid dimensions" << endl;
+        return -1;
+    }
+
+    *K = atoi(argv[3]); // K nearest neighbors
+    if (*K <= 0)
+    {
+        cerr << "Invalid K number of nearest neighbors" << endl;
+        return -1;
+    }
+
+    strncpy(distance, argv[4], strlen(argv[4])); // distance type
+    if (strcmp(distance, "e") != 0 && strcmp(distance, "m") != 0)
+    {
+        cerr << "Invalid distance type. Select e for euclidean or m for manhattan." << endl;
+        return -1;
+    }
+    return 0;
+}
+
 bool create_directory(const char* dirpath) 
 {
     struct stat info;
@@ -15,12 +48,15 @@ bool create_directory(const char* dirpath)
     return true;
 }
 
-void create_output_filepath(char* filepath, char* distance, char* output_filepath, size_t output_filepath_len) 
+void create_output_filepath(char* filepath, char* distance, int K, char* output_filepath, size_t output_filepath_len) 
 {
     char output_directory[8] = "output/";
     char file_extension[5] = ".bin";
-    char neighbors[10] = "neighbors";
     char bar[2] = "_";
+
+    int k_len = get_int_len(K);
+    char* k_str = static_cast<char*>(malloc(k_len + 1));
+    int_to_str(K, k_str, k_len);
 
     // create output/ if it doesn't exist
     create_directory(output_directory); 
@@ -32,8 +68,7 @@ void create_output_filepath(char* filepath, char* distance, char* output_filepat
     if (filenameStart != nullptr) 
     {
         filenameStart += 1; // Move past the '/'
-    }
-    else 
+    } else 
     {
         filenameStart = filepath;
     }
@@ -42,42 +77,32 @@ void create_output_filepath(char* filepath, char* distance, char* output_filepat
     size_t length = strlen(filenameStart);
 
     if (length + strlen(output_directory) < output_filepath_len) {
-        // Add "output/" to the output_filepath array
-        strncpy(output_filepath, output_directory, strlen(output_directory));
-        output_filepath += strlen(output_directory);
+        // Copy "output/" to the output_filepath array
+        strncpy(output_filepath, output_directory, output_filepath_len);
 
         // Append the remaining part of the original path
-        strncpy(output_filepath, filenameStart, length);
+        strncat(output_filepath, filenameStart, output_filepath_len - strlen(output_directory));
 
-        // Remove the file extension ".bin" if it exists
-        if (length >= 4 && strncmp(output_filepath + length - 4, file_extension, 4) == 0) 
-        {
-            length -= 4;
+        // Find the position of the last dot ('.') character
+        char* dot = strrchr(output_filepath, '.');
+
+        // If a dot is found and it is not the first character, insert text before it
+        if (dot != nullptr && dot != output_filepath) {
+            *dot = '\0'; // Truncate the string at the dot position
         }
 
-        // Add "_" to the filename
-        strncpy(output_filepath + length, bar, 1);
-        length += 1;
-
-        // Add "neighbors" to the filename
-        strncpy(output_filepath + length, neighbors, 9);
-        length += 9;
-
-        // Add "_" to the filename
-        strncpy(output_filepath + length, bar, 1);
-        length += 1;
-
-        // Add distance type to the filename
-        strncpy(output_filepath + length, distance, 1);
-        length += 1;
-
-        // Add the file extension ".bin"
-        strncpy(output_filepath + length, file_extension, 4);
-        length += 4;
+        // Add "_K_distance.bin" to the filename
+        strncat(output_filepath, bar, strlen(bar));
+        strncat(output_filepath, k_str, strlen(k_str));
+        strncat(output_filepath, bar, strlen(bar));
+        strncat(output_filepath, distance, strlen(distance));
+        strncat(output_filepath, file_extension, strlen(file_extension));
 
         // Null-terminate the output_filepath string
-        output_filepath[length] = '\0'; 
+        output_filepath[output_filepath_len - 1] = '\0';
     }   
+
+    free(k_str);
 }
 
 int open_filepath(const char* filepath, int flags, mode_t mode) 
@@ -122,4 +147,39 @@ int write_to_filepath(int fd, const void* buf, size_t size)
         return -1;
     }
     return write_size;
+}
+
+int get_int_len(int number) 
+{   
+    int length = 0;
+
+    if (number == 0) 
+    { 
+        length++;
+        return length;
+    }
+    
+    int temp = abs(number); // Use abs to handle negative numbers
+    while (temp > 0) 
+    {   
+        temp /= 10;
+        length++;
+    }
+    return length;
+}
+
+void int_to_str(int number, char* str, int lenght) {
+    // Null-terminate the string
+    str[lenght] = '\0';
+
+    // Fill the string with digits
+    for (int i = lenght - 1; i >= 0; i--) {
+        str[i] = '0' + (abs(number) % 10); // Use abs to handle negative numbers
+        number /= 10;
+    }
+
+    // Handle the sign for negative numbers
+    if (number < 0) {
+        str[0] = '-';
+    }
 }
