@@ -8,7 +8,7 @@ int main_args_validator(int argc, char* argv[], char *input_filepath, int* dimen
         return -1;
     }
 
-    strncpy(input_filepath, argv[1], strlen(argv[1])); // inputFile
+    strcpy(input_filepath, argv[1]); // inputFile
 
     *dimensions = atoi(argv[2]); // dimensions of point
     if (*dimensions <= 0)

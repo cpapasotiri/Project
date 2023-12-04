@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
     elapsed_time = double(end - start) / CLOCKS_PER_SEC;
     cout << "Elapsed time for creation of graph neighbors: " << elapsed_time << endl;
 
-    // graph->display_graph();
+   // graph->display_graph();
 
     // implementation of NN-Descent Algorithm
     graph->NNDescent(K);
@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
     }
 
 
-    // graph->display_graph();
+   // graph->display_graph();
     cout << "Reading vertices from outfile" << endl;
     // Compare k neighbors of every vertex from brute_force using
     int success = graph->compare_neighbors(output_file);
