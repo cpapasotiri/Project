@@ -15,6 +15,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
+          
       - name: Install GCC 9.4.0
         run: sudo apt-get install -y g++-9
       - name: Update alternatives to use GCC 9.4.0
@@ -25,13 +26,14 @@ jobs:
           mkdir $HOME/cmake
           wget -qO- "https://github.com/Kitware/CMake/releases/download/v3.16.3/cmake-3.16.3-Linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C $HOME/cmake
           export PATH=$HOME/cmake/bin:$PATH
+
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Set up CMake
-        uses: actions/setup-cmake@v2
+        uses: actions/setup-cmake@v3
         with:
-          cmake-version: 3.16
+          cmake-version: 3.16.3
       
       - name: Configure & Build
         run: |
