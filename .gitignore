@@ -30,4 +30,4 @@
 # Include specific file for testing using Gitthub Actions
 !.github/
 !workflows/
-!run_tests.yml
+!allTests.yml
