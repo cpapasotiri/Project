@@ -11,6 +11,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set up GCC 9.4.0
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install GCC 9.4.0
+        run: sudo apt-get install -y g++-9
+      - name: Update alternatives to use GCC 9.4.0
+        run: sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 90
+  
+      - name: Set up CMake 3.16.3
+        run: |
+          mkdir $HOME/cmake
+          wget -qO- "https://github.com/Kitware/CMake/releases/download/v3.16.3/cmake-3.16.3-Linux-x86_64.tar.gz" | tar --strip-components=1 -xz -C $HOME/cmake
+          export PATH=$HOME/cmake/bin:$PATH
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -19,11 +33,10 @@ jobs:
         with:
           cmake-version: 3.16
       
-      - name: Configure CMake
-        run: cmake .
-      
-      - name: Build
-        run: cmake --build .
+      - name: Configure & Build
+        run: |
+          cmake .
+          cmake --build .
 
       - name: Run tests
         run: ./allTests
