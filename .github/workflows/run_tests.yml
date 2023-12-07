@@ -11,17 +11,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v2
-  
-      - name: Set up CMake
-        run: sudo apt-get install -y cmake
-  
-      - name: Configure
-        run: cmake .
-  
-      - name: Build
-        run: cmake --build .
-  
-      - name: Run Tests
-        run: allTests  
+        with:
+          ref: ${{ github.head_ref }}
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Set up C++ environment
+        uses: actions/setup-cpp@v2
+        with:
+          compiler: clang
+          cpp-version: '9.4'
+
+      - name: Build project
+        run: cmake . && cmake --build .
+
+      - name: Run tests
+        run: make allTests
