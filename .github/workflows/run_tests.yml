@@ -33,4 +33,4 @@ jobs:
         run: cmake . && cmake --build .
 
       - name: Run tests
-        run: make allTests
+        run: ./allTests
