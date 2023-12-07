@@ -140,11 +140,12 @@ void Graph<T>::NNDescent(int K)
                 }
 
                 DLL<T> *neighborsListOfj = &get_neighbors_list(id);
-                for (int k = 0; k < list->size(); k++)
+                for (int k = 0; k < list->size() - 1; k++)
                 {
                     int id2 = list->getNode(k)->Data->id;
-                    int id3 = list->getNode(k+1)->Data->id;
+                    int id3 = list->getNode(k + 1)->Data->id;
                     DLL<T> *neighborsListOfk = &get_neighbors_list(id2);
+                    DLL<T> *neighborsListOfkplus = &get_neighbors_list(id3);
                     if ((list->getNodeById(id)->flag == true || list->getNodeById(id2)->flag == true) && (id != id2))
                     {
 
@@ -156,30 +157,46 @@ void Graph<T>::NNDescent(int K)
                         // if (d1 < d2 && d2 != 0)
                         // {
                         //   int counterId = neighborsListOfj->getNode(counter1)->Data->id;
-                        if (neighborsListOfj->search(list->getNodeById(id2)->Data) == false)
+                        if (d1 < d2)
                         {
-                            neighborsListOfj->addFirst(*list->getNodeById(id2)->Data);
-                            // neighborsListOfj->addBefore(neighborsListOfj->getNodeById(counterId), *list->getNodeById(id2)->Data);
-                        }
-                        //   }
-                        // }
+                            if (neighborsListOfj->search(list->getNodeById(id2)->Data) == false)
+                            {
+                                neighborsListOfj->addFirst(*list->getNodeById(id2)->Data);
+                                // neighborsListOfj->addBefore(neighborsListOfj->getNodeById(counterId), *list->getNodeById(id2)->Data);
+                            }
+                            //   }
+                            // }
 
-                        //   d1 = (list->getNodeById(id2)->Data->point->*distance_function)(*(list->getNodeById(id)->Data->point));
-                        //   for (int counter2 = 0; counter2 < neighborsListOfk->size(); counter2++)
-                        //   {
-                        //       float d2 = (list->getNodeById(id2)->Data->point->*distance_function)(*(neighborsListOfk->getNode(counter2)->Data->point));
-                        //       if (d1 < d2 && d2 != 0)
-                        //       {
-                        // int counterId = neighborsListOfk->getNode(counter2)->Data->id;
-                        if (neighborsListOfk->search(list->getNodeById(id)->Data) == false)
-                        {
-                            neighborsListOfk->addFirst(*list->getNodeById(id)->Data);
-                            // neighborsListOfk->addBefore(neighborsListOfk->getNodeById(counterId), *list->getNodeById(id)->Data);
+                            //   d1 = (list->getNodeById(id2)->Data->point->*distance_function)(*(list->getNodeById(id)->Data->point));
+                            //   for (int counter2 = 0; counter2 < neighborsListOfk->size(); counter2++)
+                            //   {
+                            //       float d2 = (list->getNodeById(id2)->Data->point->*distance_function)(*(neighborsListOfk->getNode(counter2)->Data->point));
+                            //       if (d1 < d2 && d2 != 0)
+                            //       {
+                            // int counterId = neighborsListOfk->getNode(counter2)->Data->id;
+                            if (neighborsListOfk->search(list->getNodeById(id)->Data) == false)
+                            {
+                                neighborsListOfk->addFirst(*list->getNodeById(id)->Data);
+                                // neighborsListOfk->addBefore(neighborsListOfk->getNodeById(counterId), *list->getNodeById(id)->Data);
+                            }
+                            //   }
+                            //  }
+                            // list->getNodeById(id)->flag = false; // Change the flag of the vertex after Local Join
+                            // list->getNodeById(id2)->flag = false;
                         }
-                        //   }
-                        //  }
-                        // list->getNodeById(id)->flag = false; // Change the flag of the vertex after Local Join
-                        // list->getNodeById(id2)->flag = false;
+                        else if (d2 < d1)
+                        {
+                            if (neighborsListOfj->search(list->getNodeById(id3)->Data) == false)
+                            {
+                                neighborsListOfj->addFirst(*list->getNodeById(id3)->Data);
+                                // neighborsListOfj->addBefore(neighborsListOfj->getNodeById(counterId), *list->getNodeById(id2)->Data);
+                            }
+                            if (neighborsListOfkplus->search(list->getNodeById(id)->Data) == false)
+                            {
+                                neighborsListOfkplus->addFirst(*list->getNodeById(id)->Data);
+                                // neighborsListOfk->addBefore(neighborsListOfk->getNodeById(counterId), *list->getNodeById(id)->Data);
+                            }
+                        }
                     }
                 }
             }
