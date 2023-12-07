@@ -23,6 +23,10 @@
         "algorithm": "cpp",
         "deque": "cpp",
         "vector": "cpp",
-        "cmath": "cpp"
-    }
+        "cmath": "cpp",
+        "cstring": "cpp",
+        "thread": "cpp",
+        "new": "cpp"
+    },
+    "cmake.configureOnOpen": false
 }

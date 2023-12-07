@@ -8,15 +8,21 @@
 !.gitignore
 !README.md
 !*.pdf
-!*.txt
 !*.png
 !*.bin
-!*.csv
 !*.tar.gz
+
+# Include specific files
+!CMakeLists.txt
+!clean.cmake 
 
 # Include specific directories
 !datasets/
 !include/
+!output/
 !src/
+!common/
+!project/
+!brute_force/
 !templates/
 !tests/
