@@ -7,7 +7,7 @@ on:
       - working
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,11 +29,6 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Set up CMake
-        uses: actions/setup-cmake@v3
-        with:
-          cmake-version: 3.16.3
       
       - name: Configure & Build
         run: |
