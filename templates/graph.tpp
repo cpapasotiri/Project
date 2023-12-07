@@ -156,9 +156,8 @@ void Graph<T>::NNDescent(int K)
                                 int counterId = neighborsListOfj->getNode(counter1)->Data->id;
                                 if (neighborsListOfj->search(list->getNodeById(id2)->Data) == false)
                                 {
-                                    neighborsListOfj->addBefore(neighborsListOfj->getNodeById(counterId),*list->getNodeById(id2)->Data);
+                                    neighborsListOfj->addBefore(neighborsListOfj->getNodeById(counterId), *list->getNodeById(id2)->Data);
                                     neighborsListOfj->remove(neighborsListOfj->getNodeById(counterId));
-                                    list->getNodeById(id2)->flag = false;
                                 }
                             }
                         }
@@ -172,13 +171,13 @@ void Graph<T>::NNDescent(int K)
                                 int counterId = neighborsListOfk->getNode(counter2)->Data->id;
                                 if (neighborsListOfk->search(list->getNodeById(id)->Data) == false)
                                 {
-                                    neighborsListOfk->addBefore(neighborsListOfk->getNodeById(counterId),*list->getNodeById(id)->Data);
+                                    neighborsListOfk->addBefore(neighborsListOfk->getNodeById(counterId), *list->getNodeById(id)->Data);
                                     neighborsListOfk->remove(neighborsListOfk->getNodeById(counterId));
-                                    list->getNodeById(id)->flag = false;  // Change the flag of the vertex after Local Join
                                 }
                             }
                         }
-                        
+                        // list->getNodeById(id)->flag = false; // Change the flag of the vertex after Local Join
+                        // list->getNodeById(id2)->flag = false;
                     }
                 }
             }
