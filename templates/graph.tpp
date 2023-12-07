@@ -181,8 +181,6 @@ void Graph<T>::NNDescent(int K)
                             }
                             //   }
                             //  }
-                            // list->getNodeById(id)->flag = false; // Change the flag of the vertex after Local Join
-                            // list->getNodeById(id2)->flag = false;
                         }
                         else if (d2 < d1)
                         {
@@ -197,6 +195,8 @@ void Graph<T>::NNDescent(int K)
                                 // neighborsListOfk->addBefore(neighborsListOfk->getNodeById(counterId), *list->getNodeById(id)->Data);
                             }
                         }
+                        list->getNodeById(id)->flag = false; // Change the flag of the vertex after Local Join
+                        list->getNodeById(id2)->flag = false;
                     }
                 }
             }
