@@ -12,6 +12,9 @@
 !*.bin
 !*.tar.gz
 
+# Include specific executable
+!allTests
+
 # Include specific files
 !CMakeLists.txt
 !clean.cmake 
