@@ -1,0 +1,28 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up CMake
+        uses: actions/setup-cmake@v2
+        with:
+          cmake-version: 3.16
+      
+      - name: Configure CMake
+        run: cmake .
+      
+      - name: Build
+        run: cmake --build .
+
+      - name: Run tests
+        run: ./allTests

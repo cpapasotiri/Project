@@ -26,3 +26,8 @@
 !brute_force/
 !templates/
 !tests/
+
+# Include specific file for testing using Gitthub Actions
+!.github/
+!workflows/
+!allTests.yml
