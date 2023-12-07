@@ -24,6 +24,8 @@ jobs:
       - name: Set up C++ environment
         uses: actions/setup-cpp@v2
         with:
+          repository: actions/setup-cpp
+          version: v2
           compiler: clang
           cpp-version: '9.4'
 
