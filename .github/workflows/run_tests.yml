@@ -24,9 +24,9 @@ jobs:
       - name: Set up C++ environment
         uses: actions/setup-cpp@v2
         with:
-          repository: actions/setup-cpp
           compiler: clang
           cpp-version: '9.4'
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Build project
         run: cmake . && cmake --build .
