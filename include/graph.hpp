@@ -25,6 +25,7 @@ private:
     int number_of_vertices;
     Vector<Vertex<T>> *vertices;    // vector of vertices
     Vector<DLL<T>> *neighbors_list; // vector of adjacency lists
+    Vector<DLL<T>> *reverseNeighbors_list; // vector of reverse neighbors
 
     // use srand(time()) in main.cpp
     int generate_random_vertex_number(int min, int max);
