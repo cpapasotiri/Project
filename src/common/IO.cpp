@@ -49,7 +49,7 @@ int main_args_validator(int argc, char* argv[], char *input_filepath, int* dimen
     }
     cout << "K = " << *K << endl;
 
-    strncpy(distance, argv[4], strlen(argv[4])); // distance type
+    strcpy(distance, argv[4]); // distance type
     if (strcmp(distance, "e") != 0 && strcmp(distance, "m") != 0)
     {
         cerr << "Invalid distance type. Select e for euclidean or m for manhattan." << endl;

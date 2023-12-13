@@ -13,9 +13,9 @@ using namespace std;
 int main(int argc, char *argv[])
 {   
     // validate main arguments
-    char input_filepath[256], distance[2];
+    char input_filepath[256], distance[3];
     int dimensions, K, delta = 0;
-    float p = 0;
+    float p = 0.0;
     if (main_args_validator(argc, argv, input_filepath, &dimensions, &K, distance, &delta, &p) != 0)
     {
         cerr << "Error validating main arguments" << endl;

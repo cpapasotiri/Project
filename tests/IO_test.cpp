@@ -2,6 +2,48 @@
 #include "IO.hpp"
 
 TEST_CASE("IO functionality tests", "[IO]"){
+    SECTION("Valid input for brute_force - 5 arguments") 
+    {
+        char* dummy_argv[] = {(char*)"./brute_force", (char*)"datasets/2dims.bin", (char*)"2", (char*)"2", (char*)"e"};
+        char input_filepath[256], distance[2];
+        int dimensions, K, delta = 0;
+        float p = 0.0;
+        REQUIRE(main_args_validator(5, dummy_argv, input_filepath, &dimensions, &K, distance, &delta, &p) == 0);
+        // Add additional REQUIRE statements to validate the expected values
+        REQUIRE(strcmp(input_filepath, "datasets/2dims.bin") == 0);
+        REQUIRE(dimensions == 2);
+        REQUIRE(K == 2);
+        REQUIRE(strcmp(distance, "e") == 0);
+        // not used here
+        REQUIRE(delta == 0);
+        REQUIRE(p == (float)0.0);
+    }
+
+    SECTION("Valid input for project - 7 arguments") 
+    {
+        char* dummy_argv[] = {(char*)"./project", (char*)"datasets/2dims.bin", (char*)"3", (char*)"3", (char*)"e", (char*)"5", (char*)"0.1"};
+        char input_filepath[256], distance[2];
+        int dimensions, K, delta = 0;
+        float p = 0.0;
+        REQUIRE(main_args_validator(7, dummy_argv, input_filepath, &dimensions, &K, distance, &delta, &p) == 0);
+        // Add additional REQUIRE statements to validate the expected values
+        REQUIRE(strcmp(input_filepath, "datasets/2dims.bin") == 0);
+        REQUIRE(dimensions == 3);
+        REQUIRE(K == 3);
+        REQUIRE(strcmp(distance, "e") == 0);
+        REQUIRE(delta == 5);
+        REQUIRE(p == (float)0.1);
+    }
+
+    SECTION("Invalid number of arguments - 4 arguments") 
+    {
+        char* dummy_argv[] = {(char*)"./brute_force", (char*)"datasets/2dims.bin", (char*)"2", (char*)"2"};
+        char input_filepath[256], distance[2];
+        int dimensions, K, delta = 0;
+        float p = 0;
+        REQUIRE(main_args_validator(4, dummy_argv, input_filepath, &dimensions, &K, distance, &delta, &p) == -1);
+    }
+
     SECTION("Directory creation", "[create_directory]")
     {
         const char* dirpath = "test_directory";
