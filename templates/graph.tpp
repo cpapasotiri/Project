@@ -360,6 +360,16 @@ int Graph<T>::get_neighbors_list_size(int id) const
 }
 
 template <typename T>
+int Graph<T>::get_reverseNeighbors_list_size(int id) const
+{
+    if (id > number_of_vertices || id < 0)
+    {
+        cerr << "Invalid adjacency list id" << endl;
+    }
+    return reverseNeighbors_list->operator[](id).size();
+}
+
+template <typename T>
 void Graph<T>::display_graph()
 { // for each vertex print adjacency graph
     for (int i = 0; i < number_of_vertices; i++)

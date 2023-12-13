@@ -42,13 +42,14 @@ public:
     void NNDescent(int K);
     int get_number_of_vertices() const;
     Vertex<T> &get_vertex(int id);
-    DLL<T> &get_neighbors_list(int id) const;   // get neighbors
-    DLL<T> &get_reverseNeighbors_list(int id) const; //get reverse neighbors
-    int get_neighbors_list_size(int id) const;  // get neightbors crowd
+    DLL<T> &get_neighbors_list(int id) const;           // get neighbors
+    DLL<T> &get_reverseNeighbors_list(int id) const;    //get reverse neighbors
+    int get_neighbors_list_size(int id) const;          // get neightbors crowd
+    int get_reverseNeighbors_list_size(int id) const;   // get reverse neightbors crowd
     void display_graph();           // print graph
     void bruteForce(int K);
-    int store_neighbors(int fd);        // store neighbors in file, returns true if successful or false otherwise
-    int compare_neighbors(int fd);       // read & compare neighbors from file, returns count of same neighbors if successful or -1 otherwise
+    int store_neighbors(int fd);    // store neighbors in file, returns true if successful or false otherwise
+    int compare_neighbors(int fd);  // read & compare neighbors from file, returns count of same neighbors if successful or -1 otherwise
 };
 
 #include "../templates/graph.tpp"
