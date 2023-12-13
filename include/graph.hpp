@@ -16,6 +16,7 @@ struct Pair
     Pair(float dist, Vertex<T> &v);
     Pair();
     ~Pair();
+    bool operator==(Pair<T> &other);
 };
 
 template <typename T>
@@ -42,6 +43,7 @@ public:
     int get_number_of_vertices() const;
     Vertex<T> &get_vertex(int id);
     DLL<T> &get_neighbors_list(int id) const;   // get neighbors
+    DLL<T> &get_reverseNeighbors_list(int id) const; //get reverse neighbors
     int get_neighbors_list_size(int id) const;  // get neightbors crowd
     void display_graph();           // print graph
     void bruteForce(int K);

@@ -2,11 +2,11 @@
 #include "graph.hpp"
 
 TEST_CASE("Graph functionality tests", "[Graph]")
-{ 
+{
   char distance[2] = "e";
   Graph<int> graph(distance);
 
-   Vector<int> point0;
+  Vector<int> point0;
   point0.push_back(0);
   point0.push_back(1);
 
@@ -77,7 +77,6 @@ TEST_CASE("Graph functionality tests", "[Graph]")
 
   SECTION("Testing destructor")
   { // TODO
-   
   }
 
   SECTION("Add vertices and edges to test NN-Descent algorithm")
@@ -105,24 +104,25 @@ TEST_CASE("Graph functionality tests", "[Graph]")
 
     int K = 2;
     graph.add_edges(K);
-    // for (int i = 0; i < vertices; i++) 
-    // {
-    //   REQUIRE(graph.get_neighbors_list_size(i) == K);
-    // }
+    for (int i = 0; i < vertices; i++)
+    {
+      REQUIRE(graph.get_neighbors_list_size(i) == K);
+    }
 
     graph.NNDescent(K);
-    
+    for (int i = 0; i < vertices; i++)
+    {
+      REQUIRE(graph.get_neighbors_list_size(i) == K);
+    }
     // REQUIRE(NNDescent)
   }
 
   SECTION("Testing K Nearest Neighbors for a given point")
   { // TODO
-   
   }
 
   SECTION("Testing K Nearest Neighbors for all points")
   { // TODO
-   
   }
 
   SECTION("Testing get number of vertices")
@@ -163,6 +163,5 @@ TEST_CASE("Graph functionality tests", "[Graph]")
 
   SECTION("Testing store neighbors in file")
   { // TODO
-   
   }
 }

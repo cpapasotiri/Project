@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
     // implementation of NN-Descent Algorithm
     graph->NNDescent(K);
 
-
+    //graph->display_graph();
     // open for reading output file created by brute force
     char output_filepath[256];
     create_output_filepath(input_filepath, distance, K, output_filepath, sizeof(output_filepath));
