@@ -1,14 +1,37 @@
 #include "IO.hpp"
 
-int main_args_validator(int argc, char* argv[], char *input_filepath, int* dimensions, int* K, char *distance)
-{
-    if (argc != 5)
+int main_args_validator(int argc, char* argv[], char *input_filepath, int* dimensions, int* K, char *distance, int* delta, float* p)
+{   
+    // hold only the executable name
+    const char* executable_name = strrchr(argv[0], '/');
+    if (executable_name != nullptr) 
+    {
+        executable_name += 1; // Move past the '/'
+    } else 
+    {
+        executable_name = argv[0];
+    }
+
+    // check number of arguments
+    if (argc != 5 && argc != 7)
+    {
+        cerr << "Wrong number of arguments" << endl;
+        return -1;
+    }
+
+    // check if arguments are valid for the given executable
+    if (argc != 5 && strcmp(executable_name, "brute_force") == 0)
     {
         cerr << "Usage: " << argv[0] << " <filepath> <dimensions> <K nearest neighbors> <distance type e or m>" << endl;
+        return -1;
+    } else if (argc != 7 && strcmp(executable_name, "project") == 0)
+    {
+        cerr << "Usage: " << argv[0] << " <filepath> <dimensions> <K nearest neighbors> <distance type e or m> <delta> <p>" << endl;
         return -1;
     }
 
     strcpy(input_filepath, argv[1]); // inputFile
+    cout << "input_filepath = " << input_filepath << endl;
 
     *dimensions = atoi(argv[2]); // dimensions of point
     if (*dimensions <= 0)
@@ -16,6 +39,7 @@ int main_args_validator(int argc, char* argv[], char *input_filepath, int* dimen
         cerr << "Invalid dimensions" << endl;
         return -1;
     }
+    cout << "dimensions = " << *dimensions << endl;
 
     *K = atoi(argv[3]); // K nearest neighbors
     if (*K <= 0)
@@ -23,6 +47,7 @@ int main_args_validator(int argc, char* argv[], char *input_filepath, int* dimen
         cerr << "Invalid K number of nearest neighbors" << endl;
         return -1;
     }
+    cout << "K = " << *K << endl;
 
     strncpy(distance, argv[4], strlen(argv[4])); // distance type
     if (strcmp(distance, "e") != 0 && strcmp(distance, "m") != 0)
@@ -30,6 +55,28 @@ int main_args_validator(int argc, char* argv[], char *input_filepath, int* dimen
         cerr << "Invalid distance type. Select e for euclidean or m for manhattan." << endl;
         return -1;
     }
+    cout << "distance = " <<  distance << endl;
+
+    if (argc == 7)
+    {
+        *delta = atoi(argv[5]); // delta
+        if (*delta <= 0)
+        {
+            cerr << "Invalid delta" << endl;
+            return -1;
+        }
+        cout << "delta = " << *delta << endl;
+
+        *p = atof(argv[6]); // p
+        if (*p <= 0)
+        {
+            cerr << "Invalid p" << endl;
+            return -1;
+        }
+        cout << "p = " << *p << endl;
+    }
+    cout << endl;
+
     return 0;
 }
 

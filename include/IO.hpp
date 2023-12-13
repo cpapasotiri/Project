@@ -10,7 +10,10 @@
 using namespace std;
 
 // main arguments validator
-int main_args_validator(int argc, char* argv[], char *input_filepath, int* dimensions, int* K, char *distance);
+// brute_force executable: <filepath> <dimensions> <K nearest neighbors> <distance type e or m>
+// project executable: <filepath> <dimensions> <K nearest neighbors> <distance type e or m> <delta> <p>
+// returns -1 on error or 0 on success
+int main_args_validator(int argc, char* argv[], char *input_filepath, int* dimensions, int* K, char *distance, int* delta, float* p);
 
 // create directory if it doesn't exist
 bool create_directory(const char* path);

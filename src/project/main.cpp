@@ -14,14 +14,14 @@ int main(int argc, char *argv[])
 {   
     // validate main arguments
     char input_filepath[256], distance[2];
-    int dimensions, K;
-    if (main_args_validator(argc, argv, input_filepath, &dimensions, &K, distance) != 0)
+    int dimensions, K, delta = 0;
+    float p = 0;
+    if (main_args_validator(argc, argv, input_filepath, &dimensions, &K, distance, &delta, &p) != 0)
     {
         cerr << "Error validating main arguments" << endl;
         return -1;
     }
-    cout << "input_filepath: " << input_filepath << ", dimensions = " << dimensions << ", K = " << K << ", distance = " <<  distance << endl;
-    
+
     // open for reading input file
     int file = open_filepath(input_filepath, O_RDONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
     if (file == -1) 
