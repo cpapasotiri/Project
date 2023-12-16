@@ -20,7 +20,7 @@ bool create_directory(const char* path);
 
 // THIS FUNCTION WORKS PROPERLY ONLY BY USING BINARY EXTENSION FILES:
 // extract filename from filepath and use distance type to create a new filename in output_filepath 
-// example: filepath = dataset/2dims.bin & distance = e => output_filepath = output/2dims_e.bin
+// example: filepath = dataset/2dims.bin, neighbors = X, distance = e => output_filepath = output/2dims_X_e.bin
 // result stored in output_filepath
 void create_output_filepath(char* filepath, char* distance, int K, char* output_filepath, size_t output_filepath_len);
 
