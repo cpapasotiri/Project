@@ -79,7 +79,7 @@ bool Queue<T>::contains(T &element)
 }
 
 template <typename T>
-void Queue<T>::enqueue(const T &data)
+void Queue<T>::enqueue(T* data)
 {
     Node *newNode = new Node(data);
     if(is_empty())
@@ -115,32 +115,30 @@ void Queue<T>::dequeue()
 }
 
 template <typename T>
-T Queue<T>::front_value() const
+T* Queue<T>::front_value() const
 {
     if (is_empty())
     {
         cerr << "Queue is empty, no front value" << endl;
-        return false;
+        return nullptr;
     }
 
     return front->data;
 }
 
 template <typename T>
-T Queue<T>::peek(size_t position) const
+T* Queue<T>::peek(size_t position) const
 {
     if (is_empty())
     {
         cerr << "Queue is empty, no front value" << endl;
-        // return numeric_limits<T>::max();
-        return false;
+        return nullptr;
     }
 
     if (position >= size)
     {
         cerr << "Position is out of bounds" << endl;
-        // return numeric_limits<T>::max();
-        return false;
+        return nullptr;
     }
 
     Node *current = front;
@@ -180,8 +178,9 @@ void Queue<T>::print()
 
     Node *current = front;
     while (current != nullptr)
-    {
-        cout << current->data << " ";
+    {   
+        cout << (*current->data).get_id(); // Assuming T is always a pointer to Job<int>
+        cout << " ";
         current = current->next;
     }
     cout << endl;

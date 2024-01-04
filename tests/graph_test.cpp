@@ -6,7 +6,7 @@ TEST_CASE("Graph functionality tests", "[Graph]")
   char distance[2] = "e";
   Graph<int> graph(distance);
 
-   Vector<int> point0;
+  Vector<int> point0;
   point0.push_back(0);
   point0.push_back(1);
 

@@ -4,22 +4,14 @@
 
 using namespace std;
 
-// template <typename T>
-// struct Node
-// {
-    // T data;
-    // Node *next;
-    // Node(const T &data) : data(data), next(nullptr) {};  
-// };
-
 template <typename T>
 class Queue
 {
     struct Node
     {
-        T data;
-        Node *next;
-        Node(const T &data) : data(data), next(nullptr) {};  
+        T* data;
+        Node* next;
+        Node(T* data) : data(data), next(nullptr) {};  
     };
     size_t size;
     Node *front;
@@ -27,15 +19,15 @@ class Queue
 
 public:
     Queue();
-    Queue(const Queue<T> &other);
+    Queue(const Queue<T>& other);
     ~Queue();
-    Queue<T>& operator=(const Queue<T> &other);
+    Queue<T>& operator=(const Queue<T>& other);
     bool is_empty() const;
     bool contains(T &element);
-    void enqueue(const T &data);
+    void enqueue(T* data);
     void dequeue();
-    T front_value() const;
-    T peek(size_t position) const;
+    T* front_value() const;
+    T* peek(size_t position) const;
     size_t get_size() const;
     typename Queue<T>::Node *get_front() const;
     typename Queue<T>::Node *get_rear() const;
