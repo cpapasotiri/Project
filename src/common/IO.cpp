@@ -12,13 +12,6 @@ int main_args_validator(int argc, char* argv[], char *input_filepath, int* dimen
         executable_name = argv[0];
     }
 
-    // check number of arguments
-    if (argc != 5 && argc != 7)
-    {
-        cerr << "Wrong number of arguments" << endl;
-        return -1;
-    }
-
     // check if arguments are valid for the given executable
     if (argc != 5 && strcmp(executable_name, "brute_force") == 0)
     {
