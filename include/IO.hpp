@@ -24,6 +24,9 @@ bool create_directory(const char* path);
 // result stored in output_filepath
 void create_output_filepath(char* filepath, char* distance, int K, char* output_filepath, size_t output_filepath_len);
 
+// check if the output filepath contains the given distance type
+bool is_distance_type_in_output_filepath(char* filepath, char* distance);
+
 // open filepath using flags and mode
 int open_filepath(const char* filepath, int flags, mode_t mode);
 

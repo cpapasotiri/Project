@@ -52,14 +52,6 @@ int main_args_validator(int argc, char* argv[], char *input_filepath, int* dimen
 
     if (argc == 7)
     {
-        // check if the input filepath contains the given distance type
-        const char* distance_in_filepath = strstr(input_filepath, distance);
-        if (distance_in_filepath != nullptr) 
-        {
-            cerr << "Invalid distance type. The input filepath doesn't contain the input distance type." << endl;
-            return -1;
-        }
-
         *delta = atoi(argv[5]); // delta
         if (*delta <= 0)
         {
@@ -151,6 +143,33 @@ void create_output_filepath(char* filepath, char* distance, int K, char* output_
     }   
 
     free(k_str);
+}
+
+bool is_distance_type_in_output_filepath(char* filepath, char* distance)
+{   
+    // calculate distance length 
+    size_t distance_len = strlen(distance);
+
+    // allocate memory for modified distance type
+    char* modified_distance = new char[distance_len + 3];
+
+    // add underscores before and after the distance type
+    modified_distance[0] = '_';
+    strcpy(modified_distance + 1, distance);
+    modified_distance[distance_len + 2] = '\0';
+
+    // check if the modified distance type is present in the filepath
+    char* distance_in_filepath = strstr(filepath, modified_distance);
+    
+    // cleanup allocated memory
+    delete[] modified_distance;
+
+    if (distance_in_filepath == nullptr) 
+    {
+        cerr << "Invalid distance type. The output filepath doesn't contain the input distance type." << endl;
+        return false;
+    }
+    return true;
 }
 
 int open_filepath(const char* filepath, int flags, mode_t mode) 

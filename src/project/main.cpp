@@ -89,6 +89,14 @@ int main(int argc, char *argv[])
     char output_filepath[256];
     create_output_filepath(input_filepath, distance, K, output_filepath, sizeof(output_filepath));
 
+    // check that the output filepath contains the input distance type
+    if (!is_distance_type_in_output_filepath(output_filepath, distance))
+    {
+        cerr << "Error: The output filepath " << output_filepath << " doesn't contains the specified distance type " << distance << "." << endl;
+        delete graph;
+        return -1;
+    }
+
     int output_file = open_filepath(output_filepath, O_RDONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
     if (output_file == -1) 
     {
@@ -96,7 +104,6 @@ int main(int argc, char *argv[])
         delete graph;
         return -1;
     }
-
 
    // graph->display_graph();
     cout << "Reading vertices from outfile" << endl;

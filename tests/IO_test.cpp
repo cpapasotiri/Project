@@ -108,6 +108,32 @@ TEST_CASE("IO functionality tests", "[IO]"){
         REQUIRE(strcmp(outputPath, "output/2dims_2_e.bin") == 0);
     }
 
+    SECTION("Check if output filepath contains the given distance type - Valid input distance type")
+    {
+        char filepath_e[256] = "output/2dims_2_e.bin";
+        char distance_e[2] = "e";
+        // Ensure that the 'e' is in the filepath
+        REQUIRE(is_distance_type_in_output_filepath(filepath_e, distance_e) == true);
+
+        char filepath_m[256] = "output/2dims_2_m.bin";
+        char distance_m[2] = "m";
+        // Ensure that the 'm' is in the filepath
+        REQUIRE(is_distance_type_in_output_filepath(filepath_m, distance_m) == true);
+    }
+
+    SECTION("Check if output filepath contains the given distance type - Invalid input distance type")
+    {
+        char filepath_e[256] = "output/2dims_2_e.bin";
+        char distance_m[2] = "m";
+        // Ensure that the specified distance type 'e' isn't in the filepath
+        REQUIRE(is_distance_type_in_output_filepath(filepath_e, distance_m) == false);
+
+        char filepath_m[256] = "output/2dims_2_m.bin";
+        char distance_e[2] = "e";        
+        // Ensure that the specified distance type 'm' isn't in the filepath
+        REQUIRE(is_distance_type_in_output_filepath(filepath_m, distance_e) == false);
+    }
+
     SECTION("Open & close filepath", "[open_filepath close_filepath]")
     {
         const char* filepath = "datasets/2dims.bin";
