@@ -52,6 +52,14 @@ int main_args_validator(int argc, char* argv[], char *input_filepath, int* dimen
 
     if (argc == 7)
     {
+        // check if the input filepath contains the given distance type
+        const char* distance_in_filepath = strstr(input_filepath, distance);
+        if (distance_in_filepath != nullptr) 
+        {
+            cerr << "Invalid distance type. The input filepath doesn't contain the input distance type." << endl;
+            return -1;
+        }
+
         *delta = atoi(argv[5]); // delta
         if (*delta <= 0)
         {
