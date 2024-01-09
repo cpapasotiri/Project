@@ -12,11 +12,11 @@ template <typename T>
 class Job {
 private:
     int id;
-    void (*job)(void*);    // job function
+    void (*job_func)(void*);    // job function
     void* args;            // arguments for job function
 
 public:
-    Job(int id, char* function);
+    Job(int job_id, char* function, void* arguments);
     ~Job();
     int get_id();
 
@@ -28,7 +28,8 @@ private:
     int execution_threads;      // number of execution threads
     Queue<Job<T>>* jobs;                // a queue that holds submitted jobs
     pthread_t* tids;           // execution threads
-    // mutex, condition variables
+    pthread_mutex_t mutex;     
+    pthread_cond_t condition;
 
 public:
     Job_Scheduler(int exec_threads);
@@ -36,9 +37,9 @@ public:
     int get_execution_threads();
     Queue<Job<T>>* get_jobs();
     pthread_t* get_tids();
-    void submit_job(Job<T> *job);
-    void start_execute();
-    void wait_all_tasks_finish();    
+    int submit_job(Job<T> *job);
+    int start_execute();
+    int wait_all_tasks_finish();    
 };
 
 #include "../templates/scheduler.tpp"
