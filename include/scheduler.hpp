@@ -19,7 +19,9 @@ public:
     Job(int job_id, char* function, void* arguments);
     ~Job();
     int get_id();
-
+    void (*get_job_func())(void*); 
+    void* get_args();
+    void execute();
 };
 
 template <typename T>
@@ -37,9 +39,14 @@ public:
     int get_execution_threads();
     Queue<Job<T>>* get_jobs();
     pthread_t* get_tids();
+    pthread_mutex_t& get_mutex();
+    pthread_cond_t& get_condition();
     int submit_job(Job<T> *job);
     int start_execute();
-    int wait_all_tasks_finish();    
+    int wait_all_tasks_finish();
 };
+
+template <typename T>
+void* worker_thread(void* arg); 
 
 #include "../templates/scheduler.tpp"

@@ -74,14 +74,16 @@ TEST_CASE("Queue functionality tests", "[FIFO]")
     SECTION("Print") {
         Queue<Job<int>> queue;
         char function[20] = "calc_point_norm"; // Dummy function name
-        Job<int> job1(1, function);
-        Job<int> job2(2, function);
-        Job<int> job3(3, function);
+        int arg_1 = 45;
+        int arg_2[2] = {65, 100};
+        int arg_3[3] = {65, 100, 1000};
+        Job<int> job1(1, function, &arg_1);
+        Job<int> job2(2, function, arg_2);
+        Job<int> job3(3, function, arg_3);
         queue.enqueue(&job1);
         queue.enqueue(&job2);
         queue.enqueue(&job3);
 
-        cout << "HERE " << endl;
         // Redirect cout to a stringstream to capture the output
         ostringstream oss;
         streambuf* coutBuffer = cout.rdbuf();

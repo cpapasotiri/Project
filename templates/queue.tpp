@@ -15,14 +15,14 @@ Queue<T>::Queue(const Queue<T> &other) : size(0), front(nullptr), rear(nullptr)
     }
 
     // Copy the front element
-    front = new Node(other.front->data);
+    front = new Node<T>(other.front->data);
     rear = front;
 
     // Copy the rest of the elements
-    Node *source_node = other.front->next;
+    Node<T> *source_node = other.front->next;
     while (source_node != nullptr)
     {
-        rear->next = new Node(source_node->data);
+        rear->next = new Node<T>(source_node->data);
         rear = rear->next;
         source_node = source_node->next;
     }
@@ -66,7 +66,7 @@ bool Queue<T>::is_empty() const
 template <typename T>
 bool Queue<T>::contains(T &element)
 {
-    Node *current = front;
+    Node<T> *current = front;
     while (current != nullptr)
     {
         if (current->data == element)
@@ -81,7 +81,7 @@ bool Queue<T>::contains(T &element)
 template <typename T>
 void Queue<T>::enqueue(T* data)
 {
-    Node *newNode = new Node(data);
+    Node<T> *newNode = new Node<T>(data);
     if(is_empty())
     {
         front = newNode;
@@ -96,14 +96,15 @@ void Queue<T>::enqueue(T* data)
 }
 
 template <typename T>
-void Queue<T>::dequeue()
+T* Queue<T>::dequeue()
 {
     if (is_empty())
     {
         cerr << "Queue is empty, can't dequeue" << endl;
     }
  
-    Node *current = front;
+    Node<T> *current = front;
+    T* data = current->data;
     front = front->next;
     delete current;
     size--;
@@ -112,6 +113,8 @@ void Queue<T>::dequeue()
     {
         rear = nullptr; // Queue is empty now
     }    
+
+    return data;
 }
 
 template <typename T>
@@ -141,7 +144,7 @@ T* Queue<T>::peek(size_t position) const
         return nullptr;
     }
 
-    Node *current = front;
+    Node<T> *current = front;
     for (size_t i = 0; i < position; i++)
     {
         current = current->next;
@@ -156,13 +159,13 @@ size_t Queue<T>::get_size() const
 }
 
 template <typename T>
-typename Queue<T>::Node* Queue<T>::get_front() const 
+Node<T>* Queue<T>::get_front() const 
 {
     return front;
 }
 
 template <typename T>
-typename Queue<T>::Node* Queue<T>::get_rear() const 
+Node<T>* Queue<T>::get_rear() const 
 {
     return rear;
 }
@@ -176,7 +179,7 @@ void Queue<T>::print()
         return;
     }
 
-    Node *current = front;
+    Node<T> *current = front;
     while (current != nullptr)
     {   
         cout << (*current->data).get_id(); // Assuming T is always a pointer to Job<int>

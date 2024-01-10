@@ -5,17 +5,20 @@
 using namespace std;
 
 template <typename T>
+class Node
+{
+public:
+    T* data;
+    Node<T>* next;
+    Node(T* data) : data(data), next(nullptr) {};  
+};
+
+template <typename T>
 class Queue
 {
-    struct Node
-    {
-        T* data;
-        Node* next;
-        Node(T* data) : data(data), next(nullptr) {};  
-    };
     size_t size;
-    Node *front;
-    Node *rear;
+    Node<T> *front;
+    Node<T> *rear;
 
 public:
     Queue();
@@ -25,12 +28,12 @@ public:
     bool is_empty() const;
     bool contains(T &element);
     void enqueue(T* data);
-    void dequeue();
+    T* dequeue();
     T* front_value() const;
     T* peek(size_t position) const;
     size_t get_size() const;
-    typename Queue<T>::Node *get_front() const;
-    typename Queue<T>::Node *get_rear() const;
+    Node<T>* get_front() const;
+    Node<T>* get_rear() const;
     void print();
     void clear();
 };

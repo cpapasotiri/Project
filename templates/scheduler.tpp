@@ -1,7 +1,8 @@
 #include "scheduler.hpp"
 
 template <typename T>
-Job<T>::Job(int job_id, char* function, void* arguments) : id(job_id), args(arguments){
+Job<T>::Job(int job_id, char* function, void* arguments) {
+    id = job_id;
     if (strcmp(function, "calc_point_norm") == 0) {
         job_func = nullptr;
     }
@@ -18,6 +19,7 @@ Job<T>::Job(int job_id, char* function, void* arguments) : id(job_id), args(argu
         cout << "Invalid function name" << endl;
         exit(1);
     }
+    args = arguments;
 }
 
 template <typename T>
@@ -28,6 +30,26 @@ Job<T>::~Job() {
 template <typename T>
 int Job<T>::get_id() {
     return id;
+}
+
+template <typename T>
+void (*Job<T>::get_job_func())(void*) { 
+    return job_func;
+}
+
+template <typename T>
+void* Job<T>::get_args() {
+    return args;
+}
+
+template <typename T>
+void Job<T>::execute() {
+    if (job_func != nullptr) {
+        job_func(args);
+    }
+    else {
+        cout << "There is no job function" << endl;
+    }
 }
 
 
@@ -63,6 +85,15 @@ pthread_t* Job_Scheduler<T>::get_tids() {
 }
 
 template <typename T>
+pthread_mutex_t& Job_Scheduler<T>::get_mutex() {
+    return mutex;
+}
+template <typename T>
+pthread_cond_t& Job_Scheduler<T>::get_condition() {
+    return condition;
+}
+
+template <typename T>
 int Job_Scheduler<T>::submit_job(Job<T> *job) {
     pthread_mutex_lock(&mutex);
     jobs->enqueue(job);
@@ -74,7 +105,7 @@ int Job_Scheduler<T>::submit_job(Job<T> *job) {
 template <typename T>
 int Job_Scheduler<T>::start_execute() {
     for (int i = 0; i < execution_threads; i++) {
-        pthread_create(&tids[i], nullptr, worker_thread, nullptr);
+        pthread_create(&tids[i], nullptr, &worker_thread<T>, static_cast<void*>(this));
     }
     return 0;
 }
@@ -85,4 +116,39 @@ int Job_Scheduler<T>::wait_all_tasks_finish() {
         pthread_join(tids[i], nullptr);
     }
     return 0;
+}
+
+template <typename T>
+void* worker_thread(void* arg) {
+    Job_Scheduler<T>* sch = static_cast<Job_Scheduler<T>*>(arg);
+    
+    while (true) {
+        pthread_mutex_lock(&sch->get_mutex());
+
+        // Wait for a job if the queue is empty
+        while (sch->get_jobs()->is_empty()) {
+            pthread_cond_wait(&sch->get_condition(), &sch->get_mutex());
+
+            // Check if there are no more jobs, exit condition
+            if (sch->get_jobs()->is_empty()) {
+                pthread_mutex_unlock(&sch->get_mutex());
+                pthread_exit(nullptr);
+                return nullptr;
+            }
+        }
+
+        // Dequeue a job and release the lock
+        Job<T>* job = sch->get_jobs()->dequeue();
+        pthread_mutex_unlock(&sch->get_mutex());
+
+        // Execute the job
+        // void* arg = job->get_args();
+        // void (*func)(void*) = job->get_job_func();
+        // func(arg);        
+        job->execute();
+
+        // Clean up the job
+        delete job;
+    }
+    return nullptr;
 }
