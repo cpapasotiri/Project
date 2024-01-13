@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include "queue.hpp"
+#include "vector.hpp"
 
 using namespace std;
 
@@ -12,14 +13,14 @@ template <typename T>
 class Job {
 private:
     int id;
-    void (*job_func)(void*);    // job function
+    void (*job_func)(T*, void*);    // job function
     void* args;            // arguments for job function
 
 public:
     Job(int job_id, char* function, void* arguments);
     ~Job();
     int get_id();
-    void (*get_job_func())(void*); 
+    void (*get_job_func())(void*);
     void* get_args();
     void execute();
 };

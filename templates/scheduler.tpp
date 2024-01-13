@@ -3,8 +3,9 @@
 template <typename T>
 Job<T>::Job(int job_id, char* function, void* arguments) {
     id = job_id;
-    if (strcmp(function, "calc_point_norm") == 0) {
-        job_func = nullptr;
+
+    if (strcmp(function, "point_norm") == 0) {
+        job_func = &Vector<T>::parallel_eucleidean_point_norm;
     }
     else if (strcmp(function, "update_fifo") == 0) {
         job_func = nullptr;
@@ -19,6 +20,7 @@ Job<T>::Job(int job_id, char* function, void* arguments) {
         cout << "Invalid function name" << endl;
         exit(1);
     }
+    
     args = arguments;
 }
 
@@ -141,10 +143,7 @@ void* worker_thread(void* arg) {
         Job<T>* job = sch->get_jobs()->dequeue();
         pthread_mutex_unlock(&sch->get_mutex());
 
-        // Execute the job
-        // void* arg = job->get_args();
-        // void (*func)(void*) = job->get_job_func();
-        // func(arg);        
+        // Execute the job 
         job->execute();
 
         // Clean up the job
