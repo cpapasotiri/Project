@@ -1,59 +1,4 @@
-#include "scheduler.hpp"
-
-template <typename T>
-Job<T>::Job(int job_id, char* function, void* arguments) {
-    id = job_id;
-
-    if (strcmp(function, "point_norm") == 0) {
-        job_func = &Vector<T>::parallel_eucleidean_point_norm;
-    }
-    else if (strcmp(function, "update_fifo") == 0) {
-        job_func = nullptr;
-    }
-    else if (strcmp(function, "create_random_projection_trees") == 0) {
-        job_func = nullptr;
-    }
-    else if (strcmp(function, "calc_local_join") == 0) {
-        job_func = nullptr;
-    }
-    else {
-        cout << "Invalid function name" << endl;
-        exit(1);
-    }
-    
-    args = arguments;
-}
-
-template <typename T>
-Job<T>::~Job() {
-
-}
-
-template <typename T>
-int Job<T>::get_id() {
-    return id;
-}
-
-template <typename T>
-void (*Job<T>::get_job_func())(void*) { 
-    return job_func;
-}
-
-template <typename T>
-void* Job<T>::get_args() {
-    return args;
-}
-
-template <typename T>
-void Job<T>::execute() {
-    if (job_func != nullptr) {
-        job_func(args);
-    }
-    else {
-        cout << "There is no job function" << endl;
-    }
-}
-
+#include "job_scheduler.hpp"
 
 template <typename T>
 Job_Scheduler<T>::Job_Scheduler(int exec_threads) : execution_threads(exec_threads) {
@@ -150,4 +95,28 @@ void* worker_thread(void* arg) {
         delete job;
     }
     return nullptr;
+}
+
+template <typename T>
+float parallel_eucleidean_point_norm(Job_Scheduler<T> &scheduler, const Vector<T> &point1, const Vector<T> &point2)
+{
+    if (point1.get_size() != point2.get_size())
+    {
+        throw invalid_argument("Points should have the same dimensions.");
+    }
+
+    int number_of_dimensions = static_cast<int>(point2.get_size());
+    float result = 0.0;
+
+    // Submit job for each dimension
+    for (int i = 0; i < number_of_dimensions; i++)
+    { 
+        Job<double>* job = new Point_Norm_Job<double>(i, point1, point2);
+        scheduler.submit_job(job);
+    }
+
+    // Wait for all jobs to complete
+    scheduler.wait_all_tasks_finish();
+
+    return sqrt(result);
 }

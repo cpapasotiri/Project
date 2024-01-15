@@ -34,8 +34,9 @@ public:
     size_t get_size() const;
     Node<T>* get_front() const;
     Node<T>* get_rear() const;
-    void print();
+    void print();   // prints only 
     void clear();
+    void update_fifo();     // dummy function
 };
 
 #include "../templates/queue.tpp"

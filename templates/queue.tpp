@@ -182,7 +182,7 @@ void Queue<T>::print()
     Node<T> *current = front;
     while (current != nullptr)
     {   
-        cout << (*current->data).get_id(); // Assuming T is always a pointer to Job<int>
+        cout << (*current->data); // Assuming T is always a pointer to Job<int>
         cout << " ";
         current = current->next;
     }
@@ -196,4 +196,10 @@ void Queue<T>::clear()
     {
         dequeue();
     }
+}
+
+template <typename T>
+void Queue<T>::update_fifo()
+{
+    cout << "update_fifo" << endl;
 }

@@ -5,25 +5,11 @@
 #include <pthread.h>
 #include <unistd.h>
 #include "queue.hpp"
+#include "job.hpp"
+#include "point_norm_job.hpp"
 #include "vector.hpp"
 
 using namespace std;
-
-template <typename T>
-class Job {
-private:
-    int id;
-    void (*job_func)(T*, void*);    // job function
-    void* args;            // arguments for job function
-
-public:
-    Job(int job_id, char* function, void* arguments);
-    ~Job();
-    int get_id();
-    void (*get_job_func())(void*);
-    void* get_args();
-    void execute();
-};
 
 template <typename T>
 class Job_Scheduler {
@@ -50,4 +36,7 @@ public:
 template <typename T>
 void* worker_thread(void* arg); 
 
-#include "../templates/scheduler.tpp"
+template <typename T>
+float parallel_eucleidean_point_norm(Job_Scheduler<T> &scheduler, const Vector<T> &point1, const Vector<T> &point2);
+
+#include "../templates/job_scheduler.tpp"

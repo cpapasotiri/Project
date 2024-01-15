@@ -1,7 +1,7 @@
 #include "catch.hpp"
 #include "queue.hpp"
 #include "string_util.hpp"
-#include "scheduler.hpp"
+#include "job_scheduler.hpp"
 #include <sstream>
 
 
@@ -72,17 +72,10 @@ TEST_CASE("Queue functionality tests", "[FIFO]")
     }
 
     SECTION("Print") {
-        Queue<Job<int>> queue;
-        char function[20] = "calc_point_norm"; // Dummy function name
-        int arg_1 = 45;
-        int arg_2[2] = {65, 100};
-        int arg_3[3] = {65, 100, 1000};
-        Job<int> job1(1, function, &arg_1);
-        Job<int> job2(2, function, arg_2);
-        Job<int> job3(3, function, arg_3);
-        queue.enqueue(&job1);
-        queue.enqueue(&job2);
-        queue.enqueue(&job3);
+        Queue<int> queue;
+        queue.enqueue(&value_1);
+        queue.enqueue(&value_2);
+        queue.enqueue(&value_3);       
 
         // Redirect cout to a stringstream to capture the output
         ostringstream oss;

@@ -3,7 +3,6 @@
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
-#include "scheduler.hpp"
 
 using namespace std;
 
@@ -29,7 +28,6 @@ public:
     float manhattanDistance(const Vector<T> &point2);
     T get_dimension_value(int dimension);
     float euclidean_dimesion(int dimension, const Vector<T> &point2);
-    float parallel_eucleidean_point_norm(const Vector<T> &point2, Job_Scheduler<T> &scheduler);
     bool contains(T &element);
 };
 

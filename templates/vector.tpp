@@ -119,7 +119,7 @@ float Vector<T>::manhattanDistance(const Vector<T> &point2)
 template <typename T>
 T Vector<T>::get_dimension_value(int dimension)
 {
-    if (dimension < 0 || dimension >= this->get_size())
+    if (dimension < 0 || dimension >= (int)this->get_size())
     {
         throw invalid_argument("Dimension out of range.");
     }
@@ -129,36 +129,12 @@ T Vector<T>::get_dimension_value(int dimension)
 template <typename T>
 float Vector<T>::euclidean_dimesion(int dimension, const Vector<T> &point2)
 {
-    if ((this->get_size() != point2.get_size()) || (dimension < 0) || (dimension > this->get_size()))
+    if ((this->get_size() != point2.get_size()) || (dimension < 0) || ((size_t)dimension > this->get_size()))
     {
         throw invalid_argument("Invalid dimension or point with different dimensions.");
     } 
     float diff = this->get_dimension_value(dimension) - point2.get_dimension_value(dimension);
     return diff * diff;
-}
-
-template <typename T>
-float Vector<T>::parallel_eucleidean_point_norm(const Vector<T> &point2, Job_Scheduler<T> &scheduler)
-{
-    if (this->get_size() != point2.get_size())
-    {
-        throw invalid_argument("Points should have the same dimensions.");
-    }
-
-    int number_of_dimensions = static_cast<int>(point2.get_size());
-    float result = 0.0;
-
-    // Submit job for each dimension
-    for (size_t i = 0; i < number_of_dimensions; i++)
-    { 
-        Job<T>* job = new Job<T>(i, "eucleidean", static_cast<void*>(&result));
-        scheduler.submit_job(job);
-    }
-
-    // Wait for all jobs to complete
-    scheduler.wait_all_tasks_finish();
-
-    return sqrt(result);
 }
 
 template <typename T>

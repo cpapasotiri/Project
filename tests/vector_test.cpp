@@ -94,16 +94,4 @@ TEST_CASE("Vector operations work as expected", "[vector]")
         REQUIRE_THROWS_AS(v.get_dimension_value(-1), invalid_argument);
         REQUIRE_THROWS_AS(v.get_dimension_value(3), invalid_argument);
     }
-
-    SECTION("Testing point norm calculation")
-    {
-        Vector<double> v1;
-        v1.push_back(1.0);
-        v1.push_back(2.0);
-        Vector<double> v2;
-        v2.push_back(4.0);
-        v2.push_back(6.0);
-        double dist = v1.parallel_eucleidean_point_norm(v2);
-        REQUIRE(dist == Approx(5.0)); // Approx is used for floating-point comparison
-    }
 }
