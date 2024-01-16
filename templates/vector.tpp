@@ -84,13 +84,12 @@ void Vector<T>::display_vector() const
     cout << endl;
 }
 
-
 template <typename T>
 float Vector<T>::euclideanDistance(const Vector<T> &point2)
 {
     if (this->get_size() != point2.get_size())
     {
-        throw std::invalid_argument("Points should have the same dimensions.");
+        throw invalid_argument("Points should have the same dimensions.");
     }
 
     float distance = 0.0;
@@ -106,7 +105,7 @@ float Vector<T>::manhattanDistance(const Vector<T> &point2)
 {
     if (this->get_size() != point2.get_size())
     {
-        throw std::invalid_argument("Points should have the same dimensions.");
+        throw invalid_argument("Points should have the same dimensions.");
     }
 
     double distance = 0.0;
@@ -115,6 +114,27 @@ float Vector<T>::manhattanDistance(const Vector<T> &point2)
         distance += abs(this->array[i] - point2.array[i]);
     }
     return distance;
+}
+
+template <typename T>
+T Vector<T>::get_dimension_value(int dimension)
+{
+    if (dimension < 0 || dimension >= (int)this->get_size())
+    {
+        throw invalid_argument("Dimension out of range.");
+    }
+    return array[dimension];
+}
+
+template <typename T>
+float Vector<T>::euclidean_dimesion(int dimension, const Vector<T> &point2)
+{
+    if ((this->get_size() != point2.get_size()) || (dimension < 0) || ((size_t)dimension > this->get_size()))
+    {
+        throw invalid_argument("Invalid dimension or point with different dimensions.");
+    } 
+    float diff = this->get_dimension_value(dimension) - point2.get_dimension_value(dimension);
+    return diff * diff;
 }
 
 template <typename T>
@@ -129,4 +149,3 @@ bool Vector<T>::contains(T &element)
     }
     return false;
 }
-

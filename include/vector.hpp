@@ -26,6 +26,8 @@ public:
     void display_vector() const;
     float euclideanDistance(const Vector<T> &point2);
     float manhattanDistance(const Vector<T> &point2);
+    T get_dimension_value(int dimension);
+    float euclidean_dimesion(int dimension, const Vector<T> &point2);
     bool contains(T &element);
 };
 

@@ -80,4 +80,18 @@ TEST_CASE("Vector operations work as expected", "[vector]")
         double dist = v1.manhattanDistance(v2);
         REQUIRE(dist == Approx(7.0)); // Approx is used for floating-point comparison
     }
+
+    SECTION("Testing get_dimensions_value") 
+    {
+        Vector<double> v;
+        v.push_back(10.5);
+        v.push_back(20.5);
+        v.push_back(30.5);
+        REQUIRE(v.get_dimension_value(0) == 10.5);
+        REQUIRE(v.get_dimension_value(1) == 20.5);
+        REQUIRE(v.get_dimension_value(2) == 30.5);
+
+        REQUIRE_THROWS_AS(v.get_dimension_value(-1), invalid_argument);
+        REQUIRE_THROWS_AS(v.get_dimension_value(3), invalid_argument);
+    }
 }

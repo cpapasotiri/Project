@@ -37,6 +37,12 @@ target_include_directories(project PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_include_directories(brute_force PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_include_directories(allTests PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
+# Link against the pthread library
+find_package(Threads REQUIRED)
+target_link_libraries(project PRIVATE Threads::Threads)
+target_link_libraries(brute_force PRIVATE Threads::Threads)
+target_link_libraries(allTests PRIVATE Threads::Threads)
+
 # Run tests using Catch2
 include(CTest)
 

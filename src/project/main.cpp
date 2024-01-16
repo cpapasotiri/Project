@@ -13,15 +13,15 @@ using namespace std;
 int main(int argc, char *argv[])
 {   
     // validate main arguments
-    char input_filepath[256], distance[2];
-    int dimensions, K;
-    if (main_args_validator(argc, argv, input_filepath, &dimensions, &K, distance) != 0)
+    char input_filepath[256], distance[3];
+    int dimensions, K, delta = 0;
+    float p = 0.0;
+    if (main_args_validator(argc, argv, input_filepath, &dimensions, &K, distance, &delta, &p) != 0)
     {
         cerr << "Error validating main arguments" << endl;
         return -1;
     }
-    cout << "input_filepath: " << input_filepath << ", dimensions = " << dimensions << ", K = " << K << ", distance = " <<  distance << endl;
-    
+
     // open for reading input file
     int file = open_filepath(input_filepath, O_RDONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
     if (file == -1) 
@@ -89,6 +89,14 @@ int main(int argc, char *argv[])
     char output_filepath[256];
     create_output_filepath(input_filepath, distance, K, output_filepath, sizeof(output_filepath));
 
+    // check that the output filepath contains the input distance type
+    if (!is_distance_type_in_output_filepath(output_filepath, distance))
+    {
+        cerr << "Error: The output filepath " << output_filepath << " doesn't contains the specified distance type " << distance << "." << endl;
+        delete graph;
+        return -1;
+    }
+
     int output_file = open_filepath(output_filepath, O_RDONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
     if (output_file == -1) 
     {
@@ -96,7 +104,6 @@ int main(int argc, char *argv[])
         delete graph;
         return -1;
     }
-
 
    // graph->display_graph();
     cout << "Reading vertices from outfile" << endl;
