@@ -1,7 +1,6 @@
 #pragma once
 
 #include <iostream>
-#include "job_scheduler.hpp"
 #include "job.hpp"
 #include "vector.hpp"
 
@@ -16,7 +15,8 @@ private:
 public:
     Point_Norm_Job(int job_id, const Vector<T> &p1, const Vector<T> &p2);
     ~Point_Norm_Job();
-    void execute();
+    float get_result();
+    void execute() override;
     void print();
 }; 
 

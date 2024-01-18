@@ -1,7 +1,6 @@
 #pragma once
 
 #include <iostream>
-#include "vector.hpp"
 
 using namespace std;
 
@@ -13,6 +12,7 @@ public:
     Job(int job_id);
     ~Job();
     int get_id();
+    virtual void execute();
 };
 
 #include "../templates/job.tpp"

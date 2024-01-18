@@ -94,4 +94,24 @@ TEST_CASE("Vector operations work as expected", "[vector]")
         REQUIRE_THROWS_AS(v.get_dimension_value(-1), invalid_argument);
         REQUIRE_THROWS_AS(v.get_dimension_value(3), invalid_argument);
     }
+
+    // SECTION("Valid dimensions and same size") 
+    // {
+    //     Vector<double> v1;
+    //     v1.push_back(1.0);
+    //     Vector<double> v2;
+    //     v2.push_back(4.0);
+
+    //     REQUIRE(v1.get_size() == v2.get_size());
+
+    //     int dim = 1;
+
+    //     float expected_result = ((v1.get_dimension_value(dim) - v2.get_dimension_value(dim)) * (v1.get_dimension_value(dim) - v2.get_dimension_value(dim)));
+
+    //     float result = v1.euclidean_dimesion(dim, v2);
+
+    //     REQUIRE(result == expected_result);
+    // }
+
+
 }

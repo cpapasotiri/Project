@@ -10,3 +10,6 @@ template <typename T>
 int Job<T>::get_id() {
     return id;
 }
+
+template <typename T>
+void Job<T>::execute(){}
