@@ -2,7 +2,7 @@
 #include "graph.hpp"
 
 TEST_CASE("Graph functionality tests", "[Graph]")
-{ 
+{
   char distance[2] = "e";
   Graph<int> graph(distance);
 
@@ -77,10 +77,9 @@ TEST_CASE("Graph functionality tests", "[Graph]")
 
   SECTION("Testing destructor")
   { // TODO
-   
   }
 
-  SECTION("Add vertices and edges to test NN-Descent algorithm")
+  SECTION("Add vertices and add edges")
   {
     int vertices = graph.get_number_of_vertices();
     REQUIRE(vertices == 0);
@@ -105,24 +104,12 @@ TEST_CASE("Graph functionality tests", "[Graph]")
 
     int K = 2;
     graph.add_edges(K);
-    // for (int i = 0; i < vertices; i++) 
-    // {
-    //   REQUIRE(graph.get_neighbors_list_size(i) == K);
-    // }
+    for (int i = 0; i < vertices; i++)
+    {
+      REQUIRE(graph.get_neighbors_list_size(i) == K);
+    }
 
-    graph.NNDescent(K);
-    
-    // REQUIRE(NNDescent)
-  }
-
-  SECTION("Testing K Nearest Neighbors for a given point")
-  { // TODO
-   
-  }
-
-  SECTION("Testing K Nearest Neighbors for all points")
-  { // TODO
-   
+    // TODO - check if reverse list are correct
   }
 
   SECTION("Testing get number of vertices")
@@ -153,6 +140,11 @@ TEST_CASE("Graph functionality tests", "[Graph]")
     // DLL<int> list0 = graph.get_neighbors_list(0);
   }
 
+  SECTION("Testing get reverse neighbors list by id")
+  { // TODO
+    // DLL<int> list0 = graph.get_neighbors_list(0);
+  }
+
   SECTION("Testing get neighbors list size")
   {
     graph.add_vertex(&point0);
@@ -161,8 +153,19 @@ TEST_CASE("Graph functionality tests", "[Graph]")
     REQUIRE(graph.get_neighbors_list_size(1) == 0);
   }
 
+  SECTION("Testing get reverse neighbors list size")
+  { // TODO
+    graph.add_vertex(&point0);
+    REQUIRE(graph.get_reverseNeighbors_list_size(0) == 0);
+  }
+
   SECTION("Testing store neighbors in file")
   { // TODO
-   
+  
+  }
+
+  SECTION("Testing compare neighbors from file")
+  { // TODO
+  
   }
 }

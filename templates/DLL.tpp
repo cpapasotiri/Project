@@ -4,7 +4,7 @@
 using namespace std;
 
 template <typename T>
-DLL<T>::Node::Node(const Vertex<T> &data) :  Data(new Vertex<T>(data)), Next(nullptr), Prev(nullptr) {}
+DLL<T>::Node::Node(const Vertex<T> &data) :  Data(new Vertex<T>(data)), flag(true), Next(nullptr), Prev(nullptr) {}
 
 template <typename T>
 DLL<T>::DLL() : Count(0), Start(nullptr), End(nullptr) {}

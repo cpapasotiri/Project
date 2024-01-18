@@ -21,11 +21,22 @@ Pair<T>::~Pair()
 }
 
 template <typename T>
+bool Pair<T>::operator==(Pair<T> &other)
+{
+    if (this->v == other.v && this->distance == other.distance)
+    {
+        return true;
+    }
+    return false;
+}
+
+template <typename T>
 Graph<T>::Graph(char *distance)
 {
     number_of_vertices = 0;
     vertices = new Vector<Vertex<T>>();
     neighbors_list = new Vector<DLL<T>>();
+    reverseNeighbors_list = new Vector<DLL<T>>();
     if (strcmp(distance, "e") == 0)
     {
         cout << "Euclidean distance selected" << endl;
@@ -47,6 +58,7 @@ Graph<T>::~Graph()
 {
     delete vertices;
     delete neighbors_list;
+    delete reverseNeighbors_list;
 }
 
 // save vertex to vector and create a adjacency list for its neighbors
@@ -57,8 +69,11 @@ void Graph<T>::add_vertex(Vector<T> *p)
     vertices->push_back(*vertex);
     DLL<T> *list = new DLL<T>();
     neighbors_list->push_back(*list);
+    DLL<T> *reverseList = new DLL<T>();
+    reverseNeighbors_list->push_back(*reverseList);
     number_of_vertices++;
     delete list;
+    delete reverseList;
     delete vertex;
 }
 
@@ -77,7 +92,7 @@ void Graph<T>::add_edges(int K)
         { // select K random numbers
             int random_vertex_id = generate_random_vertex_number(0, number_of_vertices - 1);
 
-            DLL<T> *random_list = &get_neighbors_list(random_vertex_id);
+            DLL<T> *reverseNeighbors_list = &get_reverseNeighbors_list(random_vertex_id);
 
             // avoid self-connections and dublicate connections
             bool in_current_list = current_list->search(&get_vertex(random_vertex_id));
@@ -85,9 +100,9 @@ void Graph<T>::add_edges(int K)
             {
                 current_list->addFirst(get_vertex(random_vertex_id));
                 current_list->getNodeById(random_vertex_id)->flag = true; // flag of vertex initially inserting in list is true
-                random_list->addFirst(*current_vertex);
-                random_list->getNodeById(current_vertex->id)->flag = true; // flag of vertex initially inserting in list as reversed neighbor is true
-                edges_count++;                                             // edge added
+                reverseNeighbors_list->addFirst(*current_vertex);
+                reverseNeighbors_list->getNodeById(current_vertex->id)->flag = true; // flag of vertex initially inserting in list as reversed neighbor is true
+                edges_count++;                                                       // edge added
             }
         }
     }
@@ -121,32 +136,55 @@ void Graph<T>::NNDescent(int K)
     // while (count != 0)
     Pair<T> *p1;
     DLL<T> *list;
-    int count = 20;
-    while (count > 10)
+    DLL<T> *reverseNeighbors;
+    int count = number_of_vertices*K * 0.1 + 10;
+    while (count > number_of_vertices*K * 0.1)
     { // loop stops when the graph isn't changed
         count = 0;
         for (int i = 0; i < number_of_vertices; i++)
         { // for every vertex
             pairs = new Vector<Pair<T>>();
-            list = &get_neighbors_list(i);         // get the list of neighbors
-            for (int j = 0; j < list->size(); j++) // for every neighbor
+            list = &get_neighbors_list(i);                    // get the list of neighbors
+            reverseNeighbors = &get_reverseNeighbors_list(i); // get the list of reverse neighbors
+            for (int j = 0; j < list->size(); j++)            // for every neighbor
             {
                 int id = list->getNode(j)->Data->id; // get the id of every neighbor
+                int reverseId = -1;
+
                 float distance = ((&get_vertex(i))->point->*distance_function)(*(list->getNode(j)->Data->point));
                 if (distance != 0.0)
                 {
                     p1 = new Pair<T>(distance, *(list->getNode(j)->Data));
-                    pairs->push_back(*p1);
+                    if (pairs->contains(*p1) == false)
+                    {
+                        pairs->push_back(*p1);
+                    }
+                }
+
+                if (reverseNeighbors->size() > j + 1)
+                {
+                    reverseId = reverseNeighbors->getNode(j)->Data->id; // get the id of every reverse neighbor
+                    distance = ((&get_vertex(i))->point->*distance_function)(*(reverseNeighbors->getNode(j)->Data->point));
+                    if (distance != 0.0)
+                    {
+                        p1 = new Pair<T>(distance, *(reverseNeighbors->getNode(j)->Data));
+                        if (pairs->contains(*p1) == false)
+                        {
+                            pairs->push_back(*p1);
+                        }
+                    }
                 }
 
                 DLL<T> *neighborsListOfj = &get_neighbors_list(id);
-                for (int k = 0; k < list->size(); k++)
+                int localJoined = 0;
+                float p = 0.7;
+
+                for (int k = 0; k < p*list->size(); k++)
                 {
-                    int id2 = list->getNode(k)->Data->id;
-                    // DLL<T> *neighborsListOfk = &get_neighbors_list(id2);
+                    //int id2 = list->getNode(k)->Data->id;
+                    int id2 = generate_random_vertex_number(0, list->size());
                     if ((list->getNodeById(id)->flag == true || list->getNodeById(id2)->flag == true) && (id != id2))
                     {
-
                         float d1 = (list->getNodeById(id)->Data->point->*distance_function)(*(list->getNodeById(id2)->Data->point));
                         for (int counter1 = 0; counter1 < neighborsListOfj->size(); counter1++)
                         {
@@ -157,25 +195,53 @@ void Graph<T>::NNDescent(int K)
                                 if (neighborsListOfj->search(list->getNodeById(id2)->Data) == false)
                                 {
                                     neighborsListOfj->addBefore(neighborsListOfj->getNodeById(counterId), *list->getNodeById(id2)->Data);
+                                    neighborsListOfj->remove(neighborsListOfj->getNodeById(counterId));
                                 }
                             }
                         }
+                        localJoined++;
+                    }
+                }
 
-                       // d1 = (list->getNodeById(id2)->Data->point->*distance_function)(*(list->getNodeById(id)->Data->point));
-                        // for (int counter2 = 0; counter2 < neighborsListOfk->size(); counter2++)
-                        // {
-                        //     float d2 = (list->getNodeById(id2)->Data->point->*distance_function)(*(neighborsListOfk->getNode(counter2)->Data->point));
-                        //     if (d1 < d2 && d2 != 0)
-                        //     {
-                        //         int counterId = neighborsListOfk->getNode(counter2)->Data->id;
-                        //         if (neighborsListOfk->search(list->getNodeById(id)->Data) == false)
-                        //         {
-                        //             neighborsListOfk->addBefore(neighborsListOfk->getNodeById(counterId), *list->getNodeById(id)->Data);
-                        //         }
-                        //     }
-                        // }
-                        list->getNodeById(id)->flag = false; // Change the flag of the vertex after Local Join
-                       // list->getNodeById(id2)->flag = false;
+                if (localJoined != 0)
+                {
+                    list->getNodeById(id)->flag = false; // Change the flag of the vertex after Local Join
+                }
+
+                DLL<T> *reverseNeighborsListOfj = &get_reverseNeighbors_list(id);
+                int reverseLocalJoined = 0;
+                if (reverseId != -1)
+                {
+                    for (int k = 0; k < p*reverseNeighbors->size(); k++)
+                    {
+                        int id2 = generate_random_vertex_number(0,reverseNeighbors->size());
+                        //int id2 = reverseNeighbors->getNode(k)->Data->id;
+                        if ((reverseNeighbors->getNodeById(reverseId)->flag == true || reverseNeighbors->getNodeById(id2)->flag == true) && (reverseId != id2))
+                        {
+                            float d1 = (reverseNeighbors->getNodeById(reverseId)->Data->point->*distance_function)(*(reverseNeighbors->getNodeById(id2)->Data->point));
+                            if (reverseNeighborsListOfj->isEmpty() != true)
+                            {
+                                for (int counter1 = 0; counter1 < reverseNeighborsListOfj->size(); counter1++)
+                                {
+                                    float d2 = (reverseNeighbors->getNodeById(reverseId)->Data->point->*distance_function)(*(reverseNeighborsListOfj->getNode(counter1)->Data->point));
+                                    if (d1 < d2 && d2 != 0)
+                                    {
+
+                                        int counterId = reverseNeighborsListOfj->getNode(counter1)->Data->id;
+                                        if (reverseNeighborsListOfj->search(list->getNodeById(id2)->Data) == false)
+                                        {
+                                            reverseNeighborsListOfj->addBefore(reverseNeighborsListOfj->getNodeById(counterId), *reverseNeighbors->getNodeById(id2)->Data);
+                                            reverseNeighborsListOfj->remove(reverseNeighborsListOfj->getNodeById(counterId));
+                                        }
+                                    }
+                                }
+                            }
+                            reverseLocalJoined++;
+                        }
+                    }
+                    if (reverseLocalJoined != 0)
+                    {
+                        reverseNeighbors->getNodeById(reverseId)->flag = false; // Change the flag of the vertex after Local Join
                     }
                 }
             }
@@ -198,7 +264,7 @@ void Graph<T>::NNDescent(int K)
 
             for (size_t t = 0; t < pairs->get_size(); t++)
             { // sort pairs by distance
-                for (size_t k = 0; k < pairs->get_size() - t - 1; k++)
+                for (size_t k = 0; k < pairs->get_size() - 2; k++)
                 {
                     if (pairs->operator[](k).distance > pairs->operator[](k + 1).distance)
                     {
@@ -211,37 +277,38 @@ void Graph<T>::NNDescent(int K)
                         pairs->operator[](k + 1).v = tempVertex;
                     }
                 }
+            }
 
-                Vector<Vertex<T>> *nearestNeighbors = new Vector<Vertex<T>>();
+            Vector<Vertex<T>> *nearestNeighbors = new Vector<Vertex<T>>();
 
-                for (int counter = 0; counter < K; counter++)
+            for (int counter = 0; counter < K; counter++)
+            {
+                if (list->search(pairs->operator[](counter).v) == false)
                 {
-                    if (list->search(pairs->operator[](counter).v) == false)
+                    list->addFirst(*(pairs->operator[](counter).v));
+                    nearestNeighbors->push_back(*(pairs->operator[](counter).v));
+                    count++;
+                }
+                else
+                {
+                    nearestNeighbors->push_back(*(pairs->operator[](counter).v));
+                }
+            }
+
+            if (list->size() > K)
+            {
+                for (int rm = 0; rm < list->size(); rm++)
+                {
+                    int idToRm = list->getNode(rm)->Data->id;
+                    if (nearestNeighbors->contains(*(list->getNodeById(idToRm)->Data)) == false && list->size() > K)
                     {
-                        list->addFirst(*(pairs->operator[](counter).v));
-                        nearestNeighbors->push_back(*(pairs->operator[](counter).v));
+                        list->remove(list->getNodeById(idToRm));
                         count++;
                     }
-                    else
-                    {
-                        nearestNeighbors->push_back(*(pairs->operator[](counter).v));
-                    }
                 }
-                if (list->size() > K)
-                {
-                    for (int rm = 0; rm < list->size(); rm++)
-                    {
-                        int idToRm = list->getNode(rm)->Data->id;
-                        if (nearestNeighbors->contains(*(list->getNodeById(idToRm)->Data)) == false)
-                        {
-                            list->remove(list->getNodeById(idToRm));
-                            count++;
-                        }
-                    }
-                }
-
-                delete nearestNeighbors;
             }
+
+            delete nearestNeighbors;
         }
     }
 }
@@ -273,6 +340,16 @@ DLL<T> &Graph<T>::get_neighbors_list(int id) const
 }
 
 template <typename T>
+DLL<T> &Graph<T>::get_reverseNeighbors_list(int id) const
+{
+    if (id > number_of_vertices || id < 0)
+    {
+        cerr << "Invalid adjacency list id" << endl;
+    }
+    return reverseNeighbors_list->operator[](id);
+}
+
+template <typename T>
 int Graph<T>::get_neighbors_list_size(int id) const
 {
     if (id > number_of_vertices || id < 0)
@@ -280,6 +357,16 @@ int Graph<T>::get_neighbors_list_size(int id) const
         cerr << "Invalid adjacency list id" << endl;
     }
     return neighbors_list->operator[](id).size();
+}
+
+template <typename T>
+int Graph<T>::get_reverseNeighbors_list_size(int id) const
+{
+    if (id > number_of_vertices || id < 0)
+    {
+        cerr << "Invalid adjacency list id" << endl;
+    }
+    return reverseNeighbors_list->operator[](id).size();
 }
 
 template <typename T>
