@@ -2,6 +2,48 @@
 #include "IO.hpp"
 
 TEST_CASE("IO functionality tests", "[IO]"){
+    SECTION("Valid input for brute_force - 5 arguments") 
+    {
+        char* dummy_argv[] = {(char*)"./brute_force", (char*)"datasets/2dims.bin", (char*)"2", (char*)"2", (char*)"e"};
+        char input_filepath[256], distance[2];
+        int dimensions, K, delta = 0;
+        float p = 0.0;
+        REQUIRE(main_args_validator(5, dummy_argv, input_filepath, &dimensions, &K, distance, &delta, &p) == 0);
+        // Add additional REQUIRE statements to validate the expected values
+        REQUIRE(strcmp(input_filepath, "datasets/2dims.bin") == 0);
+        REQUIRE(dimensions == 2);
+        REQUIRE(K == 2);
+        REQUIRE(strcmp(distance, "e") == 0);
+        // not used here
+        REQUIRE(delta == 0);
+        REQUIRE(p == (float)0.0);
+    }
+
+    SECTION("Valid input for project - 7 arguments") 
+    {
+        char* dummy_argv[] = {(char*)"./project", (char*)"datasets/2dims.bin", (char*)"3", (char*)"3", (char*)"e", (char*)"5", (char*)"0.1"};
+        char input_filepath[256], distance[2];
+        int dimensions, K, delta = 0;
+        float p = 0.0;
+        REQUIRE(main_args_validator(7, dummy_argv, input_filepath, &dimensions, &K, distance, &delta, &p) == 0);
+        // Add additional REQUIRE statements to validate the expected values
+        REQUIRE(strcmp(input_filepath, "datasets/2dims.bin") == 0);
+        REQUIRE(dimensions == 3);
+        REQUIRE(K == 3);
+        REQUIRE(strcmp(distance, "e") == 0);
+        REQUIRE(delta == 5);
+        REQUIRE(p == (float)0.1);
+    }
+
+    SECTION("Invalid number of arguments - 4 arguments") 
+    {
+        char* dummy_argv[] = {(char*)"./brute_force", (char*)"datasets/2dims.bin", (char*)"2", (char*)"2"};
+        char input_filepath[256], distance[2];
+        int dimensions, K, delta = 0;
+        float p = 0;
+        REQUIRE(main_args_validator(4, dummy_argv, input_filepath, &dimensions, &K, distance, &delta, &p) == -1);
+    }
+
     SECTION("Directory creation", "[create_directory]")
     {
         const char* dirpath = "test_directory";
@@ -64,6 +106,32 @@ TEST_CASE("IO functionality tests", "[IO]"){
         int K = 2;
         create_output_filepath(filepath, distance, K, outputPath, sizeof(outputPath));
         REQUIRE(strcmp(outputPath, "output/2dims_2_e.bin") == 0);
+    }
+
+    SECTION("Check if output filepath contains the given distance type - Valid input distance type")
+    {
+        char filepath_e[256] = "output/2dims_2_e.bin";
+        char distance_e[2] = "e";
+        // Ensure that the 'e' is in the filepath
+        REQUIRE(is_distance_type_in_output_filepath(filepath_e, distance_e) == true);
+
+        char filepath_m[256] = "output/2dims_2_m.bin";
+        char distance_m[2] = "m";
+        // Ensure that the 'm' is in the filepath
+        REQUIRE(is_distance_type_in_output_filepath(filepath_m, distance_m) == true);
+    }
+
+    SECTION("Check if output filepath contains the given distance type - Invalid input distance type")
+    {
+        char filepath_e[256] = "output/2dims_2_e.bin";
+        char distance_m[2] = "m";
+        // Ensure that the specified distance type 'e' isn't in the filepath
+        REQUIRE(is_distance_type_in_output_filepath(filepath_e, distance_m) == false);
+
+        char filepath_m[256] = "output/2dims_2_m.bin";
+        char distance_e[2] = "e";        
+        // Ensure that the specified distance type 'm' isn't in the filepath
+        REQUIRE(is_distance_type_in_output_filepath(filepath_m, distance_e) == false);
     }
 
     SECTION("Open & close filepath", "[open_filepath close_filepath]")

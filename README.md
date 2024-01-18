@@ -28,11 +28,11 @@
         cmake .
         cmake --build . 
         Run the project executable with the following command:
-            ./project <filepath> <dimensions> <K> <distance type e or m>
+            ./project <input filepath> <dimensions> <K nearest neighbors> <distance type e or m> <delta> <p>
             e.g. ./project datasets/2dims.bin 2 2 e
             e.g. ./project datasets/00000020.bin 100 10 m
         Run the brute force executable with the following command:
-            ./brute_force <filepath> <dimensions> <K> <distance type e or m>
+            ./brute_force <input filepath> <dimensions> <K nearest neighbors> <distance type e or m>
 
     Use the the following commands to run Catch2 Unit Tests:
         Run the tests executable with the following command:            
@@ -80,3 +80,5 @@
     Στον κόμβο της λίστας, έχει προσθετεί ένα boolean flag το οποίο αρχικοποιείται σε true μέσα στην add_edges όταν προστίθεται σε κάποια λίστα, τόσο ως άμεσως όσο και ως reversed γείτονας. Στη συνέχεια, πριν την εκτέλεση του Local Join ελέγχεται αν τουλάχιστον 1 από τα δύο vertexes έχει τη σημαία του true και στο τέλος της διαδικασίας, αλλάζει την τιμή της σημαίας σε false.
 3. Πρόωρος Τερματισμός
     Σε αντίθεση με το 1ο παραδοτέο, στο 2ο η συνθήκη για τη while δεν είναι να συνεχίζει όταν δεν υπάρχει καμία αλλάγή, αλλά μόνο για όσο οι αλλαγές είναι περισσότερες από 10. 
+
+### 3ο παραδοτέο:
