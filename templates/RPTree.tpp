@@ -4,7 +4,8 @@
 #include <cmath>
 
 template <typename T>
-RPTreeNode<T>::RPTreeNode() : points(nullptr), left_child(nullptr), right_child(nullptr){};
+RPTreeNode<T>::RPTreeNode() : points(nullptr), left_child(nullptr), right_child(nullptr){}
+
 // RPTreeNode implementation
 template <typename T>
 RPTreeNode<T>::RPTreeNode(Vector<Vector<T>> *p) : points(p), left_child(nullptr), right_child(nullptr) {}
