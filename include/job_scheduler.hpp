@@ -14,18 +14,18 @@ using namespace std;
 template <typename T>
 class Job_Scheduler {
 private:
-    int execution_threads;      // number of execution threads
+    int number_of_threads;      // number of execution threads
     Queue<Job<T>>* jobs;                // a queue that holds submitted jobs
-    pthread_t* tids;           // execution threads
+    pthread_t* threads;           // execution threads
     pthread_mutex_t mutex;     
     pthread_cond_t condition;
 
 public:
-    Job_Scheduler(int exec_threads);
+    Job_Scheduler(int threads_number);
     ~Job_Scheduler();
-    int get_execution_threads();
+    int get_number_of_threads();
     Queue<Job<T>>* get_jobs();
-    pthread_t* get_tids();
+    pthread_t* get_threads();
     pthread_mutex_t& get_mutex();
     pthread_cond_t& get_condition();
     int submit_job(Job<T> *job);

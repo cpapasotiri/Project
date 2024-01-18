@@ -2,7 +2,7 @@
 #include <cstring>
 #include <cstdint>
 #include <ctime>
-
+#include "job_scheduler.hpp"
 #include "graph.hpp"
 #include "vector.hpp"
 #include "DLL.hpp"
@@ -37,6 +37,10 @@ int main(int argc, char *argv[])
         close_filepath(file);
         return -1;
     }
+
+    // create job scheduler
+    int number_of_cores = sysconf(_SC_NPROCESSORS_CONF);
+    Job_Scheduler<float>* scheduler = new Job_Scheduler<float>(number_of_cores);
 
     // measure the running time of ...
     clock_t start, end;
@@ -84,7 +88,6 @@ int main(int argc, char *argv[])
     // implementation of NN-Descent Algorithm
     graph->NNDescent(K);
 
-    //graph->display_graph();
     // open for reading output file created by brute force
     char output_filepath[256];
     create_output_filepath(input_filepath, distance, K, output_filepath, sizeof(output_filepath));
@@ -122,6 +125,7 @@ int main(int argc, char *argv[])
     cout << "Elapsed time for everything: " << elapsed_time << endl;
 
     delete graph;
+    delete scheduler;
 
     return 0;
 }
