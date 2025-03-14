@@ -44,24 +44,24 @@
         make clean_all  
     
 ## Code Organisation
-    Project/
-    ├── datasets/
-    │   ├── *.bin
-    ├── include/
-    │   ├── *.hpp
-    ├── src/
-    │   ├── brute_force/
-    │   │   ├── *.cpp
-    │   ├── common/
-    │   │   ├── *.cpp
-    │   ├── project/
-    │   │   ├── *.cpp
-    ├── templates/
-    │   ├── *.tpp
-    ├── tests/
-    │   └── *_tests.cpp
-    └── CMakeLists.txt
-    └── clean.cmake
+    Project/  
+    ├── datasets/  
+    │   ├── *.bin  
+    ├── include/  
+    │   ├── *.hpp  
+    ├── src/  
+    │   ├── brute_force/  
+    │   │   ├── *.cpp  
+    │   ├── common/  
+    │   │   ├── *.cpp  
+    │   ├── project/  
+    │   │   ├── *.cpp  
+    ├── templates/  
+    │   ├── *.tpp  
+    ├── tests/  
+    │   └── *_tests.cpp  
+    └── CMakeLists.txt  
+    └── clean.cmake  
 
 ## Project Description
 ### Introduction
@@ -127,7 +127,5 @@ Early Termination
 When the graph remains unchanged for 10 consecutive iterations, the algorithm terminates early.
 
 ### References
-NN-Descent algorithm [overview  ](https://www.researchgate.net/publication/330397378_K-nearest_Neighbor_Search_by_Random_Projection_Forests)
-K-Nearest Neighbors Graph in practice
-C++ Algorithms: KNN
-[Catch2 Testing Framework] (https://github.com/catchorg/Catch2)
+[NN-Descent algorithm](https://www.researchgate.net/publication/330397378_K-nearest_Neighbor_Search_by_Random_Projection_Forests) <br>
+[Catch2 Testing Framework](https://github.com/catchorg/Catch2)
