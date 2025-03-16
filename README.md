@@ -1,4 +1,4 @@
-<p align="center"><img src="logo_el.png" alt="Λογότυπο ΕΚΠΑ DiT" width=50%/></p>
+<p align="center"><img src="logo_en.png" alt="DIT NKUA Logo" width=50%/></p>
 
 # <center>Software Development for Information Systems - Project - Winter Semester 2023-2024</center>
 
@@ -117,13 +117,13 @@ Optimization of distance calculation using the Euclidean Norm.
 * Difficulty synchronizing threads, particularly locking and unlocking threads for task execution.
 
 ### Optimizations
-Local Join
+#### Local Join
 The graph construction process initially involves creating a "neighbor" set for each node, including both direct and reversed neighbors. The graph is then updated by calculating all distances between pairs of neighbors for each direct neighbor set. After the first step, where reversed neighbors are calculated, the computation can be performed locally for each node. Temporary modifications for each neighbor set are stored, and calculations are performed at the end of each iteration.
 
-Incremental Search
+#### Incremental Search
 To avoid redundant comparisons in each local join, a boolean flag is added to the nodes, signifying whether a node has already been processed.
 
-Early Termination
+#### Early Termination
 When the graph remains unchanged for 10 consecutive iterations, the algorithm terminates early.
 
 ### References
